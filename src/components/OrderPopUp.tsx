@@ -25,10 +25,9 @@ export function OrderPopUp({ table, itens, category }: ICategoryProps) {
       <dialog ref={showModalBtn} className="modal">
         <div className="modal-box">
           <div className="flex flex-col gap-5">
-            <div className="flex w-full justify-between">
-              <h1 className="font-bold text-lg">{table}</h1>
+            <div className="flex w-full items-center justify-between">
+              <h1 className="font-bold text-2xl">{table}</h1>
               <p className="text-sm font-light">Press ESC key or click outside to close</p>
-
             </div>
             <div className="flex flex-col gap-0">
               <p className="text-sm font-light">Status do Pedido</p>
@@ -56,6 +55,10 @@ export function OrderPopUp({ table, itens, category }: ICategoryProps) {
                 <p className="text-sm font-light">Total</p>
                 <p className="text-base font-semibold">R$ 72,00</p>
               </div>
+            </div>
+            <div className="flex w-full gap-3 flex-col">
+            <button className="btn btn-block">✔ Concluir Pedido</button>
+            <button className="btn btn-block btn-ghost text-primary">Cancelar Pedido</button>
             </div>
           </div>
         </div>

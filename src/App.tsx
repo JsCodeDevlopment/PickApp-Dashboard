@@ -6,7 +6,7 @@ import { Dashboard } from "./pages/Dashboard";
 export function App() {
   return (
     <BrowserRouter>
-      <main data-theme="mytheme" className="w-full min-h-screen bg-primary">
+      <main data-theme="mytheme" className="w-full h-screen bg-primary">
         <Routes>
           <Route path="/verify" element={<VerifyEmail />} />
           <Route path="/" element={<LoginPage />} />
