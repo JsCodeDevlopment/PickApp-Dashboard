@@ -1,6 +1,6 @@
 export interface ICategoryProps {
-    category: string
+    category?: string
     table: string
     itens: string
-    quantity: number
+    quantity?: number
 }
