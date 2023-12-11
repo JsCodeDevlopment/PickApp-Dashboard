@@ -2,7 +2,7 @@
 export default {
   content: ["./src/**/*.{html,js,ts,tsx}"],
   theme: {
-    extend: {}
+    extend: {},
   },
   plugins: [require("daisyui")],
   daisyui: {
@@ -21,7 +21,21 @@ export default {
           error: "#ff0042",
         },
       },
-      "dark", "light", "forest", "black", "wireframe"
+      "dark",
+      "light",
+      "forest",
+      "black",
+      "wireframe",
+      "dim",
+      "dracula",
+      "luxury",
+      "night",
+      "sunset",
+      "aqua",
+      "lofi",
+      "retro",
+      "cyberpunk",
+      "valentine",
     ],
-  }
+  },
 };

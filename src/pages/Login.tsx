@@ -36,7 +36,7 @@ export function LoginPage() {
             </label>
           </div>
           <div className="form-control mt-6">
-            <button className="btn btn-primary text-secondary">Login</button>
+            <button className="btn btn-primary text-secondary"><a href="/dashboard">Login</a></button>
           </div>
         </form>
       </div>

@@ -5,9 +5,12 @@ export function VerifyEmail() {
         <div className="max-w-md">
           <h1 className="text-5xl font-bold">Verificação Bem Sucedida!</h1>
           <p className="py-6">
-          Parabéns! Seu e-mail foi verificado com sucesso. Clique abaixo e faça seu login.
+            Parabéns! Seu e-mail foi verificado com sucesso. Clique abaixo e
+            faça seu login.
           </p>
-          <button className="btn btn-primary">Fazer Login</button>
+          <a href="/">
+            <button className="btn btn-primary">Fazer Login</button>{" "}
+          </a>
         </div>
       </div>
     </div>
