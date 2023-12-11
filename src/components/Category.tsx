@@ -8,9 +8,7 @@ export function Category({category, quantity}: ICategoryProps) {
         <h1>{category}</h1>
         <p>{`(${quantity})`}</p>
       </div>
-        <OrderPopUp table="Mesa 2" itens="5 itens" />
-        <OrderPopUp table="Mesa 2" itens="5 itens" />
-        <OrderPopUp table="Mesa 2" itens="5 itens" />
+        <OrderPopUp table="Mesa 2" itens="5 itens" category="⏱ Fila de espera" />
     </div>
   );
 }

@@ -1,24 +1,63 @@
 import { useRef } from "react";
 import { ICategoryProps } from "../interfaces/ICateroryProps";
+import HGBR from "../assets/images/hbgr.jpeg";
+import PIZZA from "../assets/images/pizza.png";
 
-export function OrderPopUp({ table, itens }: ICategoryProps) {
-  const showModalBtn = useRef(null) as React.MutableRefObject<null | HTMLDialogElement>;
+export function OrderPopUp({ table, itens, category }: ICategoryProps) {
+  const showModalBtn = useRef(
+    null
+  ) as React.MutableRefObject<null | HTMLDialogElement>;
   console.log(showModalBtn.current);
 
   const handleClick = () => {
-    if(showModalBtn.current){
-        showModalBtn.current.showModal();
+    if (showModalBtn.current) {
+      showModalBtn.current.showModal();
     }
   };
 
   return (
-    <div className="flex flex-col w-full h-24 rounded-sm bg-base-100 items-center justify-center" onClick={handleClick}>
+    <div
+      className="flex flex-col w-full h-24 rounded-md bg-base-100 items-center justify-center"
+      onClick={handleClick}
+    >
       <h1>{table}</h1>
       <p>{itens}</p>
       <dialog ref={showModalBtn} className="modal">
         <div className="modal-box">
-          <h3 className="font-bold text-lg">Hello!</h3>
-          <p className="py-4">Press ESC key or click outside to close</p>
+          <div className="flex flex-col gap-5">
+            <div className="flex w-full justify-between">
+              <h1 className="font-bold text-lg">{table}</h1>
+              <p className="text-sm font-light">Press ESC key or click outside to close</p>
+
+            </div>
+            <div className="flex flex-col gap-0">
+              <p className="text-sm font-light">Status do Pedido</p>
+              <p className="text-base font-semibold">{category}</p>
+            </div>
+            <div className="flex flex-col gap-5">
+              <p className="text-sm font-light">Itens</p>
+              <div className="flex w-full gap-5">
+                <img className="w-12 h-10 rounded-md" src={HGBR} alt="" />
+                <p className="text-sm font-light">1x</p>
+                <div className="flex flex-col gap-1">
+                  <p className="text-base font-semibold">X - TUDO</p>
+                  <p className="text-sm font-light">R$ 12,00</p>
+                </div>
+              </div>
+              <div className="flex w-full gap-5">
+                <img className="w-12 h-10 rounded-md" src={PIZZA} alt="" />
+                <p className="text-sm font-light">2x</p>
+                <div className="flex flex-col gap-1">
+                  <p className="text-base font-semibold">Pizza Calabresa G</p>
+                  <p className="text-sm font-light">R$ 30,00</p>
+                </div>
+              </div>
+              <div className="flex w-full justify-between">
+                <p className="text-sm font-light">Total</p>
+                <p className="text-base font-semibold">R$ 72,00</p>
+              </div>
+            </div>
+          </div>
         </div>
         <form method="dialog" className="modal-backdrop">
           <button>close</button>
