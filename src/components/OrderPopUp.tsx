@@ -1,13 +1,11 @@
 import { useRef } from "react";
-import { ICategoryProps } from "../interfaces/ICateroryProps";
 import HGBR from "../assets/images/hbgr.jpeg";
 import PIZZA from "../assets/images/pizza.png";
 
-export function OrderPopUp({ table, itens, category }: ICategoryProps) {
+export function OrderPopUp({ table, itens }) {
   const showModalBtn = useRef(
     null
   ) as React.MutableRefObject<null | HTMLDialogElement>;
-  console.log(showModalBtn.current);
 
   const handleClick = () => {
     if (showModalBtn.current) {
@@ -31,7 +29,7 @@ export function OrderPopUp({ table, itens, category }: ICategoryProps) {
             </div>
             <div className="flex flex-col gap-0">
               <p className="text-sm font-light">Status do Pedido</p>
-              <p className="text-base font-semibold">{category}</p>
+              <p className="text-base font-semibold">Categoria aqui</p>
             </div>
             <div className="flex flex-col gap-5">
               <p className="text-sm font-light">Itens</p>
