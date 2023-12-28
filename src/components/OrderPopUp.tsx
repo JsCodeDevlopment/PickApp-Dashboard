@@ -1,8 +1,9 @@
 import { useRef } from "react";
 import HGBR from "../assets/images/hbgr.jpeg";
 import PIZZA from "../assets/images/pizza.png";
+import { IOrderPopUpProps } from "../interfaces/IOrderPopUpProps";
 
-export function OrderPopUp({ table, itens }) {
+export function OrderPopUp({ table, itens }: IOrderPopUpProps) {
   const showModalBtn = useRef(
     null
   ) as React.MutableRefObject<null | HTMLDialogElement>;

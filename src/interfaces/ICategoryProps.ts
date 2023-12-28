@@ -1,8 +1,7 @@
-import { IOrders } from "./IOrders";
+import { ReactNode } from "react";
 
 export interface ICategoryProps {
-    Props: IOrders[]
-    table?: string
-    itens?: string
-    category?: 'WAITING' | 'IN_PRODUCTION' | 'DONE' | 'CANCELED'
+  name: string
+  quantity: number
+  children?: ReactNode
 }
