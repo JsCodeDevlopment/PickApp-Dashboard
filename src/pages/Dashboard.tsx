@@ -10,7 +10,7 @@ export function Dashboard() {
     <div className="bg-base-100 w-full h-screen overflow-y-scroll overflow-x-hidden scrollbar-thin scrollbar-thumb-neutral scrollbar-track-base-100">
       <Header />
       <div className="flex w-full h-screen py-10 items-start justify-center">
-        <div className="grid grid-cols-4 mb-5 gap-10 max-lg:grid-cols-1">
+        <div className="flex gap-5 flex-wrap items-start justify-between max-lg:justify-evenly">
           <Category name="⏱ Fila de Espera" quantity={Orders.length}>
             {Orders.map((orders) => (
               <OrderPopUp
