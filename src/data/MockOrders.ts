@@ -1,7 +1,7 @@
-import { IOrders } from "../interfaces/IOrders";
+import { IOrder } from "../interfaces/IOrders";
 
 export function MockOrders() {
-  const Orders: IOrders[] = [
+  const Orders: IOrder[] = [
     {
       _id: "6568bca82821ebca67629bb6",
       table: "MESA 01",
@@ -44,6 +44,7 @@ export function MockOrders() {
           quantity: 5,
           _id: "6568bca82821ebca67629bb7",
         },
+        
       ],
       __v: 0,
     },

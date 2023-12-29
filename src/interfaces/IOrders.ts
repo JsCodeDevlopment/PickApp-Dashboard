@@ -1,25 +1,29 @@
-export interface IOrders {
+import { OrderStatus } from "./IOrderPopUpProps";
+
+export interface IOrder {
   _id: string;
   table: string;
-  status: 'WAITING' | 'IN_PRODUCTION' | 'DONE' | 'CANCELED'
+  status: OrderStatus
   createdAt: string;
-  products: {
-    product: {
-      _id: string;
-      name: string;
-      description: string;
-      imagePath: string;
-      price: number;
-      ingredients: {
-        name: string;
-        icon: string;
-        _id: string;
-      }[];
-      category: string;
-      __v?: number;
-    };
-    quantity: number;
-    _id: string;
-  }[];
+  products: IProduct[];
   __v?: number;
+}
+
+export interface IProduct {
+  product: {
+    _id: string;
+    name: string;
+    description: string;
+    imagePath: string;
+    price: number;
+    ingredients: {
+      name: string;
+      icon: string;
+      _id: string;
+    }[];
+    category: string;
+    __v?: number;
+  };
+  quantity: number;
+  _id: string;
 }
