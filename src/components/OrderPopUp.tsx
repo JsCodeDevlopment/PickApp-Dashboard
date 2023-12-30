@@ -1,15 +1,8 @@
 import { useRef } from "react";
-import { IOrderPopUpProps, OrderStatus } from "../interfaces/IOrderPopUpProps";
+import {BtnOrderStatus, IOrderPopUpProps, OrderStatus,} from "../interfaces/IOrderPopUpProps";
 
-export function OrderPopUp({
-  table,
-  itens,
-  products,
-  status,
-}: IOrderPopUpProps) {
-  const showModalBtn = useRef(
-    null
-  ) as React.MutableRefObject<null | HTMLDialogElement>;
+export function OrderPopUp({table, itens, products, status}: IOrderPopUpProps) {
+  const showModalBtn = useRef(null) as React.MutableRefObject<null | HTMLDialogElement>;
 
   const handleClick = () => {
     if (showModalBtn.current) {
@@ -40,7 +33,7 @@ export function OrderPopUp({
             <div className="flex flex-col gap-5">
               <p className="text-sm font-light">Itens</p>
               {products.map(({ product, quantity }) => (
-                <div className="flex w-full gap-5">
+                <div key={product._id} className="flex w-full gap-5">
                   <img
                     className="w-12 h-10 rounded-md"
                     src={`http://localhost:3333/uploads/${product.imagePath}`}
@@ -49,29 +42,45 @@ export function OrderPopUp({
                   <p className="text-sm font-light">{quantity}x</p>
                   <div className="flex flex-col gap-1">
                     <p className="text-base font-semibold">{product.name}</p>
-                    <p className="text-sm font-light">{product.price.toLocaleString('pt-BR', {
-                      style: 'currency',
-                      currency: 'BRL'
-                    })}</p>
+                    <p className="text-sm font-light">
+                      {product.price.toLocaleString("pt-BR", {
+                        style: "currency",
+                        currency: "BRL",
+                      })}
+                    </p>
                   </div>
                 </div>
               ))}
               <div className="flex w-full justify-between">
                 <p className="text-sm font-light">Total</p>
-                <p className="text-base font-semibold">{
-                  products.reduce((acc, {product, quantity})=> acc + product.price * quantity, 0)
-                  .toLocaleString('pt-BR', {
-                    style: 'currency',
-                    currency: 'BRL'
-                  })
-                }</p>
+                <p className="text-base font-semibold">
+                  {products
+                  .reduce((acc, { product, quantity }) =>acc + product.price * quantity,0)
+                    .toLocaleString("pt-BR",
+                    {
+                      style: "currency",
+                      currency: "BRL",
+                    })}
+                </p>
               </div>
             </div>
             <div className="flex w-full gap-3 flex-col">
-              <button className="btn btn-block">✔ Concluir Pedido</button>
-              <button className="btn btn-block btn-ghost text-primary">
-                Cancelar Pedido
-              </button>
+              {status === OrderStatus.DONE ? (<></>) : 
+              (
+                <button className="btn btn-block">
+                  {status === OrderStatus.IN_PRODUCTION
+                    ? BtnOrderStatus.IN_PRODUCTION
+                    : status === OrderStatus.WAITING
+                    ? BtnOrderStatus.WAITING
+                    : BtnOrderStatus.CANCELED}
+                </button>
+              )}
+              {status === OrderStatus.CANCELED ? (<></>) : 
+              (
+                <button className="btn btn-block btn-ghost text-primary">
+                  Cancelar Pedido
+                </button>
+              )}
             </div>
           </div>
         </div>

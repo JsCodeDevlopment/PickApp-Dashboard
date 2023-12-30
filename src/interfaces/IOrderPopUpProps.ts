@@ -13,3 +13,10 @@ export enum OrderStatus {
   DONE = "✔ Pronto!",
   CANCELED = "❌ Cancelados",
 }
+
+export enum BtnOrderStatus {
+  WAITING = "👨‍🍳 Iniciar Produção",
+  IN_PRODUCTION = "✔ Concluir Pedido",
+  DONE = "",
+  CANCELED = "❌ Excluir Pedido",
+}
