@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import Logo from "../assets/images/logo-for-darkBG.png";
-import { SelectThemes } from "./SelectThemes";
 import { SettingsMenu } from "./SettingsMenu";
 
 export function Header() {
@@ -12,7 +11,6 @@ export function Header() {
         <h1 className="text-2xl font-semibold text-white">Pedidos</h1>
         <p className="text-white">Acompanhe os pedidos dos clientes</p>
       </div>
-        <SelectThemes/>
         <SettingsMenu />
       </div>
     </div>

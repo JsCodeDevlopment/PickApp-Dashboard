@@ -1,10 +1,6 @@
-import { useState, createContext, useContext, Dispatch, SetStateAction, ReactNode } from "react";
+import { useState, createContext, useContext, ReactNode } from "react";
 import { ThemeOptions } from "../interfaces/IThemes";
-
-interface IThemeContext {
-  currentTheme: keyof typeof ThemeOptions;
-  setCurrentTheme: Dispatch<SetStateAction<keyof typeof  ThemeOptions>>;
-}
+import { IThemeContext } from "../interfaces/IThemeContext";
 
 export const ThemeContext = createContext({} as IThemeContext);
 

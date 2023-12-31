@@ -24,7 +24,7 @@ export function SettingsMenu() {
         <li className="menu-title text-white/50">Configurações</li>
         <hr />
         <li>
-          <Link to={"/dashboard/user"}><img className="w-4 h-4" src={UserIcon}/> Edit Profile</Link>
+          <Link to={"/dashboard"}><img className="w-4 h-4" src={UserIcon}/> Edit Profile</Link>
         </li>
         <li>
           <Link to={"/dashboard/theme"}><img className="w-4 h-4" src={ThemeIcon}/> Themes</Link>
