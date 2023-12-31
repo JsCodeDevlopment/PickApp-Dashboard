@@ -2,13 +2,11 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LoginPage } from "./pages/Login";
 import { VerifyEmail } from "./pages/VerifyEmail";
 import { Dashboard } from "./pages/Dashboard";
-import { SetThemes } from "./components/SetTheme";
+import { useTheme } from "./context/ThemeContext";
 
 export function App() {
-  const { currentTheme } = SetThemes();
-  console.log(currentTheme);
-  
-  
+  const { currentTheme } = useTheme();
+
   return (
     <BrowserRouter>
       <main data-theme={currentTheme} className="w-full h-screen bg-primary">

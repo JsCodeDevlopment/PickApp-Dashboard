@@ -1,35 +1,34 @@
-export enum ThemeOptions {
-  mytheme = "mytheme",
-  light = "light",
-  dark = "dark",
-  cupcake = "cupcake",
-  bumblebee = "bumblebee",
-  emerald = "emerald",
-  corporate = "corporate",
-  synthwave = "synthwave",
-  retro = "retro",
-  cyberpunk = "cyberpunk",
-  valentine = "valentine",
-  halloween = "halloween",
-  garden = "garden",
-  forest = "forest",
-  aqua = "aqua",
-  lofi = "lofi",
-  pastel = "pastel",
-  fantasy = "fantasy",
-  wireframe = "wireframe",
-  black = "black",
-  luxury = "luxury",
-  dracula = "dracula",
-  cmyk = "cmyk",
-  autumn = "autumn",
-  business = "business",
-  acid = "acid",
-  lemonade = "lemonade",
-  night = "night",
-  coffee = "coffee",
-  winter = "winter",
-  dim = "dim",
-  nord = "nord",
-  sunset = "sunset",
-}
+export type ThemeOptions =
+  | "mytheme"
+  | "light"
+  | "dark"
+  | "cupcake"
+  | "bumblebee"
+  | "emerald"
+  | "corporate"
+  | "synthwave"
+  | "retro"
+  | "cyberpunk"
+  | "valentine"
+  | "halloween"
+  | "garden"
+  | "forest"
+  | "aqua"
+  | "lofi"
+  | "pastel"
+  | "fantasy"
+  | "wireframe"
+  | "black"
+  | "luxury"
+  | "dracula"
+  | "cmyk"
+  | "autumn"
+  | "business"
+  | "acid"
+  | "lemonade"
+  | "night"
+  | "coffee"
+  | "winter"
+  | "dim"
+  | "nord"
+  | "sunset";
