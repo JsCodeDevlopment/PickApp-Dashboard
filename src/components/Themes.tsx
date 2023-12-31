@@ -9,7 +9,7 @@ export function Themes({theme}: IThemeProps) {
   const { setCurrentTheme } = useTheme();
 
   return (
-    <div key={theme} onClick={() => setCurrentTheme(theme)} data-theme={theme} className="flex w-36 h-32 rounded-md justify-start hover:cursor-pointer hover:scale-105">
+    <div onClick={() => setCurrentTheme(theme)} data-theme={theme} className="flex w-36 h-32 rounded-md justify-start hover:cursor-pointer hover:scale-105">
       <div className="flex w-5 h-full bg-base-300 rounded-md"></div>
       <div className="flex w-full gap-4 flex-col rounded-md bg-base-200 p-5">
         <h1 className="text-xl">{theme}</h1>

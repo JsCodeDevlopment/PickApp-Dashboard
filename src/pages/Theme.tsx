@@ -14,7 +14,7 @@ export function Theme() {
           <p className="text-white">Vamos dar uma colorida nessa tela!?</p>
           <div className="flex gap-4 w-full flex-wrap p-8 items-center justify-center">
             {Object.entries(ThemeOptions).map(([theme]) => (
-              <Themes theme={theme as keyof typeof ThemeOptions} />
+              <Themes key={theme} theme={theme as keyof typeof ThemeOptions} />
             ))}
           </div>
         </div>
