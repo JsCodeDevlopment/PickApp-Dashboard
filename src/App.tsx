@@ -2,11 +2,16 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LoginPage } from "./pages/Login";
 import { VerifyEmail } from "./pages/VerifyEmail";
 import { Dashboard } from "./pages/Dashboard";
+import { SetThemes } from "./components/SetTheme";
 
 export function App() {
+  const { currentTheme } = SetThemes();
+  console.log(currentTheme);
+  
+  
   return (
     <BrowserRouter>
-      <main data-theme="mytheme" className="w-full h-screen bg-primary">
+      <main data-theme={currentTheme} className="w-full h-screen bg-primary">
         <Routes>
           <Route path="/verify" element={<VerifyEmail />} />
           <Route path="/" element={<LoginPage />} />

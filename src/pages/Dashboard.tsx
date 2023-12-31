@@ -6,7 +6,6 @@ import { OrderStatus } from "../interfaces/IOrderPopUpProps";
 
 export function Dashboard() {
   const { Orders } = MockOrders();
-  console.log(Orders);
 
   return (
     <div className="bg-base-100 w-full h-screen overflow-y-scroll overflow-x-hidden scrollbar-thin scrollbar-thumb-neutral scrollbar-track-base-100">

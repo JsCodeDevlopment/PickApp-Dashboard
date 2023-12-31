@@ -36,7 +36,7 @@ export function OrderPopUp({table, itens, products, status}: IOrderPopUpProps) {
                 <div key={product._id} className="flex w-full gap-5">
                   <img
                     className="w-12 h-10 rounded-md"
-                    src={`http://localhost:3333/uploads/${product.imagePath}`}
+                    src={`${import.meta.env.VITE_API_URL}/uploads/${product.imagePath}`}
                     alt=""
                   />
                   <p className="text-sm font-light">{quantity}x</p>

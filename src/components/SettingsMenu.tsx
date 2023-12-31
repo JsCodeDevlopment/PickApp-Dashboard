@@ -11,7 +11,7 @@ export function SettingsMenu() {
       <div
         tabIndex={0}
         role="button"
-        className="btn m-1 rounded-full w-16 h-16 border-hidden hover:border-solid hover:border-2 hover:border-base-100"
+        className="btn m-1 rounded-full w-16 h-16 border-solid border-2 hover:border-base-100"
         style={divStyle}
       ></div>
       <ul
@@ -21,7 +21,7 @@ export function SettingsMenu() {
         <li className="menu-title">Configurações</li>
         <hr />
         <li>
-          <a>Item 1</a>
+          <a>Themes</a>
         </li>
         <li>
           <a>Item 2</a>
