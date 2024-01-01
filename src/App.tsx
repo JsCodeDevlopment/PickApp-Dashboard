@@ -25,7 +25,7 @@ export function App() {
         closeOnClick={true}
         pauseOnHover={true}
       />
-      <main data-theme={currentTheme} className="w-full p-2 bg-base-300">
+      <main data-theme={currentTheme} className="flex items-center justify-center w-full min-h-screen h-full bg-base-300">
         <Routes>
           <Route path="/verify" element={<VerifyEmail />} />
           <Route path="/recover" element={<RecoverPassword />} />
