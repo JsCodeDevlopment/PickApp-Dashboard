@@ -2,12 +2,18 @@ import Logo from "../assets/images/logo-for-lightBG.png";
 
 export function Register() {
   return (
-    <main className="flex flex-col items-center justify-center w-full h-full">
+    <main className="flex flex-col items-center justify-center w-full">
       <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
         <div className="flex w-full items-center justify-center mt-5">
           <img className="w-36" src={Logo} alt="" />
         </div>
         <form className="card-body">
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">Profile Picture</span>
+            </label>
+            <input type="file" className="file-input file-input-xs file-input-bordered file-input-primary w-full max-w-xs" required/>
+          </div>
           <div className="form-control">
             <label className="label">
               <span className="label-text">Name</span>
