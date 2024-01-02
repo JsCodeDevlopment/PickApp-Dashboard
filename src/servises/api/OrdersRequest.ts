@@ -1,12 +1,11 @@
-import { useEffect, useState } from "react";
-import { baseURL } from "./BaseURL";
-import { IOrder } from "../interfaces/IOrders";
+import { useState } from "react";
+import { baseURL } from "../BaseURL";
+import { IOrder } from "../../interfaces/IOrders";
 
 export function useRequestProducts() {
   const [orders, setOrders] = useState<IOrder[]>([]);
 
-  useEffect(() => {
-    const Orders = async () => {
+    const getOrders = async () => {
       try {
         const response = await fetch(`${baseURL}/orders`);
         const data = await response.json();
@@ -15,8 +14,6 @@ export function useRequestProducts() {
         console.error("Error fetching orders:", error);
       }
     };
-    Orders();
-  }, []);
 
-  return { orders };
+  return { getOrders, orders };
 }

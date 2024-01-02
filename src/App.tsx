@@ -6,15 +6,12 @@ import { useTheme } from "./context/ThemeContext";
 import { Theme } from "./pages/Theme";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useRequestProducts } from "./servises/OrdersRequest";
 import { Register } from "./pages/Register";
 import { RecoverPassword } from "./pages/RecoverPassword";
 import { VerifyEmail } from "./pages/VerifyEmail";
 
 export function App() {
   const { currentTheme } = useTheme();
-  const { orders } = useRequestProducts()
-  console.log("log da api →", orders);
 
   return (
     <BrowserRouter>

@@ -3,7 +3,7 @@ import { IProduct } from "./IOrders";
 export interface IOrderPopUpProps {
   table: string;
   itens: number;
-  status: OrderStatus
+  status: keyof typeof OrderStatus
   products: IProduct[];
 }
 

@@ -1,18 +1,25 @@
-import { FormEvent, useRef } from "react";
+import { FormEvent, useState } from "react";
 import Logo from "../assets/images/logo-for-lightBG.png";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import { useLogin } from "../context/LoginContext";
 
 export function LoginPage() {
-  const form = useRef<HTMLFormElement | null>(null);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { login } = useLogin();
 
-  const sendEmail = (e: FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (ev: FormEvent) => {
+    ev.preventDefault();
 
-    if (form.current) {
-      toast.success(`! Mensagem enviada com sucesso! ✌`, {
+    try {
+      await login(email, password);
+    } catch (err) {
+      toast.error(`${err} Email ou senha inválidas!`, {
         autoClose: 1000 * 3,
       });
+      console.error("Alguma coisa deu merda parceiro", err);
+      return [];
     }
   };
 
@@ -22,13 +29,16 @@ export function LoginPage() {
         <div className="flex w-full items-center justify-center mt-5">
           <img className="w-36" src={Logo} alt="" />
         </div>
-        <form ref={form} onSubmit={sendEmail} className="card-body">
+        <form onSubmit={handleSubmit} className="card-body">
           <div className="form-control">
             <label className="label">
               <span className="label-text">Email</span>
             </label>
             <input
               type="email"
+              id="email"
+              value={email}
+              onChange={(ev) => setEmail(ev.target.value)}
               placeholder="Email"
               className="input input-bordered"
               required/>
@@ -39,6 +49,9 @@ export function LoginPage() {
             </label>
             <input
               type="password"
+              id="password"
+              value={password}
+              onChange={(ev) => setPassword(ev.target.value)}
               placeholder="Password"
               className="input input-bordered"
               required/>
@@ -49,9 +62,7 @@ export function LoginPage() {
             </label>
           </div>
           <div className="form-control mt-6">
-            <button className="btn btn-primary text-secondary">
-              <a href="/dashboard">Login</a>
-            </button>
+            <button className="btn btn-primary text-secondary">Login</button>
           </div>
         </form>
         <div className="flex absolute bottom-1 w-full gap-1 items-center justify-center">

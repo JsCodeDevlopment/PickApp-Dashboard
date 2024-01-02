@@ -1,19 +1,27 @@
+import { useEffect } from "react";
 import { Category } from "../components/Category";
 import { Header } from "../components/Header";
 import { OrderPopUp } from "../components/OrderPopUp";
-import { MockOrders } from "../data/MockOrders";
 import { OrderStatus } from "../interfaces/IOrderPopUpProps";
+import { useRequestProducts } from "../servises/api/OrdersRequest";
 
 export function Dashboard() {
-  const { Orders } = MockOrders();
+  const { getOrders, orders } = useRequestProducts()
+
+  useEffect(()=>{
+    getOrders()
+  }, [])
+
+  console.log(orders);
+  
 
   return (
     <div className="bg-base-100 w-full h-screen overflow-y-scroll overflow-x-hidden scrollbar-thin scrollbar-thumb-neutral scrollbar-track-base-100">
       <Header />
       <div className="flex w-full h-screen py-10 items-start justify-center">
         <div className="flex gap-5 flex-wrap items-start justify-between max-lg:justify-evenly">
-          <Category name={OrderStatus.WAITING} quantity={Orders.filter((order)=> order.status === OrderStatus.WAITING).length}>
-            {Orders.filter((order)=> order.status === OrderStatus.WAITING).map((order) => (
+          <Category name={OrderStatus.WAITING} quantity={orders.filter((order)=> order.status === "WAITING").length}>
+            {orders?.filter((order)=> order.status === "WAITING").map((order) => (
               <OrderPopUp
                 key={order._id}
                 table={order.table}
@@ -23,8 +31,8 @@ export function Dashboard() {
               />
             ))}
           </Category>
-          <Category name={OrderStatus.IN_PRODUCTION} quantity={Orders.filter((order)=> order.status === OrderStatus.IN_PRODUCTION).length}>
-            {Orders.filter((order)=> order.status === OrderStatus.IN_PRODUCTION).map((order) => (
+          <Category name={OrderStatus.IN_PRODUCTION} quantity={orders.filter((order)=> order.status === "IN_PRODUCTION").length}>
+            {orders?.filter((order)=> order.status === "IN_PRODUCTION").map((order) => (
               <OrderPopUp
                 key={order._id}
                 table={order.table}
@@ -34,8 +42,8 @@ export function Dashboard() {
               />
             ))}
           </Category>
-          <Category name={OrderStatus.DONE} quantity={Orders.filter((order)=> order.status === OrderStatus.DONE).length}>
-            {Orders.filter((order)=> order.status === OrderStatus.DONE).map((order) => (
+          <Category name={OrderStatus.DONE} quantity={orders.filter((order)=> order.status === "DONE").length}>
+            {orders?.filter((order)=> order.status === "DONE").map((order) => (
               <OrderPopUp
                 key={order._id}
                 table={order.table}
@@ -45,8 +53,8 @@ export function Dashboard() {
               />
             ))}
           </Category>
-          <Category name={OrderStatus.CANCELED} quantity={Orders.filter((order)=> order.status === OrderStatus.CANCELED).length}>
-            {Orders.filter((order)=> order.status === OrderStatus.CANCELED).map((order) => (
+          <Category name={OrderStatus.CANCELED} quantity={orders.filter((order)=> order.status === "CANCELED").length}>
+            {orders?.filter((order)=> order.status === "CANCELED").map((order) => (
               <OrderPopUp
                 key={order._id}
                 table={order.table}
