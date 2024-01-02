@@ -1,19 +1,57 @@
-import { useState } from "react";
 import { baseURL } from "../BaseURL";
-import { IOrder } from "../../interfaces/IOrders";
+import { toast } from "react-toastify";
+import { OrderStatus } from "../../interfaces/IOrderPopUpProps";
 
-export function useRequestProducts() {
-  const [orders, setOrders] = useState<IOrder[]>([]);
+export const useRequestOrders = async () => {
+  try {
+    const response = await fetch(`${baseURL}/orders`);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching orders:", error);
+  }
+};
 
-    const getOrders = async () => {
-      try {
-        const response = await fetch(`${baseURL}/orders`);
-        const data = await response.json();
-        setOrders(data);
-      } catch (error) {
-        console.error("Error fetching orders:", error);
+interface IChangeOrderStatusProps {
+  id: string;
+  status: keyof typeof OrderStatus;
+}
+
+export function useChangeOrderStatus() {
+  const changeOrderStatus = async ({ id, status }: IChangeOrderStatusProps) => {
+    try {
+      const response = await fetch(`${baseURL}/orders/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          status,
+        }),
+      });
+
+      if (response.ok) {
+        toast.success("Satus alterado com sucesso!", {
+          autoClose: 1000 * 3,
+        });
+      } else {
+        toast.error(`Erro ao alterar o estatus do pedido.`, {
+          autoClose: 1000 * 3,
+        });
       }
-    };
+    } catch (error) {
+      console.error(
+        error,
+        "Erro ao requisitar a alteração do estatus do pedido."
+      );
+      toast.error(
+        `${error} Erro ao requisitar a alteração do estatus do pedido.`,
+        {
+          autoClose: 1000 * 3,
+        }
+      );
+    }
+  };
 
-  return { getOrders, orders };
+  return { changeOrderStatus };
 }

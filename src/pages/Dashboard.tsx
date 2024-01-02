@@ -1,19 +1,17 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Category } from "../components/Category";
 import { Header } from "../components/Header";
 import { OrderPopUp } from "../components/OrderPopUp";
 import { OrderStatus } from "../interfaces/IOrderPopUpProps";
-import { useRequestProducts } from "../servises/api/OrdersRequest";
+import { useRequestOrders } from "../servises/api/OrdersRequest";
+import { IOrder } from "../interfaces/IOrders";
 
 export function Dashboard() {
-  const { getOrders, orders } = useRequestProducts()
+  const [orders, setOrders] = useState<IOrder[]>([])
 
   useEffect(()=>{
-    getOrders()
+    useRequestOrders().then(setOrders)
   }, [])
-
-  console.log(orders);
-  
 
   return (
     <div className="bg-base-100 w-full h-screen overflow-y-scroll overflow-x-hidden scrollbar-thin scrollbar-thumb-neutral scrollbar-track-base-100">
@@ -24,10 +22,12 @@ export function Dashboard() {
             {orders?.filter((order)=> order.status === "WAITING").map((order) => (
               <OrderPopUp
                 key={order._id}
+                id={order._id}
                 table={order.table}
                 itens={order.products.length}
                 status={order.status}
                 products={order.products}
+                setOrders={() => useRequestOrders().then(setOrders)}
               />
             ))}
           </Category>
@@ -35,10 +35,12 @@ export function Dashboard() {
             {orders?.filter((order)=> order.status === "IN_PRODUCTION").map((order) => (
               <OrderPopUp
                 key={order._id}
+                id={order._id}
                 table={order.table}
                 itens={order.products.length}
                 status={order.status}
                 products={order.products}
+                setOrders={() => useRequestOrders().then(setOrders)}
               />
             ))}
           </Category>
@@ -46,10 +48,12 @@ export function Dashboard() {
             {orders?.filter((order)=> order.status === "DONE").map((order) => (
               <OrderPopUp
                 key={order._id}
+                id={order._id}
                 table={order.table}
                 itens={order.products.length}
                 status={order.status}
                 products={order.products}
+                setOrders={() => useRequestOrders().then(setOrders)}
               />
             ))}
           </Category>
@@ -57,10 +61,12 @@ export function Dashboard() {
             {orders?.filter((order)=> order.status === "CANCELED").map((order) => (
               <OrderPopUp
                 key={order._id}
+                id={order._id}
                 table={order.table}
                 itens={order.products.length}
                 status={order.status}
                 products={order.products}
+                setOrders={() => useRequestOrders().then(setOrders)}
               />
             ))}
           </Category>

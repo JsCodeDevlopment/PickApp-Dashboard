@@ -1,10 +1,12 @@
 import { IProduct } from "./IOrders";
 
 export interface IOrderPopUpProps {
+  id: string
   table: string;
   itens: number;
   status: keyof typeof OrderStatus
   products: IProduct[];
+  setOrders: () => Promise<void>
 }
 
 export enum OrderStatus {

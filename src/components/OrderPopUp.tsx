@@ -1,14 +1,36 @@
 import { useRef } from "react";
 import {BtnOrderStatus, IOrderPopUpProps, OrderStatus,} from "../interfaces/IOrderPopUpProps";
+import { useChangeOrderStatus } from "../servises/api/OrdersRequest";
 
-export function OrderPopUp({table, itens, products, status}: IOrderPopUpProps) {
+export function OrderPopUp({table, itens, products, status, id, setOrders}: IOrderPopUpProps) {
   const showModalBtn = useRef(null) as React.MutableRefObject<null | HTMLDialogElement>;
+  const { changeOrderStatus } = useChangeOrderStatus()
 
   const handleClick = () => {
     if (showModalBtn.current) {
       showModalBtn.current.showModal();
     }
   };
+
+  function BtnStatus (status: keyof typeof OrderStatus) {
+    return status === "IN_PRODUCTION"
+    ? BtnOrderStatus.IN_PRODUCTION
+    : status === "WAITING"
+    ? BtnOrderStatus.WAITING
+    : BtnOrderStatus.CANCELED
+  }
+
+  function handleChangeStatus (id: string, status: keyof typeof OrderStatus) {
+    switch (status) {
+      case "WAITING": 
+        changeOrderStatus({id, status: "IN_PRODUCTION"})
+        break;
+      case "IN_PRODUCTION": 
+        changeOrderStatus({id, status: "DONE"})
+        break;
+    }
+    setOrders()
+  }
 
   return (
     <div
@@ -65,12 +87,8 @@ export function OrderPopUp({table, itens, products, status}: IOrderPopUpProps) {
             <div className="flex w-full gap-3 flex-col">
               {status === "DONE" ? (<></>) : 
               (
-                <button className="btn btn-block">
-                  {status === "IN_PRODUCTION"
-                    ? BtnOrderStatus.IN_PRODUCTION
-                    : status === "WAITING"
-                    ? BtnOrderStatus.WAITING
-                    : BtnOrderStatus.CANCELED}
+                <button onClick={() => handleChangeStatus( id, status ) } className="btn btn-block">
+                  {BtnStatus(status)}
                 </button>
               )}
               {status === "CANCELED" ? (<></>) : 
