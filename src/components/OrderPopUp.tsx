@@ -5,7 +5,7 @@ import { useOrderContext } from "../context/OrderContext";
 
 export function OrderPopUp({ table, itens, products, status, id }: IOrderPopUpProps) {
   const showModalBtn = useRef(null) as React.MutableRefObject<null | HTMLDialogElement>;
-  const { changeOrderStatus } = useChangeOrderStatus();
+  const { changeOrderStatus, DeleteOrder } = useChangeOrderStatus();
   const { useRequestOrders } = useOrderContext();
 
   const handleClick = () => {
@@ -21,7 +21,10 @@ export function OrderPopUp({ table, itens, products, status, id }: IOrderPopUpPr
       : BtnOrderStatus.CANCELED;
   }
 
-  async function handleChangeStatus( id: string, status: keyof typeof OrderStatus) {
+  async function handleChangeStatus(
+    id: string,
+    status: keyof typeof OrderStatus
+  ) {
     switch (status) {
       case "WAITING":
         await changeOrderStatus({ id, status: "IN_PRODUCTION" });
@@ -35,6 +38,11 @@ export function OrderPopUp({ table, itens, products, status, id }: IOrderPopUpPr
 
   async function handleCanceled(id: string) {
     await changeOrderStatus({ id, status: "CANCELED" });
+    await useRequestOrders();
+  }
+
+  async function handleDeleteOrder(id: string) {
+    await DeleteOrder({ id });
     await useRequestOrders();
   }
 
@@ -83,11 +91,7 @@ export function OrderPopUp({ table, itens, products, status, id }: IOrderPopUpPr
                 <p className="text-sm font-light">Total</p>
                 <p className="text-base font-semibold">
                   {products
-                    .reduce(
-                      (acc, { product, quantity }) =>
-                        acc + product.price * quantity,
-                      0
-                    )
+                    .reduce((acc, { product, quantity }) => acc + product.price * quantity, 0)
                     .toLocaleString("pt-BR", {
                       style: "currency",
                       currency: "BRL",
@@ -96,23 +100,35 @@ export function OrderPopUp({ table, itens, products, status, id }: IOrderPopUpPr
               </div>
             </div>
             <div className="flex w-full gap-3 flex-col">
-              {status === "DONE" ? (
-                <></>
-              ) : (
-                <button
-                  onClick={() => handleChangeStatus(id, status)}
-                  className="btn btn-block">
-                  {BtnStatus(status)}
-                </button>
-              )}
               {status === "CANCELED" ? (
-                <></>
-              ) : (
                 <button
-                  onClick={() => handleCanceled(id)}
-                  className="btn btn-block btn-ghost text-primary">
-                  Cancelar Pedido
+                  onClick={() => handleDeleteOrder(id)}
+                  className="btn btn-block btn-ghost text-danger">
+                   {BtnStatus(status)}
                 </button>
+              ) : (
+                <>
+                  {status === "DONE" ? (
+                    <button
+                      onClick={() => handleCanceled(id)}
+                      className="btn btn-block btn-ghost text-primary">
+                      Cancelar Pedido
+                    </button>
+                  ) : (
+                    <>
+                      <button
+                        onClick={() => handleChangeStatus(id, status)}
+                        className="btn btn-block">
+                        {BtnStatus(status)}
+                      </button>
+                      <button
+                        onClick={() => handleCanceled(id)}
+                        className="btn btn-block btn-ghost text-primary">
+                        Cancelar Pedido
+                      </button>
+                    </>
+                  )}
+                </>
               )}
             </div>
           </div>

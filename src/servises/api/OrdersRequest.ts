@@ -38,5 +38,37 @@ export function useChangeOrderStatus() {
     }
   };
 
-  return { changeOrderStatus };
+  const DeleteOrder = async ({ id }: Omit<IChangeOrderStatusProps, "status">) => {
+    try {
+      const response = await fetch(`${baseURL}/orders/${id}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        }
+      });
+
+      if (response.ok) {
+        toast.success("Pedido excluido com sucesso!", {
+          autoClose: 1000 * 3,
+        });
+      } else {
+        toast.error(`Erro ao excluir o pedido.`, {
+          autoClose: 1000 * 3,
+        });
+      }
+    } catch (error) {
+      console.error(
+        error,
+        "Erro ao requisitar a exclusão do pedido."
+      );
+      toast.error(
+        `${error} Erro ao requisitar a exclusão do pedido.`,
+        {
+          autoClose: 1000 * 3,
+        }
+      );
+    }
+  };
+
+  return { changeOrderStatus, DeleteOrder };
 }
