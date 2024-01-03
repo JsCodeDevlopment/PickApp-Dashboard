@@ -1,36 +1,41 @@
 import { useRef } from "react";
-import {BtnOrderStatus, IOrderPopUpProps, OrderStatus,} from "../interfaces/IOrderPopUpProps";
+import { BtnOrderStatus, IOrderPopUpProps, OrderStatus } from "../interfaces/IOrderPopUpProps";
 import { useChangeOrderStatus } from "../servises/api/OrdersRequest";
 import { useOrderContext } from "../context/OrderContext";
 
-export function OrderPopUp({table, itens, products, status, id}: IOrderPopUpProps) {
+export function OrderPopUp({ table, itens, products, status, id }: IOrderPopUpProps) {
   const showModalBtn = useRef(null) as React.MutableRefObject<null | HTMLDialogElement>;
-  const { changeOrderStatus } = useChangeOrderStatus()
-  const { useRequestOrders } = useOrderContext()
+  const { changeOrderStatus } = useChangeOrderStatus();
+  const { useRequestOrders } = useOrderContext();
 
   const handleClick = () => {
     if (showModalBtn.current) {
       showModalBtn.current.showModal();
     }
   };
-  function BtnStatus (status: keyof typeof OrderStatus) {
+  function BtnStatus(status: keyof typeof OrderStatus) {
     return status === "IN_PRODUCTION"
-    ? BtnOrderStatus.IN_PRODUCTION
-    : status === "WAITING"
-    ? BtnOrderStatus.WAITING
-    : BtnOrderStatus.CANCELED
+      ? BtnOrderStatus.IN_PRODUCTION
+      : status === "WAITING"
+      ? BtnOrderStatus.WAITING
+      : BtnOrderStatus.CANCELED;
   }
 
-  async function handleChangeStatus (id: string, status: keyof typeof OrderStatus) {
+  async function handleChangeStatus( id: string, status: keyof typeof OrderStatus) {
     switch (status) {
-      case "WAITING": 
-        await changeOrderStatus({id, status: "IN_PRODUCTION"})
+      case "WAITING":
+        await changeOrderStatus({ id, status: "IN_PRODUCTION" });
         break;
-      case "IN_PRODUCTION": 
-        await changeOrderStatus({id, status: "DONE"})
+      case "IN_PRODUCTION":
+        await changeOrderStatus({ id, status: "DONE" });
         break;
     }
-    await useRequestOrders()
+    await useRequestOrders();
+  }
+
+  async function handleCanceled(id: string) {
+    await changeOrderStatus({ id, status: "CANCELED" });
+    await useRequestOrders();
   }
 
   return (
@@ -58,7 +63,9 @@ export function OrderPopUp({table, itens, products, status, id}: IOrderPopUpProp
                 <div key={product._id} className="flex w-full gap-5">
                   <img
                     className="w-12 h-10 rounded-md"
-                    src={`${import.meta.env.VITE_API_URL}/uploads/${product.imagePath}`}
+                    src={`${import.meta.env.VITE_API_URL}/uploads/${
+                      product.imagePath
+                    }`}
                     alt=""/>
                   <p className="text-sm font-light">{quantity}x</p>
                   <div className="flex flex-col gap-1">
@@ -76,9 +83,12 @@ export function OrderPopUp({table, itens, products, status, id}: IOrderPopUpProp
                 <p className="text-sm font-light">Total</p>
                 <p className="text-base font-semibold">
                   {products
-                  .reduce((acc, { product, quantity }) =>acc + product.price * quantity,0)
-                    .toLocaleString("pt-BR",
-                    {
+                    .reduce(
+                      (acc, { product, quantity }) =>
+                        acc + product.price * quantity,
+                      0
+                    )
+                    .toLocaleString("pt-BR", {
                       style: "currency",
                       currency: "BRL",
                     })}
@@ -86,15 +96,21 @@ export function OrderPopUp({table, itens, products, status, id}: IOrderPopUpProp
               </div>
             </div>
             <div className="flex w-full gap-3 flex-col">
-              {status === "DONE" ? (<></>) : 
-              (
-                <button onClick={() => handleChangeStatus( id, status ) } className="btn btn-block">
+              {status === "DONE" ? (
+                <></>
+              ) : (
+                <button
+                  onClick={() => handleChangeStatus(id, status)}
+                  className="btn btn-block">
                   {BtnStatus(status)}
                 </button>
               )}
-              {status === "CANCELED" ? (<></>) : 
-              (
-                <button className="btn btn-block btn-ghost text-primary">
+              {status === "CANCELED" ? (
+                <></>
+              ) : (
+                <button
+                  onClick={() => handleCanceled(id)}
+                  className="btn btn-block btn-ghost text-primary">
                   Cancelar Pedido
                 </button>
               )}
