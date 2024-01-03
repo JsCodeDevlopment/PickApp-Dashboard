@@ -4,13 +4,16 @@ import "./main.css";
 import { App } from "./App";
 import { ThemeProvider } from "./context/ThemeContext";
 import { LoginProvider } from "./context/LoginContext";
+import { StatusProvider } from "./context/StatusContext";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <LoginProvider>
-      <ThemeProvider>
-        <App />
-      </ThemeProvider>
+      <StatusProvider>
+        <ThemeProvider>
+          <App />
+        </ThemeProvider>
+      </StatusProvider>
     </LoginProvider>
   </React.StrictMode>
 );

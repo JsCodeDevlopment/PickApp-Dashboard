@@ -1,10 +1,10 @@
 import { useRef } from "react";
 import {BtnOrderStatus, IOrderPopUpProps, OrderStatus,} from "../interfaces/IOrderPopUpProps";
-import { useChangeOrderStatus } from "../servises/api/OrdersRequest";
+import { useStatusOrder } from "../context/StatusContext";
 
 export function OrderPopUp({table, itens, products, status, id, setOrders}: IOrderPopUpProps) {
   const showModalBtn = useRef(null) as React.MutableRefObject<null | HTMLDialogElement>;
-  const { changeOrderStatus } = useChangeOrderStatus()
+  const { changeOrderStatus } = useStatusOrder()
 
   const handleClick = () => {
     if (showModalBtn.current) {

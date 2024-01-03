@@ -1,18 +1,11 @@
-import { baseURL } from "../BaseURL";
+import { ReactNode, createContext, useContext } from "react";
+import { baseURL } from "../servises/BaseURL";
+import { IChangeOrderStatusProps } from "../interfaces/IChangeOrderStatusProps";
 import { toast } from "react-toastify";
-import { IChangeOrderStatusProps } from "../../interfaces/IChangeOrderStatusProps";
 
-export const useRequestOrders = async () => {
-  try {
-    const response = await fetch(`${baseURL}/orders`);
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error fetching orders:", error);
-  }
-};
+export const StatusContext = createContext({} as any);
 
-export function useChangeOrderStatus() {
+export const StatusProvider = ({ children }: { children: ReactNode }) => {
   const changeOrderStatus = async ({ id, status }: IChangeOrderStatusProps) => {
     try {
       const response = await fetch(`${baseURL}/orders/${id}`, {
@@ -47,6 +40,11 @@ export function useChangeOrderStatus() {
       );
     }
   };
+  return (
+    <StatusContext.Provider value={{ changeOrderStatus }}>
+      {children}
+    </StatusContext.Provider>
+  );
+};
 
-  return { changeOrderStatus };
-}
+export const useStatusOrder = () => useContext(StatusContext)
