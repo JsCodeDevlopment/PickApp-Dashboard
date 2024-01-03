@@ -1,17 +1,18 @@
 import { useRef } from "react";
 import {BtnOrderStatus, IOrderPopUpProps, OrderStatus,} from "../interfaces/IOrderPopUpProps";
-import { useStatusOrder } from "../context/StatusContext";
+import { useChangeOrderStatus } from "../servises/api/OrdersRequest";
+import { useOrderContext } from "../context/OrderContext";
 
-export function OrderPopUp({table, itens, products, status, id, setOrders}: IOrderPopUpProps) {
+export function OrderPopUp({table, itens, products, status, id}: IOrderPopUpProps) {
   const showModalBtn = useRef(null) as React.MutableRefObject<null | HTMLDialogElement>;
-  const { changeOrderStatus } = useStatusOrder()
+  const { changeOrderStatus } = useChangeOrderStatus()
+  const { useRequestOrders } = useOrderContext()
 
   const handleClick = () => {
     if (showModalBtn.current) {
       showModalBtn.current.showModal();
     }
   };
-
   function BtnStatus (status: keyof typeof OrderStatus) {
     return status === "IN_PRODUCTION"
     ? BtnOrderStatus.IN_PRODUCTION
@@ -20,16 +21,16 @@ export function OrderPopUp({table, itens, products, status, id, setOrders}: IOrd
     : BtnOrderStatus.CANCELED
   }
 
-  function handleChangeStatus (id: string, status: keyof typeof OrderStatus) {
+  async function handleChangeStatus (id: string, status: keyof typeof OrderStatus) {
     switch (status) {
       case "WAITING": 
-        changeOrderStatus({id, status: "IN_PRODUCTION"})
+        await changeOrderStatus({id, status: "IN_PRODUCTION"})
         break;
       case "IN_PRODUCTION": 
-        changeOrderStatus({id, status: "DONE"})
+        await changeOrderStatus({id, status: "DONE"})
         break;
     }
-    setOrders()
+    await useRequestOrders()
   }
 
   return (

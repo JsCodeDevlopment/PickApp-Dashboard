@@ -1,16 +1,15 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Category } from "../components/Category";
 import { Header } from "../components/Header";
 import { OrderPopUp } from "../components/OrderPopUp";
 import { OrderStatus } from "../interfaces/IOrderPopUpProps";
-import { useRequestOrders } from "../servises/api/OrdersRequest";
-import { IOrder } from "../interfaces/IOrders";
+import { useOrderContext } from "../context/OrderContext";
 
 export function Dashboard() {
-  const [orders, setOrders] = useState<IOrder[]>([])
+  const { useRequestOrders, orders } = useOrderContext()
 
   useEffect(()=>{
-    useRequestOrders().then(setOrders)
+    useRequestOrders()
   }, [])
 
   return (
@@ -27,7 +26,6 @@ export function Dashboard() {
                 itens={order.products.length}
                 status={order.status}
                 products={order.products}
-                setOrders={() => useRequestOrders().then(setOrders)}
               />
             ))}
           </Category>
@@ -40,7 +38,6 @@ export function Dashboard() {
                 itens={order.products.length}
                 status={order.status}
                 products={order.products}
-                setOrders={() => useRequestOrders().then(setOrders)}
               />
             ))}
           </Category>
@@ -53,7 +50,6 @@ export function Dashboard() {
                 itens={order.products.length}
                 status={order.status}
                 products={order.products}
-                setOrders={() => useRequestOrders().then(setOrders)}
               />
             ))}
           </Category>
@@ -66,7 +62,6 @@ export function Dashboard() {
                 itens={order.products.length}
                 status={order.status}
                 products={order.products}
-                setOrders={() => useRequestOrders().then(setOrders)}
               />
             ))}
           </Category>

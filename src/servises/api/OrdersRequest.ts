@@ -2,16 +2,6 @@ import { baseURL } from "../BaseURL";
 import { toast } from "react-toastify";
 import { IChangeOrderStatusProps } from "../../interfaces/IChangeOrderStatusProps";
 
-export const useRequestOrders = async () => {
-  try {
-    const response = await fetch(`${baseURL}/orders`);
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error fetching orders:", error);
-  }
-};
-
 export function useChangeOrderStatus() {
   const changeOrderStatus = async ({ id, status }: IChangeOrderStatusProps) => {
     try {

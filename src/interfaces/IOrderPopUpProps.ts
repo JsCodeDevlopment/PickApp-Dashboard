@@ -6,7 +6,6 @@ export interface IOrderPopUpProps {
   itens: number;
   status: keyof typeof OrderStatus
   products: IProduct[];
-  setOrders: () => Promise<void>
 }
 
 export enum OrderStatus {
