@@ -1,4 +1,11 @@
+import { useParams } from "react-router-dom";
+
 export function VerifiedEmail() {
+
+  const { token } = useParams()
+  console.log(token);
+  
+
   return (
     <div className="hero min-h-screen bg-base-200">
       <div className="hero-content text-center">

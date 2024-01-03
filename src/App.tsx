@@ -25,8 +25,8 @@ export function App() {
       />
       <main data-theme={currentTheme} className="flex items-center justify-center w-full min-h-screen h-full bg-base-300">
         <Routes>
-          <Route path="/verify" element={<VerifiedEmail />} />
-          <Route path="/verified" element={<VerifyEmail />} />
+          <Route path="/verified/:token" element={<VerifiedEmail />} />
+          <Route path="/verify" element={<VerifyEmail />} />
           <Route path="/recover" element={<RecoverPassword />} />
           <Route path="/register" element={<Register />} />
           <Route path="/" element={<LoginPage />} />

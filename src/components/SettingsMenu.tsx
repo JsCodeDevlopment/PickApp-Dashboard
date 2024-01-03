@@ -21,7 +21,7 @@ export function SettingsMenu() {
       <ul
         tabIndex={0}
         className="dropdown-content z-[1] menu p-2 shadow gap-2 bg-base-100 rounded-box w-52">
-        <li className="menu-title text-white/50">Configurações</li>
+        <li className="menu-title">Configurações</li>
         <hr />
         <li>
           <Link to={"/dashboard"}><img className="w-4 h-4" src={UserIcon}/> Edit Profile</Link>

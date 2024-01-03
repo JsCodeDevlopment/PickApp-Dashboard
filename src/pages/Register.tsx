@@ -1,6 +1,59 @@
+import { useState } from "react";
 import Logo from "../assets/images/logo-for-lightBG.png";
+import { useRegister } from "../servises/api/RegisterRequest";
+import { IUser } from "../interfaces/IUser";
+import { Link } from "react-router-dom";
 
 export function Register() {
+  const { CreateUser } = useRegister();
+  const [newUser, setNewUser] = useState<IUser>({
+    name: "",
+    email: "",
+    password: "",
+    imagePath: "",
+    rule: "USER",
+  });
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = event.target;
+
+    if (name === "imagePath") {
+      const fullPath = value;
+      const match = fullPath.match(/\\([^\\]+)$/);
+      if (match) {
+        const fileName = match[1].toString();
+        setNewUser((prevState) => ({
+          ...prevState,
+          [name]: fileName,
+        }));
+      }
+    } else {
+      setNewUser((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+    }
+  };
+
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, checked } = event.target;
+    setNewUser((prevState) => ({
+      ...prevState,
+      [name]: checked ? "ADM" : "USER",
+    }));
+  };
+
+  const handleSubmit = async () => {
+    await CreateUser({
+      name: newUser.name,
+      email: newUser.email,
+      password: newUser.password,
+      imagePath: newUser.imagePath,
+      rule: newUser.rule,
+    });
+    console.log("resposta dos inputs →", newUser);
+  };
+
   return (
     <main className="flex flex-col items-center justify-center w-full">
       <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
@@ -12,7 +65,14 @@ export function Register() {
             <label className="label">
               <span className="label-text">Profile Picture</span>
             </label>
-            <input type="file" className="file-input file-input-xs file-input-bordered file-input-primary w-full max-w-xs" required/>
+            <input
+              type="file"
+              name="imagePath"
+              value={""}
+              onChange={handleInputChange}
+              className="file-input file-input-xs file-input-bordered file-input-primary w-full max-w-xs"
+              required
+            />
           </div>
           <div className="form-control">
             <label className="label">
@@ -20,9 +80,13 @@ export function Register() {
             </label>
             <input
               type="text"
+              name="name"
+              value={newUser.name}
+              onChange={handleInputChange}
               placeholder="Name"
               className="input input-bordered"
-              required/>
+              required
+            />
           </div>
           <div className="form-control">
             <label className="label">
@@ -30,9 +94,13 @@ export function Register() {
             </label>
             <input
               type="email"
+              name="email"
+              value={newUser.email}
+              onChange={handleInputChange}
               placeholder="Email"
               className="input input-bordered"
-              required/>
+              required
+            />
           </div>
           <div className="form-control">
             <label className="label">
@@ -40,17 +108,30 @@ export function Register() {
             </label>
             <input
               type="password"
+              name="password"
+              value={newUser.password}
+              onChange={handleInputChange}
               placeholder="Password"
               className="input input-bordered"
-              required/>
+              required
+            />
             <label className="label">
               <p className="label-text">Criar como administrador?</p>
-              <input type="checkbox" className="toggle toggle-primary" />
+              <input
+                type="checkbox"
+                name="rule"
+                checked={newUser.rule === "ADM"}
+                onChange={handleCheckboxChange}
+                className="toggle toggle-primary"
+              />
             </label>
           </div>
           <div className="form-control mt-6">
-            <button className="btn btn-primary text-secondary">
-              <a href="/dashboard">Criar</a>
+            <button
+              onClick={handleSubmit}
+              className="btn btn-primary text-secondary"
+            >
+              <Link to="/verify">Criar</Link>
             </button>
           </div>
         </form>

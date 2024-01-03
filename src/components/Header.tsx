@@ -8,8 +8,8 @@ export function Header() {
         <Link to={"/dashboard"}><img src={Logo} alt="" className="w-40" /></Link>
       <div className="flex w-auto gap-5 items-center justify-center">
       <div className="flex flex-col">
-        <h1 className="text-2xl font-semibold text-white">Pedidos</h1>
-        <p className="text-white">Acompanhe os pedidos dos clientes</p>
+        <h1 className="text-2xl font-semibold text-neutral-content">Pedidos</h1>
+        <p className="text-neutral-content">Acompanhe os pedidos dos clientes</p>
       </div>
         <SettingsMenu />
       </div>

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Logo from "../assets/images/logo-for-lightBG.png";
 
 export function VerifyEmail() {
@@ -20,7 +21,7 @@ export function VerifyEmail() {
         <form className="card-body">
           <div className="form-control mt-6">
             <button className="btn btn-primary text-secondary">
-              <a href="/dashboard">Fazer Login</a>
+              <Link to="/">Ínicio</Link>
             </button>
           </div>
         </form>
