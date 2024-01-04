@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LoginPage } from "./pages/Login";
-import { VerifiedEmail } from "./pages/VerifiedEmail";
+import { AuthenticateToken } from "./pages/AuthenticateToken";
 import { Dashboard } from "./pages/Dashboard";
 import { useTheme } from "./context/ThemeContext";
 import { Theme } from "./pages/Theme";
@@ -25,7 +25,7 @@ export function App() {
       />
       <main data-theme={currentTheme} className="flex items-center justify-center w-full min-h-screen h-full bg-base-300">
         <Routes>
-          <Route path="/verified/:token" element={<VerifiedEmail />} />
+          <Route path="/authenticate" element={<AuthenticateToken />} />
           <Route path="/verify" element={<VerifyEmail />} />
           <Route path="/recover" element={<RecoverPassword />} />
           <Route path="/register" element={<Register />} />
