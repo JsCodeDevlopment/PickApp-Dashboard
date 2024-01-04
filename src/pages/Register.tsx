@@ -2,7 +2,6 @@ import { useState } from "react";
 import Logo from "../assets/images/logo-for-lightBG.png";
 import { useRegister } from "../servises/api/RegisterRequest";
 import { IUser } from "../interfaces/IUser";
-import { Link } from "react-router-dom";
 
 export function Register() {
   const { CreateUser } = useRegister();
@@ -81,8 +80,7 @@ export function Register() {
               value={""}
               onChange={handleInputChange}
               className="file-input file-input-xs file-input-bordered file-input-primary w-full max-w-xs"
-              required
-            />
+              required/>
           </div>
           <div className="form-control">
             <label className="label">
@@ -95,8 +93,7 @@ export function Register() {
               onChange={handleInputChange}
               placeholder="Name"
               className="input input-bordered"
-              required
-            />
+              required/>
           </div>
           <div className="form-control">
             <label className="label">
@@ -109,8 +106,7 @@ export function Register() {
               onChange={handleInputChange}
               placeholder="Email"
               className="input input-bordered"
-              required
-            />
+              required/>
           </div>
           <div className="form-control">
             <label className="label">
@@ -123,8 +119,7 @@ export function Register() {
               onChange={handleInputChange}
               placeholder="Password"
               className="input input-bordered"
-              required
-            />
+              required/>
             <label className="label">
               <p className="label-text">Criar como administrador?</p>
               <input
@@ -132,16 +127,14 @@ export function Register() {
                 name="rule"
                 checked={newUser.rule === "ADM"}
                 onChange={handleCheckboxChange}
-                className="toggle toggle-primary"
-              />
+                className="toggle toggle-primary"/>
             </label>
           </div>
           <div className="form-control mt-6">
             <button
               onClick={handleSubmit}
-              className="btn btn-primary text-secondary"
-            >
-              <Link to="/verify">Criar</Link>
+              className="btn btn-primary text-secondary">
+              Criar
             </button>
           </div>
         </form>

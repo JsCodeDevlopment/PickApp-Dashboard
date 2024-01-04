@@ -23,15 +23,15 @@ export function useRegister () {
           });
     
           if (response.ok) {
-            navigate("/dashboard/verify", {replace: true})
             toast.success("Usuário criado com sucesso!", {
               autoClose: 1000 * 3,
             });
+            navigate("/authenticate", {replace: true})
           } else {
-            navigate("/dashboard/register", {replace: true})
             toast.error(`Erro ao criar conta.`, {
               autoClose: 1000 * 3,
             });
+            navigate("/register", {replace: true})
           }
         } catch (error) {
           console.error(
