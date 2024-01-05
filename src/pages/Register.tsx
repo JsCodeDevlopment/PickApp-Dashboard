@@ -12,6 +12,7 @@ export function Register() {
     imagePath: "",
     rule: "USER",
   });
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target;
@@ -43,6 +44,7 @@ export function Register() {
   };
 
   const handleSubmit = async () => {
+    setIsLoading(true)
     await CreateUser({
       name: newUser.name,
       email: newUser.email,
@@ -50,7 +52,6 @@ export function Register() {
       imagePath: newUser.imagePath,
       rule: newUser.rule,
     });
-    console.log("resposta dos inputs →", newUser);
   };
 
   return (
@@ -131,11 +132,11 @@ export function Register() {
             </label>
           </div>
           <div className="form-control mt-6">
-            <button
+            {!isLoading ? (<button
               onClick={handleSubmit}
               className="btn btn-primary text-secondary">
               Criar
-            </button>
+            </button>) : (<button className="btn" disabled={true}><span className="loading loading-spinner"></span> Carregando</button>)}
           </div>
         </form>
       </div>
