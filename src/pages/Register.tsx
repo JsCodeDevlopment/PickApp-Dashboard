@@ -14,17 +14,16 @@ export function Register() {
   });
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = event.target;
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, type } = event.target 
 
-    if (name === "imagePath") {
-      const fullPath = value;
-      const match = fullPath.match(/\\([^\\]+)$/);
-      if (match) {
-        const fileName = match[1].toString();
+    if (type === "file" && event.target instanceof HTMLInputElement) {
+      const file = event.target.files?.[0]
+    
+      if (file) {
         setNewUser((prevState) => ({
           ...prevState,
-          [name]: fileName,
+          [name]: file,
         }));
       }
     } else {
@@ -45,13 +44,10 @@ export function Register() {
 
   const handleSubmit = async () => {
     setIsLoading(true)
-    await CreateUser({
-      name: newUser.name,
-      email: newUser.email,
-      password: newUser.password,
-      imagePath: newUser.imagePath,
-      rule: newUser.rule,
-    });
+    console.log("resposta do newUser →", newUser);
+    
+    await CreateUser(newUser);
+    setIsLoading(false)
   };
 
   return (
@@ -70,7 +66,7 @@ export function Register() {
             Preencha os campos abaixo e aperte em criar.
           </p>
         </div>
-        <form className="card-body">
+        <form action="/upload" method="POST" className="card-body">
           <div className="form-control">
             <label className="label">
               <span className="label-text">Profile Picture</span>
@@ -132,7 +128,8 @@ export function Register() {
             </label>
           </div>
           <div className="form-control mt-6">
-            {!isLoading ? (<button
+            {!isLoading ? (<button 
+              type="submit"
               onClick={handleSubmit}
               className="btn btn-primary text-secondary">
               Criar

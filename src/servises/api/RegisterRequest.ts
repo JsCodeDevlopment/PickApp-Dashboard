@@ -6,20 +6,30 @@ import { useNavigate } from "react-router-dom";
 export function useRegister() {
   const navigate = useNavigate();
 
-  const CreateUser = async ({ name, email, password, rule, imagePath,}: IUser): Promise<void> => {
+  const CreateUser = async ({ name, email, password, rule, imagePath}: IUser): Promise<void> => {
     try {
+      const formData = new FormData()
+
+      formData.append("name", name)
+      formData.append("email", email)
+      formData.append("password", password)
+      formData.append("rule", rule)
+      formData.append("imagePath", imagePath)
+
+      console.log(formData);
+      console.log("valores na request →", name);
+      console.log("valores na request →", password);
+      console.log("valores na request →", email);
+      console.log("valores na request →", imagePath);
+      console.log("valores na request →", rule);
+      
+
       const response = await fetch(`${baseURL}/register`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
         },
-        body: JSON.stringify({
-          name,
-          email,
-          password,
-          rule,
-          imagePath,
-        }),
+        body: formData,
       });
 
       if (response.ok) {
