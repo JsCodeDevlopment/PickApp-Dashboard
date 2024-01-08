@@ -27,7 +27,7 @@ export function AuthenticateToken() {
           <img className="w-36" src={Logo} alt="" />
         </div>
         <div className="flex w-full mt-5 px-9 flex-col items-center justify-center ">
-          <h1 className="text-xl text-primary f">Última etapa, Prometo!</h1>
+          <h1 className="text-xl text-primary">Última etapa, Prometo!</h1>
           <span className="loading loading-dots loading-sm"></span>
           <p className="text-md font-normal text-center">
             Parabéns sua conta está 99% concluida!
@@ -55,7 +55,7 @@ export function AuthenticateToken() {
             {!isLoading ? (
               <button
                 onClick={handleSubmit}
-                className="btn btn-primary text-secondary">
+                className="btn btn-primary text-primary-content">
                 Verificar
               </button>
             ) : (

@@ -1,13 +1,16 @@
 import { FormEvent, useState } from "react";
 import Logo from "../assets/images/logo-for-lightBG.png";
+import LogoDark from "../assets/images/logo-for-darkBG.png";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { useLogin } from "../context/LoginContext";
+import { useTheme } from "../context/ThemeContext";
 
 export function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login } = useLogin();
+  const { currentTheme } = useTheme()
 
   const handleSubmit = async (ev: FormEvent) => {
     ev.preventDefault();
@@ -27,7 +30,7 @@ export function LoginPage() {
     <main className="flex flex-col items-center justify-center w-full h-full">
       <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
         <div className="flex w-full items-center justify-center mt-5">
-          <img className="w-36" src={Logo} alt="" />
+          {currentTheme === "mytheme" ? <img className="w-36" src={Logo} alt="" /> : <img className="w-36" src={LogoDark} alt="" />}
         </div>
         <form onSubmit={handleSubmit} className="card-body">
           <div className="form-control">
@@ -62,7 +65,7 @@ export function LoginPage() {
             </label>
           </div>
           <div className="form-control mt-6">
-            <button className="btn btn-primary text-secondary">Login</button>
+            <button className="btn btn-primary text-primary-content">Login</button>
           </div>
         </form>
         <div className="flex absolute bottom-1 w-full gap-1 items-center justify-center">

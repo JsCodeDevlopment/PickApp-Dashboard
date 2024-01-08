@@ -57,7 +57,7 @@ export function Register() {
           <img className="w-36" src={Logo} alt="" />
         </div>
         <div className="flex w-full mt-5 px-9 flex-col items-center justify-center ">
-          <h1 className="text-xl text-primary f">Hora de criar!</h1>
+          <h1 className="text-xl text-primary">Hora de criar!</h1>
           <span className="loading loading-dots loading-sm"></span>
           <p className="text-md font-normal text-center">
             Já que não possui uma conta, vamos criar uma bem rapidinho!
@@ -131,7 +131,7 @@ export function Register() {
             {!isLoading ? (<button 
               type="submit"
               onClick={handleSubmit}
-              className="btn btn-primary text-secondary">
+              className="btn btn-primary text-primary-content">
               Criar
             </button>) : (<button className="btn" disabled={true}><span className="loading loading-spinner"></span> Carregando</button>)}
           </div>

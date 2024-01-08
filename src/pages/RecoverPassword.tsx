@@ -31,7 +31,7 @@ export function RecoverPassword() {
             />
           </div>
           <div className="form-control mt-6">
-            <button className="btn btn-primary text-secondary">
+            <button className="btn btn-primary text-primary-content">
               <a href="/dashboard">Recuperar</a>
             </button>
           </div>
