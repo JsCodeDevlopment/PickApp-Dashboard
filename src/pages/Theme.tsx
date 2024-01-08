@@ -1,6 +1,6 @@
 import { Header } from "../components/Header";
 import { Themes } from "../components/Themes";
-import { ThemeOptions } from "../interfaces/IThemes";
+import { IThemeOptions } from "../interfaces/IThemes";
 
 export function Theme() {
   return (
@@ -13,8 +13,8 @@ export function Theme() {
           </h1>
           <p className="text-neutral-content">Vamos dar uma colorida nessa tela!?</p>
           <div className="flex gap-4 w-full flex-wrap p-8 items-center justify-center">
-            {Object.entries(ThemeOptions).map(([theme]) => (
-              <Themes key={theme} theme={theme as keyof typeof ThemeOptions} />
+            {Object.entries(IThemeOptions).map(([theme]) => (
+              <Themes key={theme} theme={theme as keyof typeof IThemeOptions} />
             ))}
           </div>
         </div>

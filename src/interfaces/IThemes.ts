@@ -1,4 +1,4 @@
-export enum ThemeOptions {
+export enum IThemeOptions {
   mytheme = "bg-gray-500",
   light = "bg-white",
   dark = "bg-[#1D232A]",

@@ -1,9 +1,9 @@
 import { Dispatch, SetStateAction } from "react";
-import { ThemeOptions } from "./IThemes";
+import { IThemeOptions } from "./IThemes";
 
 export interface IThemeContext {
-  currentTheme: keyof typeof ThemeOptions;
-  setCurrentTheme?: Dispatch<SetStateAction<keyof typeof ThemeOptions>>;
+  currentTheme: keyof typeof IThemeOptions;
+  setCurrentTheme?: Dispatch<SetStateAction<keyof typeof IThemeOptions>>;
   SearchSavedTheme: () => void
-  SelectTheme: (theme: keyof typeof ThemeOptions) => void
+  SelectTheme: (theme: keyof typeof IThemeOptions) => void
 }

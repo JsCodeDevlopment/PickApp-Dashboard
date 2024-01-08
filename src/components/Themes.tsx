@@ -1,8 +1,8 @@
 import { useTheme } from "../context/ThemeContext";
-import { ThemeOptions } from "../interfaces/IThemes";
+import { IThemeOptions } from "../interfaces/IThemes";
 
 interface IThemeProps {
-    theme: keyof typeof ThemeOptions
+    theme: keyof typeof IThemeOptions
 }
 
 export function Themes({theme}: IThemeProps) {
