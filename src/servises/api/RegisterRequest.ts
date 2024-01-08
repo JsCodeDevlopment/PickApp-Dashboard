@@ -22,7 +22,6 @@ export function useRegister() {
       console.log("valores na request →", email);
       console.log("valores na request →", imagePath);
       console.log("valores na request →", rule);
-      
 
       const response = await fetch(`${baseURL}/register`, {
         method: "POST",

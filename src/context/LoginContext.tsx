@@ -11,7 +11,7 @@ export const LoginProvider = ({ children }: { children: ReactNode }) => {
   const login = async (email: string, password: string): Promise<void> => {
     try {
       const response = await fetch(`${baseURL}/login`, {
-        method: "POST",
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
