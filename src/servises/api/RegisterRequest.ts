@@ -14,20 +14,10 @@ export function useRegister() {
       formData.append("email", email)
       formData.append("password", password)
       formData.append("rule", rule)
-      formData.append("imagePath", imagePath)
-
-      console.log(formData);
-      console.log("valores na request →", name);
-      console.log("valores na request →", password);
-      console.log("valores na request →", email);
-      console.log("valores na request →", imagePath);
-      console.log("valores na request →", rule);
+      formData.append("image", imagePath)
 
       const response = await fetch(`${baseURL}/register`, {
         method: "POST",
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
         body: formData,
       });
 
