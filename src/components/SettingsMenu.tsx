@@ -3,8 +3,11 @@ import Profile from "../assets/images/cartooon.png";
 import ThemeIcon from "../assets/images/theme.png";
 import UserIcon from "../assets/images/User.png";
 import LogOutIcon from "../assets/images/LogOut.png";
+import { useLogin } from "../context/LoginContext";
 
 export function SettingsMenu() {
+  const { logout } = useLogin()
+
   const divStyle = {
     backgroundImage: `url(${Profile})`,
     backgroundSize: "cover",
@@ -30,7 +33,7 @@ export function SettingsMenu() {
           <Link to={"/dashboard/theme"}><img className="w-4 h-4" src={ThemeIcon}/> Themes</Link>
         </li>
         <hr />
-        <li>
+        <li onClick={logout}>
           <a><img className="w-4 h-4" src={LogOutIcon}/> Log-out</a>
         </li>
       </ul>

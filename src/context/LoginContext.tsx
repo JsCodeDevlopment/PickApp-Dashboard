@@ -20,10 +20,7 @@ export const LoginProvider = ({ children }: { children: ReactNode }) => {
   const [acessToken, setAcessToken] = useState<IAcessToken>();
   const navigate = useNavigate();
 
-  const login = async (
-    email: string,
-    password: string
-  ): Promise<void | boolean> => {
+  const login = async ( email: string, password: string ): Promise<void | boolean> => {
     try {
       const response = await fetch(`${baseURL}/login`, {
         method: "POST",
@@ -45,6 +42,13 @@ export const LoginProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = () => {
     setIsAuthenticated(false);
+
+    if (!isAuthenticated) {
+      toast.success("Desconectado com sucesso!", {
+        autoClose: 1000 * 3,
+      });
+      navigate("/", { replace: true });
+    }
   };
 
   useEffect(() => {
