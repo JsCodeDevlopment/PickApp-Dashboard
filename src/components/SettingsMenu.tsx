@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import Profile from "../assets/images/cartooon.png";
 import ThemeIcon from "../assets/images/theme.png";
 import UserIcon from "../assets/images/User.png";
+import Cart from "../assets/images/CartLight.png";
 import LogOutIcon from "../assets/images/LogOut.png";
 import { useLogin } from "../context/LoginContext";
 
@@ -24,13 +25,16 @@ export function SettingsMenu() {
       <ul
         tabIndex={0}
         className="dropdown-content z-[1] menu p-2 shadow gap-2 bg-base-100 rounded-box w-52">
-        <li className="menu-title">Configurações</li>
+        <li className="menu-title">Options</li>
         <hr />
         <li>
           <Link to={"/dashboard"}><img className="w-4 h-4" src={UserIcon}/> Edit Profile</Link>
         </li>
         <li>
           <Link to={"/dashboard/theme"}><img className="w-4 h-4" src={ThemeIcon}/> Themes</Link>
+        </li>
+        <li>
+          <Link to={"/dashboard/neworder"}><img className="w-4 h-4" src={Cart}/>Create Order</Link>
         </li>
         <hr />
         <li onClick={logout}>
