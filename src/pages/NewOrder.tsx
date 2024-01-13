@@ -2,8 +2,8 @@ import { Header } from "../components/Header";
 import pizza from "../assets/images/pizza.png";
 import Cart from "../assets/images/CartLight.png";
 import EmptyCart from "../assets/images/emptyCart.png";
-import Select from "react-select";
 import { QuantityButton } from "../components/QuantityButton";
+import { Autocomplete, TextField } from "@mui/material";
 
 const options = [
   { value: 40, label: "Pizza 4 queijos" },
@@ -18,7 +18,13 @@ export function NewOrder() {
       <div className="flex w-full h-screen py-10 justify-around">
         <div className="flex flex-col gap-5 items-center w-1/3">
           fazendo meu pedido aqui
-          <Select options={options} isClearable={true} className="w-full text-black" />
+          <Autocomplete
+            disablePortal
+            id="combo-box-demo"
+            inputMode="search"
+            options={options}
+            sx={{ width: 300 }}
+            renderInput={(params) => <TextField {...params} label="Produto" />}/>
           <QuantityButton />
           <button className="btn btn-block btn-primary text-danger">
             Selecionar Produto
