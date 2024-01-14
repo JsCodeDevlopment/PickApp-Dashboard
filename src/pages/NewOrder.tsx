@@ -9,6 +9,12 @@ const options = [
   { value: 40, label: "Pizza 4 queijos" },
   { value: 12, label: "X-TUDO" },
   { value: 22, label: "A MODA DA CASA" },
+  { value: 30, label: "Pizzazinha de peitu de peru" },
+];
+const table = [
+  { value: 1, label: "Mesa 01" },
+  { value: 2, label: "Mesa 02" },
+  { value: 3, label: "Mesa 03" },
 ];
 
 export function NewOrder() {
@@ -17,7 +23,15 @@ export function NewOrder() {
       <Header />
       <div className="flex w-full h-screen py-10 justify-around">
         <div className="flex flex-col gap-5 items-center w-1/3">
-          fazendo meu pedido aqui
+          <h1 className="text-2xl font-semibold text-neutral-content">Vamos fazer nosso pedido!?</h1>
+          <p className="text-neutral-content">Vamos escolher nossos pedidos, encher o carrinho para finalizar o pedido.</p>
+          <Autocomplete
+            disablePortal
+            id="combo-box-demo"
+            inputMode="search"
+            options={table}
+            sx={{ width: 300 }}
+            renderInput={(params) => <TextField {...params} label="Mesa" />}/>
           <Autocomplete
             disablePortal
             id="combo-box-demo"
@@ -53,6 +67,9 @@ export function NewOrder() {
             <p className="text-md font-semibold">Total</p>
             <p className="text-md font-semibold">R$ 30,00</p>
           </div>
+          <button className="btn btn-block btn-primary text-danger">
+            Finalizar Pedido
+          </button>
         </div>
       </div>
     </div>

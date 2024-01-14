@@ -5,7 +5,7 @@ import { useOrderContext } from "../context/OrderContext";
 
 export function OrderPopUp({ table, itens, products, status, id }: IOrderPopUpProps) {
   const showModalBtn = useRef(null) as React.MutableRefObject<null | HTMLDialogElement>;
-  const { changeOrderStatus, DeleteOrder } = useChangeOrderStatus();
+  const { ChangeOrderStatus, DeleteOrder } = useChangeOrderStatus();
   const { useRequestOrders } = useOrderContext();
 
   const handleClick = () => {
@@ -27,17 +27,17 @@ export function OrderPopUp({ table, itens, products, status, id }: IOrderPopUpPr
   ) {
     switch (status) {
       case "WAITING":
-        await changeOrderStatus({ id, status: "IN_PRODUCTION" });
+        await ChangeOrderStatus({ id, status: "IN_PRODUCTION" });
         break;
       case "IN_PRODUCTION":
-        await changeOrderStatus({ id, status: "DONE" });
+        await ChangeOrderStatus({ id, status: "DONE" });
         break;
     }
     await useRequestOrders();
   }
 
   async function handleCanceled(id: string) {
-    await changeOrderStatus({ id, status: "CANCELED" });
+    await ChangeOrderStatus({ id, status: "CANCELED" });
     await useRequestOrders();
   }
 

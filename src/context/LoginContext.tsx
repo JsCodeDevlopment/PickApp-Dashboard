@@ -1,23 +1,15 @@
-import {
-  ReactNode,
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { ReactNode, createContext, useContext, useEffect, useState } from "react";
 import { baseURL } from "../servises/BackEndBaseURL";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { ILogedUser } from "../interfaces/ILogedUser";
+import { ILoginContext } from "../interfaces/ILoginContext";
 
-interface IAcessToken {
-  token: string;
-}{}
-
-export const LoginContext = createContext({} as any);
+export const LoginContext = createContext({} as ILoginContext);
 
 export const LoginProvider = ({ children }: { children: ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [acessToken, setAcessToken] = useState<IAcessToken>();
+  const [logedUser, setLogedUser] = useState<ILogedUser>();
   const navigate = useNavigate();
 
   const login = async ( email: string, password: string ): Promise<void | boolean> => {
@@ -30,8 +22,8 @@ export const LoginProvider = ({ children }: { children: ReactNode }) => {
         body: JSON.stringify({ email, password }),
       });
       const data = await response.json();
-
-      setAcessToken(data);
+    
+      setLogedUser(data);
       if (data) {
         setIsAuthenticated(true);
       }
@@ -66,7 +58,7 @@ export const LoginProvider = ({ children }: { children: ReactNode }) => {
   }, [isAuthenticated]);
 
   return (
-    <LoginContext.Provider value={{ acessToken, login, logout }}>
+    <LoginContext.Provider value={{ logedUser, login, logout }}>
       {children}
     </LoginContext.Provider>
   );

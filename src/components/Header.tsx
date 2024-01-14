@@ -16,10 +16,10 @@ export function Header() {
       )}
       <div className="flex w-auto gap-5 items-center justify-center">
         <div className="flex flex-col">
-          <h1 className="text-2xl font-semibold text-secondary">
+          <h1 className="text-2xl font-semibold text-neutral-content">
             Pedidos
           </h1>
-          <p className="text-secondary">
+          <p className="text-neutral-content">
             Acompanhe os pedidos dos clientes
           </p>
         </div>

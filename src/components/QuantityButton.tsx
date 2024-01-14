@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 export function QuantityButton() {
-  const [count, setCount] = useState(0);
+  const [count, setCount] = useState(1);
 
   const handleIncrement = () => {
     setCount(count + 1);
