@@ -2,43 +2,45 @@ import { Header } from "../components/Header";
 import pizza from "../assets/images/pizza.png";
 import Cart from "../assets/images/CartLight.png";
 import EmptyCart from "../assets/images/emptyCart.png";
+import { Select } from "../components/Select";
+import { ITables } from "../interfaces/ISelectProps";
 import { QuantityButton } from "../components/QuantityButton";
-import { Autocomplete, TextField } from "@mui/material";
-
-const options = [
-  { value: 40, label: "Pizza 4 queijos" },
-  { value: 12, label: "X-TUDO" },
-  { value: 22, label: "A MODA DA CASA" },
-  { value: 30, label: "Pizzazinha de peitu de peru" },
-];
-const table = [
-  { value: 1, label: "Mesa 01" },
-  { value: 2, label: "Mesa 02" },
-  { value: 3, label: "Mesa 03" },
-];
+import { useOrderContext } from "../context/OrderContext";
+import { useEffect } from "react";
 
 export function NewOrder() {
+  const { useRequestProducts, products } = useOrderContext();
+
+  useEffect(() => {
+    useRequestProducts();
+  }, []);
+
+  const tables: ITables = [
+    { id: "1", name: "01" },
+    { id: "2", name: "02" },
+    { id: "3", name: "03" },
+    { id: "4", name: "04" },
+    { id: "5", name: "05" },
+    { id: "6", name: "06" },
+    { id: "7", name: "07" },
+    { id: "8", name: "08" },
+    { id: "9", name: "09" },
+    { id: "10", name: "10" },
+  ];
   return (
     <div className="bg-base-100 w-full h-screen overflow-y-scroll overflow-x-hidden scrollbar-thin scrollbar-thumb-neutral scrollbar-track-base-100">
       <Header />
       <div className="flex w-full h-screen py-10 justify-around">
         <div className="flex flex-col gap-5 items-center w-1/3">
-          <h1 className="text-2xl font-semibold text-neutral-content">Vamos fazer nosso pedido!?</h1>
-          <p className="text-neutral-content">Vamos escolher nossos pedidos, encher o carrinho para finalizar o pedido.</p>
-          <Autocomplete
-            disablePortal
-            id="combo-box-demo"
-            inputMode="search"
-            options={table}
-            sx={{ width: 300 }}
-            renderInput={(params) => <TextField {...params} label="Mesa" />}/>
-          <Autocomplete
-            disablePortal
-            id="combo-box-demo"
-            inputMode="search"
-            options={options}
-            sx={{ width: 300 }}
-            renderInput={(params) => <TextField {...params} label="Produto" />}/>
+          <h1 className="text-2xl font-semibold text-neutral">
+            Vamos fazer nosso pedido!?
+          </h1>
+          <p className="text-neutral">
+            Vamos escolher nossos pedidos, encher o carrinho para finalizar o
+            pedido.
+          </p>
+          <Select title="Mesa" options={tables}/>
+          <Select title="Produto" options={products}/>
           <QuantityButton />
           <button className="btn btn-block btn-primary text-danger">
             Selecionar Produto

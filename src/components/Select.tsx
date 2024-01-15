@@ -1,15 +1,12 @@
-import Select from "react-select";
+import { ISelectProps } from "../interfaces/ISelectProps";
 
-const options = [
-  { value: 40, label: "Pizza 4 queijos" },
-  { value: 12, label: "X-TUDO" },
-  { value: 22, label: "A MODA DA CASA" },
-];
-
-export function ProductSelect(textHolder: string) {
+export function Select({ title, options }: ISelectProps) {
   return (
-    <>
-      <Select options={options} isClearable={true} className="text-black" placeholder={textHolder}/>
-    </>
+    <select className="select select-bordered w-full max-w-xs">
+      <option disabled selected>
+        {title}
+      </option>
+      {options && options.map((option) => <option key={option.id}>{title}: {option.name}</option>)}
+    </select>
   );
 }
