@@ -1,8 +1,9 @@
-import { IProduct } from "./IOrders";
+import { ISingleProduct } from "./IOrders";
 
 export interface ISelectProps {
   title: string;
-  options?: IProduct[] | Object[] | undefined
+  options: ISingleProduct[]
+  onSelectChange: (selectedOption: ISingleProduct) => void;
 }
 
 export type ITables = {

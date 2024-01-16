@@ -6,14 +6,27 @@ import { Select } from "../components/Select";
 import { ITables } from "../interfaces/ISelectProps";
 import { QuantityButton } from "../components/QuantityButton";
 import { useOrderContext } from "../context/OrderContext";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { ISingleProduct } from "../interfaces/IOrders";
 
 export function NewOrder() {
   const { useRequestProducts, products } = useOrderContext();
+  const [table, setTable] = useState<string>();
+  const [newOrder, setNewOrder] = useState<ISingleProduct>();
 
   useEffect(() => {
     useRequestProducts();
   }, []);
+
+  const handleSelectChange = (selectedOption: ISingleProduct) => {
+    setNewOrder(selectedOption);
+  };
+
+  const handleTableChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedIndex = event.target.selectedIndex;
+    const selectedOption = tables[selectedIndex].id
+    setTable(selectedOption);
+  };
 
   const tables: ITables = [
     { id: "1", name: "01" },
@@ -27,20 +40,34 @@ export function NewOrder() {
     { id: "9", name: "09" },
     { id: "10", name: "10" },
   ];
+
   return (
     <div className="bg-base-100 w-full h-screen overflow-y-scroll overflow-x-hidden scrollbar-thin scrollbar-thumb-neutral scrollbar-track-base-100">
       <Header />
-      <div className="flex w-full h-screen py-10 justify-around">
+      <div className="flex w-full py-10 justify-around">
         <div className="flex flex-col gap-5 items-center w-1/3">
-          <h1 className="text-2xl font-semibold text-neutral">
-            Vamos fazer nosso pedido!?
-          </h1>
-          <p className="text-neutral">
+          <h1 className="text-2xl font-semibold">Vamos fazer nosso pedido!?</h1>
+          <p>
             Vamos escolher nossos pedidos, encher o carrinho para finalizar o
             pedido.
           </p>
-          <Select title="Mesa" options={tables}/>
-          <Select title="Produto" options={products}/>
+          <select
+            onChange={handleTableChange}
+            className="select select-bordered w-full max-w-xs">
+            <option disabled selected>
+              Mesas
+            </option>
+            {tables &&
+              tables.map((table) => (
+                <option key={table.id}>
+                  Mesa: {table.name}
+                </option>
+              ))}
+          </select>
+          <Select
+            title="Produto"
+            options={products}
+            onSelectChange={handleSelectChange}/>
           <QuantityButton />
           <button className="btn btn-block btn-primary text-danger">
             Selecionar Produto

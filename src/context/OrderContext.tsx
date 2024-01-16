@@ -1,5 +1,5 @@
 import { ReactNode, createContext, useContext, useState } from "react";
-import { IOrder, IProduct } from "../interfaces/IOrders";
+import { IOrder, ISingleProduct } from "../interfaces/IOrders";
 import { baseURL } from "../servises/BackEndBaseURL";
 import { IOrderContext } from "../interfaces/IOrderContext";
 
@@ -7,7 +7,7 @@ export const OrderContext = createContext({} as IOrderContext);
 
 export const OrderProvider = ({ children }: { children: ReactNode }) => {
   const [orders, setOrders] = useState<IOrder[]>([]);
-  const [products, setProducts] = useState<IProduct[]>([]);
+  const [products, setProducts] = useState<ISingleProduct[]>([]);
 
   const useRequestOrders = async () => {
     try {
@@ -23,7 +23,7 @@ export const OrderProvider = ({ children }: { children: ReactNode }) => {
   const useRequestProducts = async () => {
     try {
       const response = await fetch(`${baseURL}/products`);
-      const data = await response.json();   
+      const data = await response.json();      
          
       setProducts(data);
     } catch (error) {

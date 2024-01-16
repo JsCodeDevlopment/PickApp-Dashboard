@@ -1,12 +1,18 @@
 import { ISelectProps } from "../interfaces/ISelectProps";
 
-export function Select({ title, options }: ISelectProps) {
+export function Select({ title, options, onSelectChange }: ISelectProps) {
+  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedIndex = event.target.selectedIndex;    
+    const selectedOption = options[selectedIndex];
+    onSelectChange(selectedOption);
+  };
+
   return (
-    <select className="select select-bordered w-full max-w-xs">
+    <select onChange={handleSelectChange} className="select select-bordered w-full max-w-xs">
       <option disabled selected>
         {title}
       </option>
-      {options && options.map((option) => <option key={option.id}>{title}: {option.name}</option>)}
+      {options && options.map((option) => <option key={option._id}>{title}: {option.name}</option>)}
     </select>
   );
 }
