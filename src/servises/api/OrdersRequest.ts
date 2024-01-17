@@ -5,17 +5,17 @@ import { ICreateOrderProps } from "../../interfaces/ICreateOrderProps";
 
 export function useChangeOrderStatus() {
 
-  const CreateOrder = async ({ table, products, quantity }: ICreateOrderProps) => {
+  const CreateOrder = async ( table: string, products: { product: string; quantity: number }[] ) => {
+    
     try {
-      const response = await fetch(`${baseURL}/orders/`, {
-        method: "PATCH",
+      const response = await fetch(`${baseURL}/orders`, {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           table,
-          products,
-          quantity
+          products
         }),
       });
       if (response.ok) {

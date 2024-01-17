@@ -3,9 +3,7 @@ import { ISelectProps } from "../interfaces/ISelectProps";
 export function Select({ title, options, onSelectChange }: ISelectProps) {
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedIndex = event.target.selectedIndex - 1;
-    
     const selectedOption = options[selectedIndex];
-    console.log(selectedOption);
     onSelectChange(selectedOption);
   };
 

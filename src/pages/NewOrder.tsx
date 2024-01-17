@@ -8,8 +8,9 @@ import { useOrderContext } from "../context/OrderContext";
 import { useEffect, useState } from "react";
 import { ISingleProduct } from "../interfaces/IOrders";
 import { baseURL } from "../servises/BackEndBaseURL";
+import { useChangeOrderStatus } from "../servises/api/OrdersRequest";
 
-type Order = {
+export type Order = {
   id: string;
   name: string;
   price: number;
@@ -19,7 +20,8 @@ type Order = {
 
 export function NewOrder() {
   const { useRequestProducts, products } = useOrderContext();
-  const [table, setTable] = useState<string>();
+  const { CreateOrder } = useChangeOrderStatus();
+  const [table, setTable] = useState<string>("");
   const [newSelectedOrder, setNewSelectedOrder] = useState<ISingleProduct | null>();
   const [quantity, setQuantity] = useState<number>(1);
   const [orders, setOrders] = useState<Order[]>([]);
@@ -42,14 +44,15 @@ export function NewOrder() {
   ];
 
   const handleTableChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedIndex = event.target.selectedIndex;
+    const selectedIndex = event.target.selectedIndex - 1;
     const selectedOption = tables[selectedIndex].id;
+    console.log("vendo o que vem qnd selecionado a mesa →", selectedOption);
+
     setTable(selectedOption);
   };
 
   const handleSelectChange = (selectedOption: ISingleProduct) => {
     setNewSelectedOrder(selectedOption);
-    console.log(selectedOption);
   };
 
   const handleQuantityChange = (newQuantity: number) => {
@@ -67,10 +70,22 @@ export function NewOrder() {
       };
 
       setOrders((prevOrders) => [...prevOrders, newOrder]);
-      console.log("orders on handleADD →", orders);
     }
   }
-  console.log("orders outside handleADD →", orders);
+  console.log("checando o que tem em tables →", table);
+
+  const handleFinishOrder = async (
+    table: string,
+    products: { product: string; quantity: number }[]
+  ) => {
+    console.log("table →", table, "and products →", products);
+    const formattedOrders = orders.map((order) => ({
+      product: order.id,
+      quantity: order.quantity,
+    }));
+    await CreateOrder(table, (products = formattedOrders));
+    setOrders([]);
+  };
 
   return (
     <div className="bg-base-100 w-full h-screen overflow-y-scroll overflow-x-hidden scrollbar-thin scrollbar-thumb-neutral scrollbar-track-base-100">
@@ -85,11 +100,13 @@ export function NewOrder() {
           <Select
             title="Produto"
             options={products}
-            onSelectChange={handleSelectChange}/>
+            onSelectChange={handleSelectChange}
+          />
           <QuantityButton onChange={handleQuantityChange} />
           <button
             onClick={handleAddToCart}
-            className="btn btn-block btn-primary text-danger">
+            className="btn btn-block btn-primary text-danger"
+          >
             Selecionar Produto
           </button>
         </div>
@@ -111,7 +128,8 @@ export function NewOrder() {
                     <img
                       className="w-20 h-16 rounded-md"
                       src={`${baseURL}/uploads/${order.icon}`}
-                      alt=""/>
+                      alt=""
+                    />
                     <p className="text-sm font-light">x{order.quantity}</p>
                     <div className="flex flex-col gap-1">
                       <p className="text-base font-semibold">{order.name}</p>
@@ -128,7 +146,10 @@ export function NewOrder() {
                 <p className="text-md font-semibold">Total</p>
                 <p className="text-md font-semibold">
                   {orders
-                    .reduce((acc, order) => acc + order.price * order.quantity,0)
+                    .reduce(
+                      (acc, order) => acc + order.price * order.quantity,
+                      0
+                    )
                     .toLocaleString("pt-BR", {
                       style: "currency",
                       currency: "BRL",
@@ -138,19 +159,21 @@ export function NewOrder() {
               <div className="flex w-full items-center justify-center">
                 <select
                   onChange={handleTableChange}
-                  className="select select-bordered w-full max-w-xs">
-                  <option disabled>
-                    Escolha a mesa
+                  className="select select-bordered w-full max-w-xs"
+                >
+                  <option disabled selected>
+                    Escolha uma mesa
                   </option>
                   {tables &&
                     tables.map((table) => (
-                      <option key={table.id}>
-                        Mesa: {table.name}
-                      </option>
+                      <option key={table.id}>Mesa: {table.name}</option>
                     ))}
                 </select>
               </div>
-              <button className="btn btn-block btn-primary text-danger">
+              <button
+                onClick={() => handleFinishOrder(table, orders)}
+                className="btn btn-block btn-primary text-danger"
+              >
                 Finalizar Pedido
               </button>
             </>
