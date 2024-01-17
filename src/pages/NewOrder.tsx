@@ -23,7 +23,6 @@ export function NewOrder() {
   const [newSelectedOrder, setNewSelectedOrder] = useState<ISingleProduct | null>();
   const [quantity, setQuantity] = useState<number>(1);
   const [orders, setOrders] = useState<Order[]>([]);
-  const [isActiveSelectTable, setIsActiveSelectTable] = useState<boolean>(false);
 
   useEffect(() => {
     useRequestProducts();
@@ -68,7 +67,6 @@ export function NewOrder() {
       };
 
       setOrders((prevOrders) => [...prevOrders, newOrder]);
-      setIsActiveSelectTable(false);
       console.log("orders on handleADD →", orders);
     }
   }
@@ -141,12 +139,12 @@ export function NewOrder() {
                 <select
                   onChange={handleTableChange}
                   className="select select-bordered w-full max-w-xs">
-                  <option disabled selected>
+                  <option disabled>
                     Escolha a mesa
                   </option>
                   {tables &&
                     tables.map((table) => (
-                      <option disabled={isActiveSelectTable} key={table.id}>
+                      <option key={table.id}>
                         Mesa: {table.name}
                       </option>
                     ))}
