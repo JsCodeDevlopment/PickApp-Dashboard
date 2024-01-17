@@ -1,5 +1,4 @@
 import { Header } from "../components/Header";
-import pizza from "../assets/images/pizza.png";
 import Cart from "../assets/images/CartLight.png";
 import EmptyCart from "../assets/images/emptyCart.png";
 import { Select } from "../components/Select";
@@ -8,25 +7,27 @@ import { QuantityButton } from "../components/QuantityButton";
 import { useOrderContext } from "../context/OrderContext";
 import { useEffect, useState } from "react";
 import { ISingleProduct } from "../interfaces/IOrders";
+import { baseURL } from "../servises/BackEndBaseURL";
+
+type Order = {
+  id: string;
+  name: string;
+  price: number;
+  quantity: number;
+  icon: string;
+};
 
 export function NewOrder() {
   const { useRequestProducts, products } = useOrderContext();
   const [table, setTable] = useState<string>();
-  const [newOrder, setNewOrder] = useState<ISingleProduct>();
+  const [newSelectedOrder, setNewSelectedOrder] = useState<ISingleProduct | null>();
+  const [quantity, setQuantity] = useState<number>(1);
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [isActiveSelectTable, setIsActiveSelectTable] = useState<boolean>(false);
 
   useEffect(() => {
     useRequestProducts();
   }, []);
-
-  const handleSelectChange = (selectedOption: ISingleProduct) => {
-    setNewOrder(selectedOption);
-  };
-
-  const handleTableChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedIndex = event.target.selectedIndex;
-    const selectedOption = tables[selectedIndex].id
-    setTable(selectedOption);
-  };
 
   const tables: ITables = [
     { id: "1", name: "01" },
@@ -41,6 +42,38 @@ export function NewOrder() {
     { id: "10", name: "10" },
   ];
 
+  const handleTableChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedIndex = event.target.selectedIndex;
+    const selectedOption = tables[selectedIndex].id;
+    setTable(selectedOption);
+  };
+
+  const handleSelectChange = (selectedOption: ISingleProduct) => {
+    setNewSelectedOrder(selectedOption);
+    console.log(selectedOption);
+  };
+
+  const handleQuantityChange = (newQuantity: number) => {
+    setQuantity(newQuantity);
+  };
+
+  function handleAddToCart() {
+    if (newSelectedOrder) {
+      const newOrder: Order = {
+        id: newSelectedOrder._id,
+        name: newSelectedOrder.name,
+        price: newSelectedOrder.price,
+        icon: newSelectedOrder.imagePath,
+        quantity: quantity,
+      };
+
+      setOrders((prevOrders) => [...prevOrders, newOrder]);
+      setIsActiveSelectTable(false);
+      console.log("orders on handleADD →", orders);
+    }
+  }
+  console.log("orders outside handleADD →", orders);
+
   return (
     <div className="bg-base-100 w-full h-screen overflow-y-scroll overflow-x-hidden scrollbar-thin scrollbar-thumb-neutral scrollbar-track-base-100">
       <Header />
@@ -51,25 +84,14 @@ export function NewOrder() {
             Vamos escolher nossos pedidos, encher o carrinho para finalizar o
             pedido.
           </p>
-          <select
-            onChange={handleTableChange}
-            className="select select-bordered w-full max-w-xs">
-            <option disabled selected>
-              Mesas
-            </option>
-            {tables &&
-              tables.map((table) => (
-                <option key={table.id}>
-                  Mesa: {table.name}
-                </option>
-              ))}
-          </select>
           <Select
             title="Produto"
             options={products}
             onSelectChange={handleSelectChange}/>
-          <QuantityButton />
-          <button className="btn btn-block btn-primary text-danger">
+          <QuantityButton onChange={handleQuantityChange} />
+          <button
+            onClick={handleAddToCart}
+            className="btn btn-block btn-primary text-danger">
             Selecionar Produto
           </button>
         </div>
@@ -78,27 +100,63 @@ export function NewOrder() {
             <img className="w-4 h-4" src={Cart} />
             <p className="text-md font-semibold">Carrinho</p>
           </div>
-          <div className="flex w-full flex-col p-2 items-center justify-center rounded-md bg-base-200">
-            <img className="w-56 rounded-md" src={EmptyCart} alt="" />
-            <p className="text-xl font-semibold">Your cart is empty!</p>
-          </div>
-          <div className="flex w-full h-20 p-2 items-start justify-between rounded-md bg-base-200">
-            <img className="w-20 h-16 rounded-md" src={pizza} alt="" />
-            <p className="text-sm font-light">5x</p>
-            <div className="flex flex-col gap-1">
-              <p className="text-base font-semibold">
-                pizzazinha de peitu de peru
-              </p>
-              <p className="text-sm font-light">R$ 30,00</p>
+          {orders.length <= 0 ? (
+            <div className="flex w-full flex-col p-2 items-center justify-center rounded-md bg-base-200">
+              <img className="w-56 rounded-md" src={EmptyCart} alt="" />
+              <p className="text-xl font-semibold">Your cart is empty!</p>
             </div>
-          </div>
-          <div className="flex w-full bg-base-300 px-2 justify-between">
-            <p className="text-md font-semibold">Total</p>
-            <p className="text-md font-semibold">R$ 30,00</p>
-          </div>
-          <button className="btn btn-block btn-primary text-danger">
-            Finalizar Pedido
-          </button>
+          ) : (
+            <>
+              {orders &&
+                orders.map((order) => (
+                  <div className="flex w-full h-20 p-2 gap-5 items-start justify-start rounded-md bg-base-200">
+                    <img
+                      className="w-20 h-16 rounded-md"
+                      src={`${baseURL}/uploads/${order.icon}`}
+                      alt=""/>
+                    <p className="text-sm font-light">x{order.quantity}</p>
+                    <div className="flex flex-col gap-1">
+                      <p className="text-base font-semibold">{order.name}</p>
+                      <p className="text-sm font-light">
+                        {order.price.toLocaleString("pt-BR", {
+                          style: "currency",
+                          currency: "BRL",
+                        })}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              <div className="flex w-full bg-base-300 px-2 justify-between">
+                <p className="text-md font-semibold">Total</p>
+                <p className="text-md font-semibold">
+                  {orders
+                    .reduce((acc, order) => acc + order.price * order.quantity,0)
+                    .toLocaleString("pt-BR", {
+                      style: "currency",
+                      currency: "BRL",
+                    })}
+                </p>
+              </div>
+              <div className="flex w-full items-center justify-center">
+                <select
+                  onChange={handleTableChange}
+                  className="select select-bordered w-full max-w-xs">
+                  <option disabled selected>
+                    Escolha a mesa
+                  </option>
+                  {tables &&
+                    tables.map((table) => (
+                      <option disabled={isActiveSelectTable} key={table.id}>
+                        Mesa: {table.name}
+                      </option>
+                    ))}
+                </select>
+              </div>
+              <button className="btn btn-block btn-primary text-danger">
+                Finalizar Pedido
+              </button>
+            </>
+          )}
         </div>
       </div>
     </div>

@@ -1,15 +1,18 @@
 import { useState } from "react";
+import { QuantityButtonProps } from "../interfaces/IQuantityButtonProps";
 
-export function QuantityButton() {
+export function QuantityButton({ onChange }: QuantityButtonProps) {
   const [count, setCount] = useState(1);
 
   const handleIncrement = () => {
     setCount(count + 1);
+    onChange(count + 1);
   };
 
   const handleDecrement = () => {
     if (count > 0) {
       setCount(count - 1);
+      onChange(count - 1);
     }
   };
   return (

@@ -12,7 +12,7 @@ export function Select({ title, options, onSelectChange }: ISelectProps) {
       <option disabled selected>
         {title}
       </option>
-      {options && options.map((option) => <option key={option._id}>{title}: {option.name}</option>)}
+      {options && options.map((option) => <option key={option._id} value={option._id}>{title}: {option.name}</option>)}
     </select>
   );
 }
