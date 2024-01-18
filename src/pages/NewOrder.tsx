@@ -72,15 +72,16 @@ export function NewOrder() {
     }
   }
 
+  const formattedOrders = orders.map((order) => ({
+    product: order.id,
+    quantity: order.quantity,
+  }));
+  
   const handleFinishOrder = async (
     table: string,
     products: { product: string; quantity: number }[]
     ) => {
-    const formattedOrders = orders.map((order) => ({
-      product: order.id,
-      quantity: order.quantity,
-    }));
-    await CreateOrder(table, (products = formattedOrders));
+    await CreateOrder(table, (products));
     setOrders([]);
   };
 
@@ -161,7 +162,7 @@ export function NewOrder() {
                 </select>
               </div>
               <button
-                onClick={() => handleFinishOrder(table, orders)}
+                onClick={() => handleFinishOrder(table, formattedOrders)}
                 className="btn btn-block btn-primary text-danger">
                 Finalizar Pedido
               </button>
