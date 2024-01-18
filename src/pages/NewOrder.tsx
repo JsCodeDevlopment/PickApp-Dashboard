@@ -46,7 +46,6 @@ export function NewOrder() {
   const handleTableChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedIndex = event.target.selectedIndex - 1;
     const selectedOption = tables[selectedIndex].id;
-    console.log("vendo o que vem qnd selecionado a mesa →", selectedOption);
 
     setTable(selectedOption);
   };
@@ -72,13 +71,11 @@ export function NewOrder() {
       setOrders((prevOrders) => [...prevOrders, newOrder]);
     }
   }
-  console.log("checando o que tem em tables →", table);
 
   const handleFinishOrder = async (
     table: string,
     products: { product: string; quantity: number }[]
-  ) => {
-    console.log("table →", table, "and products →", products);
+    ) => {
     const formattedOrders = orders.map((order) => ({
       product: order.id,
       quantity: order.quantity,
@@ -100,13 +97,11 @@ export function NewOrder() {
           <Select
             title="Produto"
             options={products}
-            onSelectChange={handleSelectChange}
-          />
+            onSelectChange={handleSelectChange}/>
           <QuantityButton onChange={handleQuantityChange} />
           <button
             onClick={handleAddToCart}
-            className="btn btn-block btn-primary text-danger"
-          >
+            className="btn btn-block btn-primary text-danger">
             Selecionar Produto
           </button>
         </div>
@@ -124,12 +119,11 @@ export function NewOrder() {
             <>
               {orders &&
                 orders.map((order) => (
-                  <div className="flex w-full h-20 p-2 gap-5 items-start justify-start rounded-md bg-base-200">
+                  <div key={order.id} className="flex w-full h-20 p-2 gap-5 items-start justify-start rounded-md bg-base-200">
                     <img
                       className="w-20 h-16 rounded-md"
                       src={`${baseURL}/uploads/${order.icon}`}
-                      alt=""
-                    />
+                      alt=""/>
                     <p className="text-sm font-light">x{order.quantity}</p>
                     <div className="flex flex-col gap-1">
                       <p className="text-base font-semibold">{order.name}</p>
@@ -146,10 +140,7 @@ export function NewOrder() {
                 <p className="text-md font-semibold">Total</p>
                 <p className="text-md font-semibold">
                   {orders
-                    .reduce(
-                      (acc, order) => acc + order.price * order.quantity,
-                      0
-                    )
+                    .reduce((acc, order) => acc + order.price * order.quantity, 0)
                     .toLocaleString("pt-BR", {
                       style: "currency",
                       currency: "BRL",
@@ -159,8 +150,7 @@ export function NewOrder() {
               <div className="flex w-full items-center justify-center">
                 <select
                   onChange={handleTableChange}
-                  className="select select-bordered w-full max-w-xs"
-                >
+                  className="select select-bordered w-full max-w-xs">
                   <option disabled selected>
                     Escolha uma mesa
                   </option>
@@ -172,8 +162,7 @@ export function NewOrder() {
               </div>
               <button
                 onClick={() => handleFinishOrder(table, orders)}
-                className="btn btn-block btn-primary text-danger"
-              >
+                className="btn btn-block btn-primary text-danger">
                 Finalizar Pedido
               </button>
             </>

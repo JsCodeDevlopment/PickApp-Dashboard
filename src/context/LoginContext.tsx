@@ -45,9 +45,6 @@ export const LoginProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      toast.success("Acesso liberado com sucesso!", {
-        autoClose: 1000 * 3,
-      });
       navigate("/dashboard", { replace: true });
     } else {
       toast.error("Acesso negado, tente logar novamente.", {
