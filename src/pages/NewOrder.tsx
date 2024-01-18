@@ -1,5 +1,6 @@
 import { Header } from "../components/Header";
 import Cart from "../assets/images/CartLight.png";
+import Trash from "../assets/images/Trash.png";
 import EmptyCart from "../assets/images/emptyCart.png";
 import { Select } from "../components/Select";
 import { ITables } from "../interfaces/ISelectProps";
@@ -80,9 +81,13 @@ export function NewOrder() {
   const handleFinishOrder = async (
     table: string,
     products: { product: string; quantity: number }[]
-    ) => {
+  ) => {
     await CreateOrder(table, products);
     setOrders([]);
+  };
+
+  const handleDelete = (id: string) => {
+    setOrders(orders.filter((order)=>order.id !== id))
   };
 
   return (
@@ -108,8 +113,8 @@ export function NewOrder() {
         </div>
         <div className="w-1/3 flex flex-col gap-5 max-md:w-3/4">
           <div className="bg-base-300 flex gap-2 items-center justify-center">
-            <img className="w-4 h-4" src={Cart} />
-            <p className="text-md font-semibold">Carrinho</p>
+            <img className="w-6 h-6" src={Cart} />
+            <p className="text-xl font-semibold">Carrinho</p>
           </div>
           {orders.length <= 0 ? (
             <div className="flex w-full flex-col p-2 items-center justify-center rounded-md bg-base-200">
@@ -120,20 +125,29 @@ export function NewOrder() {
             <>
               {orders &&
                 orders.map((order) => (
-                  <div key={order.id} className="flex w-full h-20 p-2 gap-5 items-start justify-start rounded-md bg-base-200">
-                    <img
-                      className="w-20 h-16 rounded-md"
-                      src={`${baseURL}/uploads/${order.icon}`}
-                      alt=""/>
-                    <p className="text-sm font-light">x{order.quantity}</p>
-                    <div className="flex flex-col gap-1">
-                      <p className="text-base font-semibold">{order.name}</p>
-                      <p className="text-sm font-light">
-                        {order.price.toLocaleString("pt-BR", {
-                          style: "currency",
-                          currency: "BRL",
-                        })}
-                      </p>
+                  <div
+                    key={order.id}
+                    className="flex w-full h-20 p-2 gap-5 items-center justify-between rounded-md bg-base-200">
+                    <div className="flex gap-5">
+                      <img
+                        className="w-20 h-16 rounded-md"
+                        src={`${baseURL}/uploads/${order.icon}`}
+                        alt=""/>
+                      <p className="text-sm font-light">x{order.quantity}</p>
+                      <div className="flex flex-col gap-1">
+                        <p className="text-base font-semibold">{order.name}</p>
+                        <p className="text-sm font-light">
+                          {order.price.toLocaleString("pt-BR", {
+                            style: "currency",
+                            currency: "BRL",
+                          })}
+                        </p>
+                      </div>
+                    </div>
+                    <div
+                      onClick={()=>handleDelete(order.id)}
+                      className="flex items-center justify-center cursor-pointer">
+                      <img className="w-5 h-5" src={Trash} alt="" />
                     </div>
                   </div>
                 ))}
