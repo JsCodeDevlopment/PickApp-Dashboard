@@ -33,6 +33,7 @@ export const LoginProvider = ({ children }: { children: ReactNode }) => {
       });
       const data = await response.json();
       if (response.ok) {
+        localStorage.setItem("acessToken", data.token);
         setLogedUser(data);
         setIsAuthenticated(true);
       } else {
@@ -45,8 +46,34 @@ export const LoginProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const authenticateToken = async () => {
+    try {
+      const token = localStorage.getItem("acessToken")  
+      if (!token) {
+        return
+      }
+      const response = await fetch(`${baseURL}/me`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      const data = await response.json();
+      
+      if (response.ok) {
+        setLogedUser(data);
+        setIsAuthenticated(true);
+      } else {
+        localStorage.removeItem("acessToken")
+      }
+    } catch (error) {
+      console.error(error, "Erro ao fazer a requisição.");
+    }
+  }
+
   const logout = () => {
     setIsAuthenticated(false);
+    localStorage.removeItem("acessToken")
 
     if (!isAuthenticated) {
       toast.success("Desconectado com sucesso!", {
@@ -57,12 +84,13 @@ export const LoginProvider = ({ children }: { children: ReactNode }) => {
   };
 
   useEffect(() => {
+    if (!isAuthenticated) {
+      authenticateToken()
+    }
+
     if (isAuthenticated) {
       navigate("/dashboard", { replace: true });
     } else if (location.pathname !== "/") {
-      toast.error("Acesso negado, tente logar novamente.", {
-        autoClose: 1000 * 3,
-      });
       navigate("/", { replace: true });
     }
   }, [isAuthenticated]);
