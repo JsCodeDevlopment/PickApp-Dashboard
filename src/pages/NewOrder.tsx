@@ -76,20 +76,20 @@ export function NewOrder() {
     product: order.id,
     quantity: order.quantity,
   }));
-  
+
   const handleFinishOrder = async (
     table: string,
     products: { product: string; quantity: number }[]
     ) => {
-    await CreateOrder(table, (products));
+    await CreateOrder(table, products);
     setOrders([]);
   };
 
   return (
     <div className="bg-base-100 w-full h-screen overflow-y-scroll overflow-x-hidden scrollbar-thin scrollbar-thumb-neutral scrollbar-track-base-100">
       <Header />
-      <div className="flex w-full py-10 justify-around">
-        <div className="flex flex-col gap-5 items-center w-1/3">
+      <div className="flex w-full py-10 justify-around max-md:flex-col max-md:items-center max-md:gap-10">
+        <div className="flex flex-col gap-5 items-center w-1/3 max-md:w-3/4">
           <h1 className="text-2xl font-semibold">Vamos fazer nosso pedido!?</h1>
           <p>
             Vamos escolher nossos pedidos, encher o carrinho para finalizar o
@@ -106,7 +106,7 @@ export function NewOrder() {
             Selecionar Produto
           </button>
         </div>
-        <div className="w-1/3 flex flex-col gap-5">
+        <div className="w-1/3 flex flex-col gap-5 max-md:w-3/4">
           <div className="bg-base-300 flex gap-2 items-center justify-center">
             <img className="w-4 h-4" src={Cart} />
             <p className="text-md font-semibold">Carrinho</p>
