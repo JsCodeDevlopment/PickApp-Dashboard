@@ -102,6 +102,9 @@ export function NewOrder() {
 
   const handleDelete = (id: string) => {
     setOrders(orders.filter((order) => order.id !== id));
+    const savedOrders = localStorage.getItem("order") as string;
+    const parsedOrders = JSON.parse(savedOrders) as Order[]
+    localStorage.setItem("order", JSON.stringify(parsedOrders.filter((order) => order.id !== id)))
   };
 
   return (
