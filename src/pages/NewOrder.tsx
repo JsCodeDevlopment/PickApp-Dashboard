@@ -70,9 +70,12 @@ export function NewOrder() {
         quantity: quantity,
       };
 
-      setOrders((prevOrders) => [...prevOrders, newOrder]);
+      setOrders((prevOrders) => {
+        const updatedOrders = [...prevOrders, newOrder];
+        localStorage.setItem("order", JSON.stringify(updatedOrders));
+        return updatedOrders;
+      });
     }
-    localStorage.setItem("order", JSON.stringify(orders));
   }
   
   useEffect(() => {
