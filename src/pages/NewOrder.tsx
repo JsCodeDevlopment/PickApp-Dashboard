@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { ISingleProduct } from "../interfaces/IOrders";
 import { baseURL } from "../servises/BackEndBaseURL";
 import { useChangeOrderStatus } from "../servises/api/OrdersRequest";
+import { toast } from "react-toastify";
 
 export type Order = {
   id: string;
@@ -71,23 +72,36 @@ export function NewOrder() {
 
       setOrders((prevOrders) => [...prevOrders, newOrder]);
     }
+    localStorage.setItem("order", JSON.stringify(orders));
   }
+  
+  useEffect(() => {
+    const savedOrders = localStorage.getItem("order") as string;
+    const parsedOrders = JSON.parse(savedOrders);
+    if (parsedOrders) {
+      setOrders(parsedOrders);
+    }
+  }, []);
 
   const formattedOrders = orders.map((order) => ({
     product: order.id,
     quantity: order.quantity,
   }));
 
-  const handleFinishOrder = async (
-    table: string,
-    products: { product: string; quantity: number }[]
-  ) => {
+  const handleFinishOrder = async ( table: string, products: { product: string; quantity: number }[]) => {
+    if (!table) {
+      toast.error("Nenhuma mesa selecionada.", {
+        autoClose: 1000 * 3,
+      });
+      return;
+    }
     await CreateOrder(table, products);
     setOrders([]);
+    localStorage.removeItem("order");
   };
 
   const handleDelete = (id: string) => {
-    setOrders(orders.filter((order)=>order.id !== id))
+    setOrders(orders.filter((order) => order.id !== id));
   };
 
   return (
@@ -145,7 +159,7 @@ export function NewOrder() {
                       </div>
                     </div>
                     <div
-                      onClick={()=>handleDelete(order.id)}
+                      onClick={() => handleDelete(order.id)}
                       className="flex items-center justify-center cursor-pointer">
                       <img className="w-5 h-5" src={Trash} alt="" />
                     </div>
