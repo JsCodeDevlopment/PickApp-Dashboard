@@ -68,13 +68,18 @@ export function NewOrder() {
         price: newSelectedOrder.price,
         icon: newSelectedOrder.imagePath,
         quantity: quantity,
-      };
+      }
 
       setOrders((prevOrders) => {
         const updatedOrders = [...prevOrders, newOrder];
         localStorage.setItem("order", JSON.stringify(updatedOrders));
         return updatedOrders;
       });
+    } else {
+      toast.error("Nenhum item selecionado.", {
+        autoClose: 1000 * 3,
+      });
+      return;
     }
   }
   
