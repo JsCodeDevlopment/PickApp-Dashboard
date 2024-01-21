@@ -7,7 +7,7 @@ export function NewItem() {
     <div className="bg-base-100 w-full h-screen overflow-y-scroll overflow-x-hidden scrollbar-thin scrollbar-thumb-neutral scrollbar-track-base-100">
       <Header />
       <div className="flex w-full p-10 justify-around max-md:flex-col max-md:items-center max-md:gap-10">
-        <div className="flex flex-col gap-5 items-center w-1/2 max-md:w-3/4">
+        <div className="flex flex-col gap-5 items-center w-1/2 max-md:w-full">
           <p>Here i´ll create categories & items</p>
           <p>criar categoria</p>
           <p>icone</p>
@@ -20,13 +20,13 @@ export function NewItem() {
           <p>categoria</p>
           <p>ingredientes</p>
         </div>
-        <div className="w-1/2 flex flex-col gap-5 max-md:w-3/4">
-          <div className="flex flex-col w-full h-ful gap-2 shadow-md rounded-md">
-            <div className="flex gap-2 items-center bg-neutral justify-center rounded-md">
+        <div className="w-1/2 flex flex-col gap-5 max-md:w-full">
+          <div className="flex flex-col w-full h-ful gap-2 shadow-lg rounded-md">
+            <div className="flex flex-wrap p-1 gap-2 items-center bg-neutral justify-center rounded-md">
               <img className="w-6 h-6" src={Burguer} />
-              <p className="text-xl text-neutral-content font-semibold">Produtos</p>
+              <p className="text-xl text-neutral-content font-semibold">Ultimos adicionados</p>
             </div>
-            <div className="flex bg-base-200 h-auto gap-2 p-1 max-lg:flex-wrap max-md:flex-nowrap max-sm:flex-wrap">
+            <div className="flex bg-base-200 h-auto gap-2 p-1 rounded-md max-lg:flex-wrap max-md:flex-nowrap max-sm:flex-wrap">
               <img className="w-1/3 object-cover rounded-md max-lg:w-full max-md:w-1/3 max-sm:w-full" src={icon} alt="" />
               <div className="flex flex-col gap-2">
                 <div className="flex flex-col">
