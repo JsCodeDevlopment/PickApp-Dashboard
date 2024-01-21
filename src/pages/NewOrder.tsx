@@ -125,6 +125,8 @@ export function NewOrder() {
             Vamos escolher nossos pedidos, encher o carrinho para finalizar o
             pedido.
           </p>
+          <div className="flex flex-col w-full items-center justify-center gap-2 p-2 rounded-md bg-base-300 shadow-lg">
+          <h1 className="text-lg font-semibold">Escolher Produto</h1>
           <Select
             title="Produto"
             options={products}
@@ -135,14 +137,15 @@ export function NewOrder() {
             className="btn btn-block btn-primary text-danger">
             Selecionar Produto
           </button>
+          </div>
         </div>
         <div className="w-1/3 flex flex-col gap-5 max-md:w-3/4">
-          <div className="bg-base-300 flex gap-2 items-center justify-center">
+          <div className="bg-neutral flex gap-2 rounded-md items-center justify-center">
             <img className="w-6 h-6" src={Cart} />
-            <p className="text-xl font-semibold">Carrinho</p>
+            <p className="text-xl text-neutral-content font-semibold">Carrinho</p>
           </div>
           {orders.length <= 0 ? (
-            <div className="flex w-full flex-col p-2 items-center justify-center rounded-md bg-base-200">
+            <div className="flex w-full flex-col p-2 items-center justify-center rounded-md shadow-md bg-base-300">
               <img className="w-56 rounded-md" src={EmptyCart} alt="" />
               <p className="text-xl font-semibold">Your cart is empty!</p>
             </div>
@@ -152,10 +155,10 @@ export function NewOrder() {
                 orders.map((order) => (
                   <div
                     key={order.id}
-                    className="flex w-full h-20 p-2 gap-5 items-center justify-between rounded-md bg-base-200">
-                    <div className="flex gap-5">
+                    className="flex w-full p-2 gap-5 items-center justify-between rounded-md bg-base-300 shadow-md max-sm:flex-col">
+                    <div className="flex gap-5 max-sm:flex-wrap max-sm:w-full max-sm:items-center max-sm:flex-col max-sm:gap-2">
                       <img
-                        className="w-20 h-16 rounded-md"
+                        className="w-20 h-16 rounded-md object-cover max-sm:w-full max-sm:h-36"
                         src={`${baseURL}/uploads/${order.icon}`}
                         alt=""/>
                       <p className="text-sm font-light">x{order.quantity}</p>
@@ -176,9 +179,9 @@ export function NewOrder() {
                     </div>
                   </div>
                 ))}
-              <div className="flex w-full bg-base-300 px-2 justify-between">
-                <p className="text-md font-semibold">Total</p>
-                <p className="text-md font-semibold">
+              <div className="flex w-full bg-neutral rounded-md px-2 justify-between">
+                <p className="text-md text-neutral-content font-semibold">Total</p>
+                <p className="text-md text-neutral-content font-semibold">
                   {orders
                     .reduce((acc, order) => acc + order.price * order.quantity, 0)
                     .toLocaleString("pt-BR", {

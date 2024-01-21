@@ -21,7 +21,7 @@ export function QuantityButton({ onChange }: QuantityButtonProps) {
         <button
           type="button"
           onClick={handleDecrement}
-          className="bg-base-300 rounded-s-lg p-3 h-11 focus:ring-base-content focus:ring-1 focus:outline-none">
+          className="bg-neutral rounded-s-lg p-3 h-11 focus:ring-base-content focus:ring-1 focus:outline-none">
           <svg
             className="w-3 h-3 text-gray-900 dark:text-white"
             aria-hidden="true"
@@ -40,14 +40,14 @@ export function QuantityButton({ onChange }: QuantityButtonProps) {
           type="number"
           value={count}
           onChange={(ev) => setCount(parseInt(ev.target.value, 10) || 0)}
-          className="bg-base-300 border-x-0 h-11 text-center text-sm focus:ring-base-content focus:border-base-content block w-full py-2.5"
+          className="bg-neutral text-neutral-content border-x-0 h-11 text-center text-sm focus:ring-base-content focus:border-base-content block w-full py-2.5"
           placeholder="0"
           required/>
         <button
           type="button"
           onClick={handleIncrement}
           data-input-counter-increment="quantity-input"
-          className="bg-base-300 rounded-e-lg p-3 h-11 focus:ring-base-content focus:ring-1 focus:outline-none">
+          className="bg-neutral rounded-e-lg p-3 h-11 focus:ring-base-content focus:ring-1 focus:outline-none">
           <svg
             className="w-3 h-3 text-gray-900 dark:text-white"
             aria-hidden="true"
