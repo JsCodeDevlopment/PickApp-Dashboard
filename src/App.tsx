@@ -10,6 +10,7 @@ import { Register } from "./pages/Register";
 import { RecoverPassword } from "./pages/RecoverPassword";
 import { LoginProvider } from "./context/LoginContext";
 import { NewOrder } from "./pages/NewOrder";
+import { NewItem } from "./pages/NewItems";
 
 export function App() {
   const { currentTheme } = useTheme();
@@ -33,6 +34,7 @@ export function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/dashboard/theme" element={<Theme />} />
             <Route path="/dashboard/neworder" element={<NewOrder />} />
+            <Route path="/dashboard/newitem" element={<NewItem />} />
           </Routes>
         </main>
       </LoginProvider>

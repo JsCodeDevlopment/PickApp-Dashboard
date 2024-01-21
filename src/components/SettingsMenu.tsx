@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import ThemeIcon from "../assets/images/theme.png";
+import Burguer from "../assets/images/Hamburger.png";
 import UserIcon from "../assets/images/User.png";
 import Cart from "../assets/images/CartLight.png";
 import LogOutIcon from "../assets/images/LogOut.png";
@@ -32,6 +33,9 @@ export function SettingsMenu() {
         </li>
         <li>
           <Link to={"/dashboard/theme"} className="text-neutral-content"><img className="w-4 h-4" src={ThemeIcon}/> Themes</Link>
+        </li>
+        <li>
+          <Link to={"/dashboard/newitem"} className="text-neutral-content"><img className="w-4 h-4" src={Burguer}/>Create Items</Link>
         </li>
         <li>
           <Link to={"/dashboard/neworder"} className="text-neutral-content"><img className="w-4 h-4" src={Cart}/>Create Order</Link>
