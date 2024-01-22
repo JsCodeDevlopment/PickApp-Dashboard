@@ -1,8 +1,17 @@
 import { Header } from "../components/Header";
 import Burguer from "../assets/images/Hamburger.png";
 import icon from "../assets/images/AModaDaCasa.jpg";
-
+type ICategories = {
+  id: string;
+  name: string;
+  icon: string;
+}[];
 export function NewItem() {
+  const categories: ICategories = [
+    { id: "1", name: "Hamburguer", icon: "🍔" },
+    { id: "2", name: "Pizzas", icon: "🍕" },
+    { id: "3", name: "Refrigerantes", icon: "🥤" },
+  ];
   return (
     <div className="bg-base-100 w-full h-screen overflow-y-scroll overflow-x-hidden scrollbar-thin scrollbar-thumb-neutral scrollbar-track-base-100">
       <Header />
@@ -15,34 +24,120 @@ export function NewItem() {
           <div className="flex flex-col items-center justify-center gap-2 p-2 rounded-md bg-base-300 shadow-lg">
             <h1 className="text-lg font-semibold">Criar Categoria</h1>
             <div className="flex w-full items-center justify-center max-lg:flex-wrap max-md:flex-nowrap max-sm:flex-wrap">
-            <label className="form-control w-full max-w-xs">
-              <div className="label">
-                <span className="label-text">Ícone da categoria</span>
-              </div>
-              <input
-                type="text"
-                placeholder="Ex.: 🥤"
-                className="input input-bordered w-2/3 max-w-xs max-lg:w-full max-md:w-2/3 max-sm:w-full"/>
-            </label>
-            <label className="form-control w-full max-w-xs">
-              <div className="label">
-                <span className="label-text">Name da categoria</span>
-              </div>
-              <input
-                type="text"
-                placeholder="Ex.: Refrigerantes"
-                className="input input-bordered w-full max-w-xs"/>
-            </label>
+              <label className="form-control w-full max-w-xs">
+                <div className="label">
+                  <span className="label-text">Ícone da categoria</span>
+                </div>
+                <input
+                  type="text"
+                  placeholder="Ex.: 🥤"
+                  className="input input-bordered w-2/3 max-w-xs max-lg:w-full max-md:w-2/3 max-sm:w-full"
+                />
+              </label>
+              <label className="form-control w-full max-w-xs">
+                <div className="label">
+                  <span className="label-text">Name da categoria</span>
+                </div>
+                <input
+                  type="text"
+                  placeholder="Ex.: Refrigerantes"
+                  className="input input-bordered w-full max-w-xs"
+                />
+              </label>
             </div>
             <button className="btn w-full btn-neutral">Criar</button>
           </div>
-          <p>criar produto</p>
-          <p>nome</p>
-          <p>descrição</p>
-          <p>imagem</p>
-          <p>preço</p>
-          <p>categoria</p>
+          <div className="flex flex-col items-center justify-center gap-2 p-2 rounded-md bg-base-300 shadow-lg">
+            <h1 className="text-lg font-semibold">Criar Produto</h1>
+            <div className="flex w-full flex-col items-center justify-center max-lg:flex-wrap max-md:flex-nowrap max-sm:flex-wrap">
+              <div className="flex w-full gap-2 items-center justify-center max-lg:flex-wrap max-md:flex-nowrap max-sm:flex-wrap">
+                <label className="form-control w-full max-w-xs">
+                  <div className="label">
+                    <span className="label-text">Nome</span>
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="Ex.: Pizza de Calabresa"
+                    className="input input-bordered w-full max-w-xs"
+                  />
+                </label>
+                <label className="form-control w-full max-w-xs">
+                  <div className="label">
+                    <span className="label-text">Preço</span>
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="Ex.: 30,50"
+                    className="input input-bordered w-full max-w-xs"
+                  />
+                </label>
+              </div>
+              <label className="form-control w-full max-w-xs">
+                <div className="label">
+                  <span className="label-text">Descrição</span>
+                </div>
+                <input
+                  type="text"
+                  placeholder="Ex.: A melhor pizza de calabresa que você vai provar."
+                  className="input input-bordered w-full max-w-xs"
+                />
+              </label>
+              <label className="form-control w-full max-w-xs">
+                <div className="label">
+                  <span className="label-text">Imagem do produto</span>
+                </div>
+                <input
+                  type="file"
+                  className="file-input file-input-xs file-input-bordered w-full max-w-xs"
+                  required
+                />
+              </label>
+              <label className="form-control w-full max-w-xs">
+                <div className="label">
+                  <span className="label-text">Categoria</span>
+                </div>
+                <select className="select select-bordered w-full max-w-xs">
+                  <option disabled selected>
+                    Escolha uma categoria
+                  </option>
+                  {categories &&
+                    categories.map((category) => (
+                      <option key={category.id}>
+                        {category.icon}
+                        {category.name}
+                      </option>
+                    ))}
+                </select>
+              </label>
+              <h1 className="text-base font-semibold">Ingredientes</h1>
+              <div className="flex w-full gap-2 items-center justify-center max-lg:flex-wrap max-md:flex-nowrap max-sm:flex-wrap">
+                <label className="form-control w-full max-w-xs">
+                  <div className="label">
+                    <span className="label-text">Ícone</span>
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="Ex.: 🧀"
+                    className="input input-bordered w-full max-w-xs"
+                  />
+                </label>
+                <label className="form-control w-full max-w-xs">
+                  <div className="label">
+                    <span className="label-text">Nome</span>
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="Ex.: Queijo"
+                    className="input input-bordered w-full max-w-xs"
+                  />
+                </label>
+              </div>
+            </div>
+            <button className="btn w-full btn-neutral">Criar</button>
+          </div>
           <p>ingredientes</p>
+          <p>icone</p>
+          <p>nome</p>
         </div>
         <div className="w-1/2 flex flex-col gap-5 max-md:w-full">
           <div className="flex flex-col w-full h-ful gap-2 shadow-lg rounded-md">
