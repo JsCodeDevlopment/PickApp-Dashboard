@@ -44,7 +44,6 @@ export function Register() {
 
   const handleSubmit = async () => {
     setIsLoading(true)
-    console.log("resposta do newUser →", newUser);
     
     await CreateUser(newUser);
     setIsLoading(false)

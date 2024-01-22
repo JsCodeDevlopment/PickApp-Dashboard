@@ -1,17 +1,64 @@
 import { Header } from "../components/Header";
 import Burguer from "../assets/images/Hamburger.png";
 import icon from "../assets/images/AModaDaCasa.jpg";
+import Plus from "../assets/images/PlusLight.png";
+import { useState } from "react";
+
 type ICategories = {
   id: string;
   name: string;
   icon: string;
 }[];
+
 export function NewItem() {
+  const [productName, setProductName] = useState("");
+  const [productPrice, setProductPrice] = useState("");
+  const [productDescription, setProductDescription] = useState("");
+  const [productImage, setProductImage] = useState<File>();
+  const [productCategory, setProductCategory] = useState("");
+  const [ingredients, setIngredients] = useState([{ icon: "", name: "" }]);
+
   const categories: ICategories = [
     { id: "1", name: "Hamburguer", icon: "🍔" },
     { id: "2", name: "Pizzas", icon: "🍕" },
     { id: "3", name: "Refrigerantes", icon: "🥤" },
   ];
+
+  const handleImageInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const { type } = event.target;
+
+    if (type === "file" && event.target instanceof HTMLInputElement) {
+      const file = event.target.files?.[0];
+
+      if (file) {
+        setProductImage(file);
+      }
+    }
+  };
+
+  const handleIngredientChange = (index, field, value) => {
+    const updatedIngredients = [...ingredients];
+    updatedIngredients[index][field] = value;
+    setIngredients(updatedIngredients);
+  };
+
+  const handleAddIngredient = () => {
+    setIngredients([...ingredients, { icon: "", name: "" }]);
+  };
+
+  const handleSubmit = () => {
+    console.log({
+      productName,
+      productPrice,
+      productDescription,
+      productImage,
+      productCategory,
+      ingredients,
+    });
+  };
+
   return (
     <div className="bg-base-100 w-full h-screen overflow-y-scroll overflow-x-hidden scrollbar-thin scrollbar-thumb-neutral scrollbar-track-base-100">
       <Header />
@@ -21,6 +68,7 @@ export function NewItem() {
             Hora de criar nossos produtos!
           </h1>
           <p>Aqui vamos criar categorias e produtos para nosso negócio.</p>
+
           <div className="flex flex-col items-center justify-center gap-2 p-2 rounded-md bg-base-300 shadow-lg">
             <h1 className="text-lg font-semibold">Criar Categoria</h1>
             <div className="flex w-full items-center justify-center max-lg:flex-wrap max-md:flex-nowrap max-sm:flex-wrap">
@@ -47,6 +95,7 @@ export function NewItem() {
             </div>
             <button className="btn w-full btn-neutral">Criar</button>
           </div>
+
           <div className="flex flex-col items-center justify-center gap-2 p-2 rounded-md bg-base-300 shadow-lg">
             <h1 className="text-lg font-semibold">Criar Produto</h1>
             <div className="flex w-full flex-col items-center justify-center max-lg:flex-wrap max-md:flex-nowrap max-sm:flex-wrap">
@@ -57,6 +106,8 @@ export function NewItem() {
                   </div>
                   <input
                     type="text"
+                    value={productName}
+                    onChange={(e) => setProductName(e.target.value)}
                     placeholder="Ex.: Pizza de Calabresa"
                     className="input input-bordered w-full max-w-xs"
                   />
@@ -67,6 +118,8 @@ export function NewItem() {
                   </div>
                   <input
                     type="text"
+                    value={productPrice}
+                    onChange={(e) => setProductPrice(e.target.value)}
                     placeholder="Ex.: 30,50"
                     className="input input-bordered w-full max-w-xs"
                   />
@@ -78,6 +131,8 @@ export function NewItem() {
                 </div>
                 <input
                   type="text"
+                  value={productDescription}
+                  onChange={(e) => setProductDescription(e.target.value)}
                   placeholder="Ex.: A melhor pizza de calabresa que você vai provar."
                   className="input input-bordered w-full max-w-xs"
                 />
@@ -88,6 +143,7 @@ export function NewItem() {
                 </div>
                 <input
                   type="file"
+                  onChange={handleImageInputChange}
                   className="file-input file-input-xs file-input-bordered w-full max-w-xs"
                   required
                 />
@@ -96,7 +152,11 @@ export function NewItem() {
                 <div className="label">
                   <span className="label-text">Categoria</span>
                 </div>
-                <select className="select select-bordered w-full max-w-xs">
+                <select
+                  value={productCategory}
+                  onChange={(e) => setProductCategory(e.target.value)}
+                  className="select select-bordered w-full max-w-xs"
+                >
                   <option disabled selected>
                     Escolha uma categoria
                   </option>
@@ -110,34 +170,66 @@ export function NewItem() {
                 </select>
               </label>
               <h1 className="text-base font-semibold">Ingredientes</h1>
-              <div className="flex w-full gap-2 items-center justify-center max-lg:flex-wrap max-md:flex-nowrap max-sm:flex-wrap">
-                <label className="form-control w-full max-w-xs">
-                  <div className="label">
-                    <span className="label-text">Ícone</span>
-                  </div>
-                  <input
-                    type="text"
-                    placeholder="Ex.: 🧀"
-                    className="input input-bordered w-full max-w-xs"
-                  />
-                </label>
-                <label className="form-control w-full max-w-xs">
-                  <div className="label">
-                    <span className="label-text">Nome</span>
-                  </div>
-                  <input
-                    type="text"
-                    placeholder="Ex.: Queijo"
-                    className="input input-bordered w-full max-w-xs"
-                  />
-                </label>
+              <div className="flex flex-col gap-3">
+                <div className="flex flex-col w-full gap-2 items-center justify-center max-lg:flex-wrap max-md:flex-nowrap max-sm:flex-wrap">
+                  {ingredients.map((ingredient, index) => (
+                    <div
+                      className="flex w-full gap-2 items-center justify-center max-lg:flex-wrap max-md:flex-nowrap max-sm:flex-wrap"
+                      key={index}
+                    >
+                      <label className="form-control w-full max-w-xs">
+                        <div className="label">
+                          <span className="label-text">Ícone</span>
+                        </div>
+                        <input
+                          type="text"
+                          placeholder="Ex.: 🧀"
+                          value={ingredient.icon}
+                          onChange={(e) =>
+                            handleIngredientChange(
+                              index,
+                              "icon",
+                              e.target.value
+                            )
+                          }
+                          className="input input-bordered w-full max-w-xs"
+                        />
+                      </label>
+                      <label className="form-control w-full max-w-xs">
+                        <div className="label">
+                          <span className="label-text">Nome</span>
+                        </div>
+                        <input
+                          type="text"
+                          placeholder="Ex.: Queijo"
+                          value={ingredient.name}
+                          onChange={(e) =>
+                            handleIngredientChange(
+                              index,
+                              "name",
+                              e.target.value
+                            )
+                          }
+                          className="input input-bordered w-full max-w-xs"
+                        />
+                      </label>
+                    </div>
+                  ))}
+                </div>
+
+                <button
+                  onClick={handleAddIngredient}
+                  className="btn btn-outline btn-neutral"
+                >
+                  Mais Ingredientes
+                  <img src={Plus} alt="" />
+                </button>
               </div>
             </div>
-            <button className="btn w-full btn-neutral">Criar</button>
+            <button onClick={handleSubmit} className="btn w-full btn-neutral">
+              Criar
+            </button>
           </div>
-          <p>ingredientes</p>
-          <p>icone</p>
-          <p>nome</p>
         </div>
         <div className="w-1/2 flex flex-col gap-5 max-md:w-full">
           <div className="flex flex-col w-full h-ful gap-2 shadow-lg rounded-md">
