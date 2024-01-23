@@ -16,7 +16,7 @@ export function NewItem() {
   const [productDescription, setProductDescription] = useState("");
   const [productImage, setProductImage] = useState<File>();
   const [productCategory, setProductCategory] = useState("");
-  const [ingredients, setIngredients] = useState([{ icon: "", name: "" }]);
+  const [ingredients, setIngredients] = useState<{ icon: string; name: string }[]>([{ icon: "", name: "" }]);
 
   const categories: ICategories = [
     { id: "1", name: "Hamburguer", icon: "🍔" },
@@ -24,9 +24,7 @@ export function NewItem() {
     { id: "3", name: "Refrigerantes", icon: "🥤" },
   ];
 
-  const handleImageInputChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleImageInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { type } = event.target;
 
     if (type === "file" && event.target instanceof HTMLInputElement) {
@@ -38,9 +36,9 @@ export function NewItem() {
     }
   };
 
-  const handleIngredientChange = (index, field, value) => {
+  const handleIngredientChange = (index: number, field: string, value: string) => {
     const updatedIngredients = [...ingredients];
-    updatedIngredients[index][field] = value;
+    (updatedIngredients[index]as any)[field] = value
     setIngredients(updatedIngredients);
   };
 
