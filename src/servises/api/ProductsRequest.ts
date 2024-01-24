@@ -16,11 +16,11 @@ export function useProduct() {
       const formData = new FormData()
 
       formData.append("name", name);
-      formData.append("email", description);
-      formData.append("password", image);
-      formData.append("rule", price);
-      formData.append("image", category);
-      formData.append("ingredients", ingredients);
+      formData.append("description", description);
+      formData.append("image", image);
+      formData.append("price", price);
+      formData.append("category", category);
+      formData.append("ingredients", JSON.stringify(ingredients));
 
       const response = await fetch(`${baseURL}/products`, {
         method: "POST",

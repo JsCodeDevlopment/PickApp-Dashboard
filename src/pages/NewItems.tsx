@@ -13,7 +13,7 @@ type ICategories = {
 
 export function NewItem() {
   const [productName, setProductName] = useState("");
-  const [productPrice, setProductPrice] = useState(0);
+  const [productPrice, setProductPrice] = useState<number>(0);
   const [productDescription, setProductDescription] = useState("");
   const [productImage, setProductImage] = useState<File>();
   const [productCategory, setProductCategory] = useState("");
@@ -50,23 +50,7 @@ export function NewItem() {
   };
 
   const handleSubmit = async () => {
-    const newProduct: IProductProps = {
-      name: productName,
-      description: productDescription,
-      image: productImage,
-      price: productPrice,
-      category: productCategory,
-      ingredients: ingredients,
-    };
-    await CreateProduct(newProduct)
-    console.log({
-      productName,
-      productPrice,
-      productDescription,
-      productImage,
-      productCategory,
-      ingredients,
-    });
+    await CreateProduct({name: productName, description: productDescription, image: productImage, price: productPrice, category: productCategory, ingredients: ingredients } as IProductProps)
   };
 
   return (
