@@ -3,6 +3,7 @@ import Burguer from "../assets/images/Hamburger.png";
 import icon from "../assets/images/AModaDaCasa.jpg";
 import Plus from "../assets/images/PlusLight.png";
 import { useState } from "react";
+import { IProductProps, useProduct } from "../servises/api/ProductsRequest";
 
 type ICategories = {
   id: string;
@@ -12,16 +13,18 @@ type ICategories = {
 
 export function NewItem() {
   const [productName, setProductName] = useState("");
-  const [productPrice, setProductPrice] = useState("");
+  const [productPrice, setProductPrice] = useState(0);
   const [productDescription, setProductDescription] = useState("");
   const [productImage, setProductImage] = useState<File>();
   const [productCategory, setProductCategory] = useState("");
   const [ingredients, setIngredients] = useState<{ icon: string; name: string }[]>([{ icon: "", name: "" }]);
 
+  const { CreateProduct } = useProduct()
+
   const categories: ICategories = [
-    { id: "1", name: "Hamburguer", icon: "🍔" },
-    { id: "2", name: "Pizzas", icon: "🍕" },
-    { id: "3", name: "Refrigerantes", icon: "🥤" },
+    { id: "658f9cf3dcbab755ddfa518d", name: "Hamburguer", icon: "🍔" },
+    { id: "658f9d07dcbab755ddfa5190", name: "Pizzas", icon: "🍕" },
+    { id: "658f9d27dcbab755ddfa5193", name: "Refrigerantes", icon: "🥤" },
   ];
 
   const handleImageInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,7 +49,16 @@ export function NewItem() {
     setIngredients([...ingredients, { icon: "", name: "" }]);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    const newProduct: IProductProps = {
+      name: productName,
+      description: productDescription,
+      image: productImage,
+      price: productPrice,
+      category: productCategory,
+      ingredients: ingredients,
+    };
+    await CreateProduct(newProduct)
     console.log({
       productName,
       productPrice,
@@ -160,7 +172,7 @@ export function NewItem() {
                   </option>
                   {categories &&
                     categories.map((category) => (
-                      <option key={category.id}>
+                      <option key={category.id} value={category.id}>
                         {category.icon}
                         {category.name}
                       </option>
