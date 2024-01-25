@@ -3,7 +3,8 @@ import Burguer from "../assets/images/Hamburger.png";
 import icon from "../assets/images/AModaDaCasa.jpg";
 import Plus from "../assets/images/PlusLight.png";
 import { useState } from "react";
-import { IProductProps, useProduct } from "../servises/api/ProductsRequest";
+import { useProduct } from "../servises/api/ProductsRequest";
+import { toast } from "react-toastify";
 
 type ICategories = {
   id: string;
@@ -12,14 +13,14 @@ type ICategories = {
 }[];
 
 export function NewItem() {
-  const [productName, setProductName] = useState("");
-  const [productPrice, setProductPrice] = useState<number>(0);
-  const [productDescription, setProductDescription] = useState("");
+  const [productName, setProductName] = useState<string>();
+  const [productPrice, setProductPrice] = useState<number>();
+  const [productDescription, setProductDescription] = useState<string>();
   const [productImage, setProductImage] = useState<File>();
-  const [productCategory, setProductCategory] = useState("");
+  const [productCategory, setProductCategory] = useState<string>();
   const [ingredients, setIngredients] = useState<{ icon: string; name: string }[]>([{ icon: "", name: "" }]);
 
-  const { CreateProduct } = useProduct()
+  const { CreateProduct } = useProduct();
 
   const categories: ICategories = [
     { id: "658f9cf3dcbab755ddfa518d", name: "Hamburguer", icon: "🍔" },
@@ -27,7 +28,7 @@ export function NewItem() {
     { id: "658f9d27dcbab755ddfa5193", name: "Refrigerantes", icon: "🥤" },
   ];
 
-  const handleImageInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageInputChange = ( event: React.ChangeEvent<HTMLInputElement> ) => {
     const { type } = event.target;
 
     if (type === "file" && event.target instanceof HTMLInputElement) {
@@ -39,9 +40,9 @@ export function NewItem() {
     }
   };
 
-  const handleIngredientChange = (index: number, field: string, value: string) => {
+  const handleIngredientChange = ( index: number, field: string, value: string ) => {
     const updatedIngredients = [...ingredients];
-    (updatedIngredients[index]as any)[field] = value
+    (updatedIngredients[index] as any)[field] = value;
     setIngredients(updatedIngredients);
   };
 
@@ -50,7 +51,27 @@ export function NewItem() {
   };
 
   const handleSubmit = async () => {
-    await CreateProduct({name: productName, description: productDescription, image: productImage, price: productPrice, category: productCategory, ingredients: ingredients } as IProductProps)
+    if ( !productName || !productDescription || !productImage || !productPrice || !productCategory || !ingredients ) {
+      toast.error(`Certifique-se de todos os campos estarem preenchidos.`, {
+        autoClose: 1000 * 3,
+      });
+      return;
+    }
+    await CreateProduct({
+      name: productName,
+      description: productDescription,
+      image: productImage,
+      price: productPrice,
+      category: productCategory,
+      ingredients: ingredients,
+    } as any);
+
+    setProductName("");
+    setProductDescription("");
+    setProductImage(undefined);
+    setProductPrice(0);
+    setProductCategory("");
+    setIngredients([{ icon: "", name: "" }]);
   };
 
   return (
@@ -62,7 +83,6 @@ export function NewItem() {
             Hora de criar nossos produtos!
           </h1>
           <p>Aqui vamos criar categorias e produtos para nosso negócio.</p>
-
           <div className="flex flex-col items-center justify-center gap-2 p-2 rounded-md bg-base-300 shadow-lg">
             <h1 className="text-lg font-semibold">Criar Categoria</h1>
             <div className="flex w-full items-center justify-center max-lg:flex-wrap max-md:flex-nowrap max-sm:flex-wrap">
@@ -73,8 +93,7 @@ export function NewItem() {
                 <input
                   type="text"
                   placeholder="Ex.: 🥤"
-                  className="input input-bordered w-2/3 max-w-xs max-lg:w-full max-md:w-2/3 max-sm:w-full"
-                />
+                  className="input input-bordered w-2/3 max-w-xs max-lg:w-full max-md:w-2/3 max-sm:w-full"/>
               </label>
               <label className="form-control w-full max-w-xs">
                 <div className="label">
@@ -83,13 +102,11 @@ export function NewItem() {
                 <input
                   type="text"
                   placeholder="Ex.: Refrigerantes"
-                  className="input input-bordered w-full max-w-xs"
-                />
+                  className="input input-bordered w-full max-w-xs"/>
               </label>
             </div>
             <button className="btn w-full btn-neutral">Criar</button>
           </div>
-
           <div className="flex flex-col items-center justify-center gap-2 p-2 rounded-md bg-base-300 shadow-lg">
             <h1 className="text-lg font-semibold">Criar Produto</h1>
             <div className="flex w-full flex-col items-center justify-center max-lg:flex-wrap max-md:flex-nowrap max-sm:flex-wrap">
@@ -103,20 +120,18 @@ export function NewItem() {
                     value={productName}
                     onChange={(e) => setProductName(e.target.value)}
                     placeholder="Ex.: Pizza de Calabresa"
-                    className="input input-bordered w-full max-w-xs"
-                  />
+                    className="input input-bordered w-full max-w-xs"/>
                 </label>
                 <label className="form-control w-full max-w-xs">
                   <div className="label">
                     <span className="label-text">Preço</span>
                   </div>
                   <input
-                    type="text"
+                    type="number"
                     value={productPrice}
-                    onChange={(e) => setProductPrice(e.target.value)}
+                    onChange={(e) => setProductPrice(parseFloat(e.target.value))}
                     placeholder="Ex.: 30,50"
-                    className="input input-bordered w-full max-w-xs"
-                  />
+                    className="input input-bordered w-full max-w-xs"/>
                 </label>
               </div>
               <label className="form-control w-full max-w-xs">
@@ -128,8 +143,7 @@ export function NewItem() {
                   value={productDescription}
                   onChange={(e) => setProductDescription(e.target.value)}
                   placeholder="Ex.: A melhor pizza de calabresa que você vai provar."
-                  className="input input-bordered w-full max-w-xs"
-                />
+                  className="input input-bordered w-full max-w-xs"/>
               </label>
               <label className="form-control w-full max-w-xs">
                 <div className="label">
@@ -139,8 +153,7 @@ export function NewItem() {
                   type="file"
                   onChange={handleImageInputChange}
                   className="file-input file-input-xs file-input-bordered w-full max-w-xs"
-                  required
-                />
+                  required/>
               </label>
               <label className="form-control w-full max-w-xs">
                 <div className="label">
@@ -149,8 +162,7 @@ export function NewItem() {
                 <select
                   value={productCategory}
                   onChange={(e) => setProductCategory(e.target.value)}
-                  className="select select-bordered w-full max-w-xs"
-                >
+                  className="select select-bordered w-full max-w-xs">
                   <option disabled selected>
                     Escolha uma categoria
                   </option>
@@ -169,8 +181,7 @@ export function NewItem() {
                   {ingredients.map((ingredient, index) => (
                     <div
                       className="flex w-full gap-2 items-center justify-center max-lg:flex-wrap max-md:flex-nowrap max-sm:flex-wrap"
-                      key={index}
-                    >
+                      key={index}>
                       <label className="form-control w-full max-w-xs">
                         <div className="label">
                           <span className="label-text">Ícone</span>
@@ -179,15 +190,8 @@ export function NewItem() {
                           type="text"
                           placeholder="Ex.: 🧀"
                           value={ingredient.icon}
-                          onChange={(e) =>
-                            handleIngredientChange(
-                              index,
-                              "icon",
-                              e.target.value
-                            )
-                          }
-                          className="input input-bordered w-full max-w-xs"
-                        />
+                          onChange={(e) => handleIngredientChange( index, "icon", e.target.value )}
+                          className="input input-bordered w-full max-w-xs"/>
                       </label>
                       <label className="form-control w-full max-w-xs">
                         <div className="label">
@@ -197,24 +201,15 @@ export function NewItem() {
                           type="text"
                           placeholder="Ex.: Queijo"
                           value={ingredient.name}
-                          onChange={(e) =>
-                            handleIngredientChange(
-                              index,
-                              "name",
-                              e.target.value
-                            )
-                          }
-                          className="input input-bordered w-full max-w-xs"
-                        />
+                          onChange={(e) => handleIngredientChange( index, "name", e.target.value )}
+                          className="input input-bordered w-full max-w-xs"/>
                       </label>
                     </div>
                   ))}
                 </div>
-
                 <button
                   onClick={handleAddIngredient}
-                  className="btn btn-outline btn-neutral"
-                >
+                  className="btn btn-outline btn-neutral">
                   Mais Ingredientes
                   <img src={Plus} alt="" />
                 </button>
@@ -233,13 +228,11 @@ export function NewItem() {
                 Ultimos adicionados
               </p>
             </div>
-
             <div className="flex bg-base-200 h-auto gap-2 p-1 rounded-md max-lg:flex-wrap max-md:flex-nowrap max-sm:flex-wrap">
               <img
                 className="w-1/3 object-cover rounded-md max-lg:w-full max-md:w-1/3 max-sm:w-full"
                 src={icon}
-                alt=""
-              />
+                alt=""/>
               <div className="flex flex-col gap-2">
                 <div className="flex flex-col">
                   <p className="text-xs font-extralight">

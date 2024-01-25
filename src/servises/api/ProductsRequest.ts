@@ -11,7 +11,8 @@ export interface IProductProps {
 }
 
 export function useProduct() {
-  const CreateProduct = async ({ name, description, image, price, category, ingredients,}: IProductProps): Promise<void> => {
+  const CreateProduct = async ({ name, description, image, price, category, ingredients }: IProductProps): Promise<void> => {
+    
     try {
       const formData = new FormData()
 
