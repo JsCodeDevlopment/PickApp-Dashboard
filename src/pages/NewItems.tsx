@@ -2,7 +2,7 @@ import { Header } from "../components/Header";
 import Burguer from "../assets/images/Hamburger.png";
 import icon from "../assets/images/AModaDaCasa.jpg";
 import Plus from "../assets/images/PlusLight.png";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { useProduct } from "../servises/api/ProductsRequest";
 import { toast } from "react-toastify";
 
@@ -50,8 +50,16 @@ export function NewItem() {
     setIngredients([...ingredients, { icon: "", name: "" }]);
   };
 
-  const handleSubmit = async () => {
-    if ( !productName || !productDescription || !productImage || !productPrice || !productCategory || !ingredients ) {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (
+      !productName ||
+      !productDescription ||
+      !productImage ||
+      !productPrice ||
+      !productCategory ||
+      !ingredients
+    ) {
       toast.error(`Certifique-se de todos os campos estarem preenchidos.`, {
         autoClose: 1000 * 3,
       });
@@ -66,6 +74,7 @@ export function NewItem() {
       ingredients: ingredients,
     } as any);
 
+    (event.target as HTMLFormElement).reset();
     setProductName("");
     setProductDescription("");
     setProductImage(undefined);
@@ -107,7 +116,10 @@ export function NewItem() {
             </div>
             <button className="btn w-full btn-neutral">Criar</button>
           </div>
-          <div className="flex flex-col items-center justify-center gap-2 p-2 rounded-md bg-base-300 shadow-lg">
+          <form
+            onSubmit={handleSubmit}
+            method="post"
+            className="flex flex-col items-center justify-center gap-2 p-2 rounded-md bg-base-300 shadow-lg">
             <h1 className="text-lg font-semibold">Criar Produto</h1>
             <div className="flex w-full flex-col items-center justify-center max-lg:flex-wrap max-md:flex-nowrap max-sm:flex-wrap">
               <div className="flex w-full gap-2 items-center justify-center max-lg:flex-wrap max-md:flex-nowrap max-sm:flex-wrap">
@@ -201,13 +213,14 @@ export function NewItem() {
                           type="text"
                           placeholder="Ex.: Queijo"
                           value={ingredient.name}
-                          onChange={(e) => handleIngredientChange( index, "name", e.target.value )}
+                          onChange={(e) => handleIngredientChange( index, "name", e.target.value)}
                           className="input input-bordered w-full max-w-xs"/>
                       </label>
                     </div>
                   ))}
                 </div>
                 <button
+                  type="button"
                   onClick={handleAddIngredient}
                   className="btn btn-outline btn-neutral">
                   Mais Ingredientes
@@ -215,10 +228,10 @@ export function NewItem() {
                 </button>
               </div>
             </div>
-            <button onClick={handleSubmit} className="btn w-full btn-neutral">
+            <button type="submit" className="btn w-full btn-neutral">
               Criar
             </button>
-          </div>
+          </form>
         </div>
         <div className="w-1/2 flex flex-col gap-5 max-md:w-full">
           <div className="flex flex-col w-full h-ful gap-2 shadow-lg rounded-md">
