@@ -65,12 +65,12 @@ export function OrderPopUp({ table, itens, products, status, id }: IOrderPopUpPr
               <p className="text-sm font-light">Status do Pedido</p>
               <p className="text-base font-semibold">{OrderStatus[status]}</p>
             </div>
-            <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-3 p-1 rounded-md bg-base-300">
               <p className="text-sm font-light">Itens</p>
               {products.map(({ product, quantity }) => (
-                <div key={product._id} className="flex w-full gap-5">
+                <div key={product._id} className="flex w-full p-1 bg-base-200 rounded-md shadow-md gap-3">
                   <img
-                    className="w-12 h-10 rounded-md"
+                    className="w-14 h-12 object-cover rounded-md"
                     src={`${import.meta.env.VITE_API_URL}/uploads/${product.imagePath}`}
                     alt=""/>
                   <p className="text-sm font-light">{quantity}x</p>
