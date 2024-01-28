@@ -36,3 +36,9 @@ export interface ISingleProduct {
   category: string;
   __v?: number;
 }
+
+export interface ISingleCategory {
+  _id: string;
+  icon: string;
+  name: string;
+}

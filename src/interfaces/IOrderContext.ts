@@ -1,4 +1,4 @@
-import { IOrder, IProduct, ISingleProduct } from "./IOrders";
+import { IOrder, ISingleProduct } from "./IOrders";
 
 export interface IOrderContext {
   orders: IOrder[];

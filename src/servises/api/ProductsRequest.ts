@@ -1,5 +1,6 @@
 import { toast } from "react-toastify";
 import { baseURL } from "../BackEndBaseURL";
+import { ISingleProduct } from "../../interfaces/IOrders";
 
 export interface IProductProps {
   name: string;
@@ -11,8 +12,7 @@ export interface IProductProps {
 }
 
 export function useProduct() {
-  const CreateProduct = async ({ name, description, image, price, category, ingredients }: IProductProps): Promise<void> => {
-    
+  const CreateProduct = async ({ name, description, image, price, category, ingredients }: IProductProps): Promise<ISingleProduct | undefined> => {
     try {
       const formData = new FormData()
 
@@ -27,11 +27,13 @@ export function useProduct() {
         method: "POST",
         body: formData,
       });
+      const data = await response.json()
 
       if (response.ok) {
         toast.success("Produto criado com sucesso!", {
           autoClose: 1000 * 3,
         });
+        return data
       } else {
         toast.error(`Erro ao criar Produto.`, {
           autoClose: 1000 * 3,

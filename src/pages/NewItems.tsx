@@ -4,7 +4,8 @@ import Plus from "../assets/images/PlusLight.png";
 import { FormEvent, useState } from "react";
 import { useProduct } from "../servises/api/ProductsRequest";
 import { toast } from "react-toastify";
-import { Product } from "../components/Product";
+import { IProductProps, Product } from "../components/Product";
+import { ISingleProduct } from "../interfaces/IOrders";
 
 type ICategories = {
   id: string;
@@ -19,6 +20,8 @@ export function NewItem() {
   const [productImage, setProductImage] = useState<File>();
   const [productCategory, setProductCategory] = useState<string>();
   const [ingredients, setIngredients] = useState<{ icon: string; name: string }[]>([{ icon: "", name: "" }]);
+  const [product, setProduct] = useState<ISingleProduct | undefined>(undefined);
+  
 
   const { CreateProduct } = useProduct();
 
@@ -65,7 +68,7 @@ export function NewItem() {
       });
       return;
     }
-    await CreateProduct({
+    const lastProductCreated: ISingleProduct | undefined = await CreateProduct({
       name: productName,
       description: productDescription,
       image: productImage,
@@ -73,6 +76,10 @@ export function NewItem() {
       category: productCategory,
       ingredients: ingredients,
     } as any);
+
+    if(lastProductCreated){
+      setProduct(lastProductCreated)
+    }
 
     (event.target as HTMLFormElement).reset();
     setProductName("");
@@ -241,7 +248,7 @@ export function NewItem() {
                 Último adicionado
               </p>
             </div>
-            <Product/>
+            <Product lastProduct={product as IProductProps}/>
           </div>
         </div>
       </div>
