@@ -9,8 +9,6 @@ export interface IProductProps {
 }
 
 export function Product({ lastProduct }: IProductProps) {
-  console.log("this is the lastproduct →", lastProduct);
-  
   return (
     <div className="flex bg-base-200 h-auto gap-2 p-1 rounded-md max-lg:flex-wrap max-md:flex-nowrap max-sm:flex-wrap">
       <img

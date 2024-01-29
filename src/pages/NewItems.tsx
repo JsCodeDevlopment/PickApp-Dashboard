@@ -1,10 +1,11 @@
 import { Header } from "../components/Header";
 import Burguer from "../assets/images/Hamburger.png";
 import Plus from "../assets/images/PlusLight.png";
+import Not from "../assets/images/nenhum_prod.png";
 import { FormEvent, useState } from "react";
 import { useProduct } from "../servises/api/ProductsRequest";
 import { toast } from "react-toastify";
-import { IProductProps, Product } from "../components/Product";
+import { Product } from "../components/Product";
 import { ISingleProduct } from "../interfaces/IOrders";
 
 type ICategories = {
@@ -19,9 +20,10 @@ export function NewItem() {
   const [productDescription, setProductDescription] = useState<string>();
   const [productImage, setProductImage] = useState<File>();
   const [productCategory, setProductCategory] = useState<string>();
-  const [ingredients, setIngredients] = useState<{ icon: string; name: string }[]>([{ icon: "", name: "" }]);
+  const [ingredients, setIngredients] = useState<
+    { icon: string; name: string }[]
+  >([{ icon: "", name: "" }]);
   const [product, setProduct] = useState<ISingleProduct | undefined>(undefined);
-  
 
   const { CreateProduct } = useProduct();
 
@@ -31,7 +33,9 @@ export function NewItem() {
     { id: "658f9d27dcbab755ddfa5193", name: "Refrigerantes", icon: "🥤" },
   ];
 
-  const handleImageInputChange = ( event: React.ChangeEvent<HTMLInputElement> ) => {
+  const handleImageInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const { type } = event.target;
 
     if (type === "file" && event.target instanceof HTMLInputElement) {
@@ -43,7 +47,11 @@ export function NewItem() {
     }
   };
 
-  const handleIngredientChange = ( index: number, field: string, value: string ) => {
+  const handleIngredientChange = (
+    index: number,
+    field: string,
+    value: string
+  ) => {
     const updatedIngredients = [...ingredients];
     (updatedIngredients[index] as any)[field] = value;
     setIngredients(updatedIngredients);
@@ -77,8 +85,8 @@ export function NewItem() {
       ingredients: ingredients,
     } as any);
 
-    if(lastProductCreated){
-      setProduct(lastProductCreated)
+    if (lastProductCreated) {
+      setProduct(lastProductCreated);
     }
 
     (event.target as HTMLFormElement).reset();
@@ -109,7 +117,8 @@ export function NewItem() {
                 <input
                   type="text"
                   placeholder="Ex.: 🥤"
-                  className="input input-bordered w-2/3 max-w-xs max-lg:w-full max-md:w-2/3 max-sm:w-full"/>
+                  className="input input-bordered w-2/3 max-w-xs max-lg:w-full max-md:w-2/3 max-sm:w-full"
+                />
               </label>
               <label className="form-control w-full max-w-xs">
                 <div className="label">
@@ -118,7 +127,8 @@ export function NewItem() {
                 <input
                   type="text"
                   placeholder="Ex.: Refrigerantes"
-                  className="input input-bordered w-full max-w-xs"/>
+                  className="input input-bordered w-full max-w-xs"
+                />
               </label>
             </div>
             <button className="btn w-full btn-neutral">Criar</button>
@@ -126,7 +136,8 @@ export function NewItem() {
           <form
             onSubmit={handleSubmit}
             method="post"
-            className="flex flex-col items-center justify-center gap-2 p-2 rounded-md bg-base-300 shadow-lg">
+            className="flex flex-col items-center justify-center gap-2 p-2 rounded-md bg-base-300 shadow-lg"
+          >
             <h1 className="text-lg font-semibold">Criar Produto</h1>
             <div className="flex w-full flex-col items-center justify-center max-lg:flex-wrap max-md:flex-nowrap max-sm:flex-wrap">
               <div className="flex w-full gap-2 items-center justify-center max-lg:flex-wrap max-md:flex-nowrap max-sm:flex-wrap">
@@ -139,7 +150,8 @@ export function NewItem() {
                     value={productName}
                     onChange={(e) => setProductName(e.target.value)}
                     placeholder="Ex.: Pizza de Calabresa"
-                    className="input input-bordered w-full max-w-xs"/>
+                    className="input input-bordered w-full max-w-xs"
+                  />
                 </label>
                 <label className="form-control w-full max-w-xs">
                   <div className="label">
@@ -148,9 +160,12 @@ export function NewItem() {
                   <input
                     type="number"
                     value={productPrice}
-                    onChange={(e) => setProductPrice(parseFloat(e.target.value))}
+                    onChange={(e) =>
+                      setProductPrice(parseFloat(e.target.value))
+                    }
                     placeholder="Ex.: 30,50"
-                    className="input input-bordered w-full max-w-xs"/>
+                    className="input input-bordered w-full max-w-xs"
+                  />
                 </label>
               </div>
               <label className="form-control w-full max-w-xs">
@@ -162,7 +177,8 @@ export function NewItem() {
                   value={productDescription}
                   onChange={(e) => setProductDescription(e.target.value)}
                   placeholder="Ex.: A melhor pizza de calabresa que você vai provar."
-                  className="input input-bordered w-full max-w-xs"/>
+                  className="input input-bordered w-full max-w-xs"
+                />
               </label>
               <label className="form-control w-full max-w-xs">
                 <div className="label">
@@ -172,7 +188,8 @@ export function NewItem() {
                   type="file"
                   onChange={handleImageInputChange}
                   className="file-input file-input-xs file-input-bordered w-full max-w-xs"
-                  required/>
+                  required
+                />
               </label>
               <label className="form-control w-full max-w-xs">
                 <div className="label">
@@ -181,7 +198,8 @@ export function NewItem() {
                 <select
                   value={productCategory}
                   onChange={(e) => setProductCategory(e.target.value)}
-                  className="select select-bordered w-full max-w-xs">
+                  className="select select-bordered w-full max-w-xs"
+                >
                   <option disabled selected>
                     Escolha uma categoria
                   </option>
@@ -200,7 +218,8 @@ export function NewItem() {
                   {ingredients.map((ingredient, index) => (
                     <div
                       className="flex w-full gap-2 items-center justify-center max-lg:flex-wrap max-md:flex-nowrap max-sm:flex-wrap"
-                      key={index}>
+                      key={index}
+                    >
                       <label className="form-control w-full max-w-xs">
                         <div className="label">
                           <span className="label-text">Ícone</span>
@@ -209,8 +228,15 @@ export function NewItem() {
                           type="text"
                           placeholder="Ex.: 🧀"
                           value={ingredient.icon}
-                          onChange={(e) => handleIngredientChange( index, "icon", e.target.value )}
-                          className="input input-bordered w-full max-w-xs"/>
+                          onChange={(e) =>
+                            handleIngredientChange(
+                              index,
+                              "icon",
+                              e.target.value
+                            )
+                          }
+                          className="input input-bordered w-full max-w-xs"
+                        />
                       </label>
                       <label className="form-control w-full max-w-xs">
                         <div className="label">
@@ -220,8 +246,15 @@ export function NewItem() {
                           type="text"
                           placeholder="Ex.: Queijo"
                           value={ingredient.name}
-                          onChange={(e) => handleIngredientChange( index, "name", e.target.value)}
-                          className="input input-bordered w-full max-w-xs"/>
+                          onChange={(e) =>
+                            handleIngredientChange(
+                              index,
+                              "name",
+                              e.target.value
+                            )
+                          }
+                          className="input input-bordered w-full max-w-xs"
+                        />
                       </label>
                     </div>
                   ))}
@@ -229,7 +262,8 @@ export function NewItem() {
                 <button
                   type="button"
                   onClick={handleAddIngredient}
-                  className="btn btn-outline btn-neutral">
+                  className="btn btn-outline btn-neutral"
+                >
                   Mais Ingredientes
                   <img src={Plus} alt="" />
                 </button>
@@ -248,7 +282,14 @@ export function NewItem() {
                 Último adicionado
               </p>
             </div>
-            <Product lastProduct={product as IProductProps}/>
+            {!product ? (
+              <div className="flex flex-col items-center justify-center bg-base-200 h-auto gap-2 p-1 rounded-md">
+                <img src={Not} className="w-24 h-24" alt="" />
+                <h1 className="text-xl font-semibold">Nenhum produto criado ainda!</h1>
+              </div>
+            ) : (
+              <Product lastProduct={product as any} />
+            )}
           </div>
         </div>
       </div>
