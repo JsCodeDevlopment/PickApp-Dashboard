@@ -2,14 +2,15 @@ import { Header } from "../components/Header";
 import Burguer from "../assets/images/Hamburger.png";
 import Plus from "../assets/images/PlusLight.png";
 import Not from "../assets/images/nenhum_prod.png";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useProduct } from "../servises/api/ProductsRequest";
 import { toast } from "react-toastify";
 import { Product } from "../components/Product";
 import { ISingleProduct } from "../interfaces/IOrders";
+import { useCategory } from "../servises/api/CategoryRequest";
 
-type ICategories = {
-  id: string;
+export type ICategories = {
+  _id: string;
   name: string;
   icon: string;
 }[];
@@ -22,14 +23,21 @@ export function NewItem() {
   const [productCategory, setProductCategory] = useState<string>();
   const [ingredients, setIngredients] = useState<{ icon: string; name: string }[]>([{ icon: "", name: "" }]);
   const [product, setProduct] = useState<ISingleProduct | undefined>(undefined);
+  const [categories, setCategories] = useState<ICategories>([{_id: "", name: "", icon: ""}]);
 
   const { CreateProduct } = useProduct();
+  const { ShowCategories } = useCategory();
 
-  const categories: ICategories = [
-    { id: "658f9cf3dcbab755ddfa518d", name: "Hamburguer", icon: "🍔" },
-    { id: "658f9d07dcbab755ddfa5190", name: "Pizzas", icon: "🍕" },
-    { id: "658f9d27dcbab755ddfa5193", name: "Refrigerantes", icon: "🥤" },
-  ];
+  useEffect(() => {
+    const getCategories = async () => {
+      const allCategories = await ShowCategories()
+
+      if (allCategories) {
+        setCategories(allCategories)
+      }
+    }
+    getCategories()
+  },[])
 
   const handleImageInputChange = ( event: React.ChangeEvent<HTMLInputElement> ) => {
     const { type } = event.target;
@@ -191,7 +199,7 @@ export function NewItem() {
                   </option>
                   {categories &&
                     categories.map((category) => (
-                      <option key={category.id} value={category.id}>
+                      <option key={category._id} value={category._id}>
                         {category.icon}
                         {category.name}
                       </option>
