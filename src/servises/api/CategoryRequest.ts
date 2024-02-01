@@ -4,7 +4,6 @@ import { baseURL } from "../BackEndBaseURL";
 export function useCategory() {
   const ShowCategories = async (): Promise<ICategories | undefined> => {
     try {
-      
       const response = await fetch(`${baseURL}/categories`, {
         method: "GET",
       });

@@ -11,6 +11,7 @@ import { ISingleProduct } from "../interfaces/IOrders";
 import { baseURL } from "../servises/BackEndBaseURL";
 import { useChangeOrderStatus } from "../servises/api/OrdersRequest";
 import { toast } from "react-toastify";
+import { ProductsPerCategory } from "../components/ProductsPerCategory";
 
 export type Order = {
   id: string;
@@ -118,13 +119,9 @@ export function NewOrder() {
   return (
     <div className="bg-base-100 w-full h-screen overflow-y-scroll overflow-x-hidden scrollbar-thin scrollbar-thumb-neutral scrollbar-track-base-100">
       <Header />
-      <div className="flex w-full py-10 justify-around max-md:flex-col max-md:items-center max-md:gap-10">
-        <div className="flex flex-col gap-5 items-center w-1/3 max-md:w-3/4">
-          <h1 className="text-2xl font-semibold">Vamos fazer nosso pedido!?</h1>
-          <p>
-            Vamos escolher nossos pedidos, encher o carrinho para finalizar o
-            pedido.
-          </p>
+      <div className="flex w-full py-3 justify-around max-md:flex-col max-md:items-center max-md:gap-10">
+        <div className="flex flex-col gap-5 items-center w-1/2 max-md:w-3/4">
+          <ProductsPerCategory/>
           <div className="flex flex-col w-full items-center justify-center gap-2 p-2 rounded-md bg-base-300 shadow-lg">
           <h1 className="text-lg font-semibold">Escolher Produto</h1>
           <Select

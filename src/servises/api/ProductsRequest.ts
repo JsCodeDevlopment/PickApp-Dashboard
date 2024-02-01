@@ -47,5 +47,18 @@ export function useProduct() {
     }
   };
 
-  return { CreateProduct };
+  const ShowProductsByCategory = async (categoryId: string) => {
+    try {
+      const response = await fetch(`${baseURL}/products/${categoryId}/products`, {
+        method: "GET",
+      });
+      const data = await response.json()
+
+      return data
+    } catch (error) {
+      console.error(error, "Erro ao buscar por categortias.");
+    }
+  }
+
+  return { CreateProduct, ShowProductsByCategory };
 }

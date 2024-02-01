@@ -105,12 +105,8 @@ export function NewItem() {
   return (
     <div className="bg-base-100 w-full h-screen overflow-y-scroll overflow-x-hidden scrollbar-thin scrollbar-thumb-neutral scrollbar-track-base-100">
       <Header />
-      <div className="flex w-full p-10 gap-3 justify-around max-md:flex-col max-md:items-center max-md:gap-10">
+      <div className="flex w-full p-3 gap-3 justify-around max-md:flex-col max-md:items-center max-md:gap-10">
         <div className="flex flex-col gap-5 items-center w-1/2 max-md:w-full">
-          <h1 className="text-2xl font-semibold">
-            Hora de criar nossos produtos!
-          </h1>
-          <p>Aqui vamos criar categorias e produtos para nosso negócio.</p>
           <div className="flex flex-col items-center justify-center gap-2 p-2 rounded-md bg-base-300 shadow-lg">
             <h1 className="text-lg font-semibold">Criar Categoria</h1>
             <div className="flex w-full items-center justify-center max-lg:flex-wrap max-md:flex-nowrap max-sm:flex-wrap">
