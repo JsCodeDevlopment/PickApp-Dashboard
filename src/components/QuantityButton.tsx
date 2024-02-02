@@ -36,13 +36,6 @@ export function QuantityButton({ onChange }: QuantityButtonProps) {
               d="M1 1h16"/>
           </svg>
         </button>
-        <input
-          type="number"
-          value={count}
-          onChange={(ev) => setCount(parseInt(ev.target.value, 10) || 0)}
-          className="bg-neutral text-neutral-content border-x-0 h-11 text-center text-sm focus:ring-base-content focus:border-base-content block w-full py-2.5"
-          placeholder="0"
-          required/>
         <button
           type="button"
           onClick={handleIncrement}

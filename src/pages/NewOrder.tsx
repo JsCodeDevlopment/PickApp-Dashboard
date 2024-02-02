@@ -62,6 +62,7 @@ export function NewOrder() {
   };
 
   function handleAddToCart() {
+
     if (newSelectedOrder) {
       const newOrder: Order = {
         id: newSelectedOrder._id,
@@ -121,7 +122,7 @@ export function NewOrder() {
       <Header />
       <div className="flex w-full py-3 justify-around max-md:flex-col max-md:items-center max-md:gap-10">
         <div className="flex flex-col gap-5 items-center w-1/2 max-md:w-3/4">
-          <ProductsPerCategory/>
+          <ProductsPerCategory add={handleAddToCart}/>
           <div className="flex flex-col w-full items-center justify-center gap-2 p-2 rounded-md bg-base-300 shadow-lg">
           <h1 className="text-lg font-semibold">Escolher Produto</h1>
           <Select
@@ -152,13 +153,13 @@ export function NewOrder() {
                 orders.map((order) => (
                   <div
                     key={order.id}
-                    className="flex w-full p-2 gap-5 items-center justify-between rounded-md bg-base-300 shadow-md max-sm:flex-col">
+                    className="flex w-full p-2 gap-5 items-center justify-between rounded-md bg-base-300 shadow-md max-lg:flex-col max-md:flex-row max-sm:flex-col">
                     <div className="flex gap-5 max-sm:flex-wrap max-sm:w-full max-sm:items-center max-sm:flex-col max-sm:gap-2">
                       <img
                         className="w-20 h-16 rounded-md object-cover max-sm:w-full max-sm:h-36"
                         src={`${baseURL}/uploads/${order.icon}`}
                         alt=""/>
-                      <p className="text-sm font-light">x{order.quantity}</p>
+                      <p className="text-sm font-light">x{quantity}</p>
                       <div className="flex flex-col gap-1">
                         <p className="text-base font-semibold">{order.name}</p>
                         <p className="text-sm font-light">
@@ -169,6 +170,7 @@ export function NewOrder() {
                         </p>
                       </div>
                     </div>
+                      <QuantityButton onChange={handleQuantityChange}/>
                     <div
                       onClick={() => handleDelete(order.id)}
                       className="flex items-center justify-center cursor-pointer">
@@ -180,7 +182,7 @@ export function NewOrder() {
                 <p className="text-md text-neutral-content font-semibold">Total</p>
                 <p className="text-md text-neutral-content font-semibold">
                   {orders
-                    .reduce((acc, order) => acc + order.price * order.quantity, 0)
+                    .reduce((acc, order) => acc + order.price * quantity, 0)
                     .toLocaleString("pt-BR", {
                       style: "currency",
                       currency: "BRL",

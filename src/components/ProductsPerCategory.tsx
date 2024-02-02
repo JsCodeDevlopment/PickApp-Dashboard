@@ -3,7 +3,11 @@ import { ProductToBuy } from "./ProductsToBuy";
 import { ICategories } from "../pages/NewItems";
 import { useCategory } from "../servises/api/CategoryRequest";
 
-export function ProductsPerCategory() {
+interface IProductsPerCategoryProps {
+  add: ()=> void
+}
+
+export function ProductsPerCategory({add}: IProductsPerCategoryProps) {
   const [categories, setCategories] = useState<ICategories>([{ _id: "", name: "", icon: "" },]);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
 
@@ -22,7 +26,6 @@ export function ProductsPerCategory() {
 
   const handleClick = (id: string) => {
     setSelectedCategory(id)
-    console.log(selectedCategory);
   }
 
   return (
@@ -44,7 +47,7 @@ export function ProductsPerCategory() {
             </div>
           ))}
       </div>
-      <ProductToBuy />
+      <ProductToBuy category={selectedCategory} add={add} />
     </div>
   );
 }
