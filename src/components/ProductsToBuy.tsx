@@ -6,12 +6,11 @@ import { ISingleProduct } from "../interfaces/IOrders";
 
 interface IProductToBuyProps {
   category: string;
-  add: ()=>void
+  add: (product: ISingleProduct) => void;
 }
 
 export function ProductToBuy({ category, add }: IProductToBuyProps) {
   const [searshedProducts, setSearshedProducts] = useState<ISingleProduct[]>();
-
 
   const { ShowProductsByCategory } = useProduct();
 
@@ -32,7 +31,9 @@ export function ProductToBuy({ category, add }: IProductToBuyProps) {
         </h1>
       ) : (
         searshedProducts.map((product) => (
-          <div className="flex bg-base-200 h-auto gap-2 p-1 rounded-md max-lg:flex-wrap max-md:flex-nowrap max-sm:flex-wrap">
+          <div
+            className="flex bg-base-200 h-auto gap-2 p-1 rounded-md max-lg:flex-wrap max-md:flex-nowrap max-sm:flex-wrap"
+            key={product._id}>
             <img
               className="w-1/3 object-cover rounded-md max-lg:w-full max-md:w-1/3 max-sm:w-full"
               src={`${baseURL}/uploads/${product.imagePath}`}
@@ -66,9 +67,9 @@ export function ProductToBuy({ category, add }: IProductToBuyProps) {
               </div>
             </div>
             <div className="flex items-center justify-end px-3 flex-1">
-              <div 
-              className="flex items-center justify-center w-9 h-9 bg-neutral shadow-md rounded-full cursor-pointer hover:bg-black"
-              onClick={() => add()}>
+              <div
+                className="flex items-center justify-center w-9 h-9 bg-neutral shadow-md rounded-full cursor-pointer hover:bg-black"
+                onClick={() => add(product)}>
                 <img className="w-5 h-5" src={Cart} alt="" />
               </div>
             </div>

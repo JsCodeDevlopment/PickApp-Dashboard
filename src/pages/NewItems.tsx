@@ -51,11 +51,7 @@ export function NewItem() {
     }
   };
 
-  const handleIngredientChange = (
-    index: number,
-    field: string,
-    value: string
-  ) => {
+  const handleIngredientChange = ( index: number, field: string, value: string ) => {
     const updatedIngredients = [...ingredients];
     (updatedIngredients[index] as any)[field] = value;
     setIngredients(updatedIngredients);
@@ -69,11 +65,9 @@ export function NewItem() {
     event.preventDefault();
     if (
       !productName ||
-      !productDescription ||
       !productImage ||
       !productPrice ||
-      !productCategory ||
-      !ingredients
+      !productCategory
     ) {
       toast.error(`Certifique-se de todos os campos estarem preenchidos.`, {
         autoClose: 1000 * 3,
