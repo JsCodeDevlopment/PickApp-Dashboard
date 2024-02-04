@@ -27,8 +27,6 @@ export function NewOrder() {
   }, []);
 
   const handleQuantityChange = (id: string, quantity: number) => {
-    console.log(orders);
-
     setOrders((orders) =>
       orders.map((order) => {
         if (order.id === id) {
