@@ -20,6 +20,7 @@ export function ProductsPerCategory({add}: IProductsPerCategoryProps) {
 
       if (allCategories) {
         setCategories(allCategories);
+        setSelectedCategory(allCategories[0]._id)
       }
     };
     getCategories();
