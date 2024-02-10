@@ -34,9 +34,7 @@ export function ItemForm({ onProductSubmit }: ItemFormProps) {
     getCategories();
   }, []);
 
-  const handleImageInputChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleImageInputChange = ( event: React.ChangeEvent<HTMLInputElement> ) => {
     const { type } = event.target;
 
     if (type === "file" && event.target instanceof HTMLInputElement) {

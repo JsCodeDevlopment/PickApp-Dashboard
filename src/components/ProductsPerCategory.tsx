@@ -2,13 +2,8 @@ import { useEffect, useState } from "react";
 import { ProductToBuy } from "./ProductsToBuy";
 import { ICategories } from "../pages/NewItems";
 import { useCategory } from "../servises/api/CategoryRequest";
-import { ISingleProduct } from "../interfaces/IOrders";
 
-interface IProductsPerCategoryProps {
-  add: (product: ISingleProduct)=> void
-}
-
-export function ProductsPerCategory({add}: IProductsPerCategoryProps) {
+export function ProductsPerCategory() {
   const [categories, setCategories] = useState<ICategories>([{ _id: "", name: "", icon: "" },]);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
 
@@ -49,7 +44,7 @@ export function ProductsPerCategory({add}: IProductsPerCategoryProps) {
             </div>
           ))}
       </div>
-      <ProductToBuy category={selectedCategory} add={add} />
+      <ProductToBuy category={selectedCategory} />
     </div>
   );
 }

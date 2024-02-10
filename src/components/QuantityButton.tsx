@@ -1,26 +1,12 @@
-import { useState } from "react";
 import { QuantityButtonProps } from "../interfaces/IQuantityButtonProps";
 
-export function QuantityButton({ onChange, initialValue }: QuantityButtonProps) {
-  const [count, setCount] = useState(initialValue || 1);
-
-  const handleIncrement = () => {
-    setCount(count + 1);
-    onChange(count + 1);
-  };
-
-  const handleDecrement = () => {
-    if (count > 1) {
-      setCount(count - 1);
-      onChange(count - 1);
-    }
-  };
+export function QuantityButton({ incrementItem,decrementItem }: QuantityButtonProps) {
   return (
     <form className="max-w-xs mx-auto">
       <div className="relative flex items-center max-w-[8rem]">
         <button
           type="button"
-          onClick={handleDecrement}
+          onClick={decrementItem}
           className="bg-neutral rounded-s-lg p-3 h-11 focus:ring-base-content focus:ring-1 focus:outline-none">
           <svg
             className="w-3 h-3 text-gray-900 dark:text-white"
@@ -38,7 +24,7 @@ export function QuantityButton({ onChange, initialValue }: QuantityButtonProps) 
         </button>
         <button
           type="button"
-          onClick={handleIncrement}
+          onClick={incrementItem}
           data-input-counter-increment="quantity-input"
           className="bg-neutral rounded-e-lg p-3 h-11 focus:ring-base-content focus:ring-1 focus:outline-none">
           <svg

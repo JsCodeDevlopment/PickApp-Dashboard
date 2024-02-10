@@ -1,22 +1,15 @@
 import { useState } from "react";
 import { ITables } from "../interfaces/ISelectProps";
 import { OrderItem } from "./OrderItem";
-import { Order } from "../pages/NewOrder";
+import { useCart } from "../context/CartContext";
+import { toast } from "react-toastify";
+import { useChangeOrderStatus } from "../servises/api/OrdersRequest";
 
-interface ICartProps {
-  orders: Order[];
-  handleFinishOrder: (
-    table: string, products: {
-      product: string;
-      quantity: number;
-    }[]
-  ) => Promise<void>;
-  handleDelete: (id: string) => void;
-  handleQuantityChange: (id: string, quantity: number) => void;
-}
-
-export function Cart({ orders, handleFinishOrder, handleDelete, handleQuantityChange }: ICartProps) {
+export function Cart() {
   const [table, setTable] = useState<string>("");
+
+  const { CreateOrder } = useChangeOrderStatus();
+  const {orders, clearAll} = useCart()
 
   const tables: ITables = [
     { id: "1", name: "01" },
@@ -32,7 +25,7 @@ export function Cart({ orders, handleFinishOrder, handleDelete, handleQuantityCh
   ];
 
   const formattedOrders = orders.map((order) => ({
-    product: order.id,
+    product: order._id,
     quantity: order.quantity,
   }));
   const handleTableChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -40,16 +33,29 @@ export function Cart({ orders, handleFinishOrder, handleDelete, handleQuantityCh
     const selectedOption = tables[selectedIndex].id;
 
     setTable(selectedOption);
+  }
+
+  const finishOrder = async (
+    table: string,
+    products: { product: string; quantity: number }[]
+  ) => {
+    if (!table) {
+      toast.error("Nenhuma mesa selecionada.", {
+        autoClose: 1000 * 3,
+      });
+      return;
+    }
+    await CreateOrder(table, products);
+    clearAll()
+    localStorage.removeItem("order");
   };
   return (
     <>
       {orders &&
         orders.map((order) => (
           <OrderItem
-            handleDelete={handleDelete}
-            handleQuantityChange={handleQuantityChange}
             order={order}
-            key={order.id}/>
+            key={order._id}/>
         ))}
       <div className="flex w-full bg-neutral rounded-md px-2 justify-between">
         <p className="text-md text-neutral-content font-semibold">Total</p>
@@ -76,7 +82,7 @@ export function Cart({ orders, handleFinishOrder, handleDelete, handleQuantityCh
         </select>
       </div>
       <button
-        onClick={() => handleFinishOrder(table, formattedOrders)}
+        onClick={() => finishOrder(table, formattedOrders)}
         className="btn btn-block btn-primary text-danger">
         Finalizar Pedido
       </button>

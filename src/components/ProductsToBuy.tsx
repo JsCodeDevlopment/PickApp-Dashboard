@@ -3,16 +3,17 @@ import Cart from "../assets/images/CartLight.png";
 import { useProduct } from "../servises/api/ProductsRequest";
 import { useEffect, useState } from "react";
 import { ISingleProduct } from "../interfaces/IOrders";
+import { useCart } from "../context/CartContext";
 
 interface IProductToBuyProps {
   category: string;
-  add: (product: ISingleProduct) => void;
 }
 
-export function ProductToBuy({ category, add }: IProductToBuyProps) {
+export function ProductToBuy({ category, }: IProductToBuyProps) {
   const [searshedProducts, setSearshedProducts] = useState<ISingleProduct[]>();
 
   const { ShowProductsByCategory } = useProduct();
+  const { addOrder } = useCart();
 
   const SearchedProducts = async () => {
     const products = await ShowProductsByCategory(category);
@@ -69,7 +70,7 @@ export function ProductToBuy({ category, add }: IProductToBuyProps) {
             <div className="flex items-center justify-end px-3 flex-1">
               <div
                 className="flex items-center justify-center w-9 h-9 bg-neutral shadow-md rounded-full cursor-pointer hover:bg-black"
-                onClick={() => add(product)}>
+                onClick={() => addOrder(product)}>
                 <img className="w-5 h-5" src={Cart} alt="" />
               </div>
             </div>

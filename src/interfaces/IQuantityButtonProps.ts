@@ -1,4 +1,4 @@
 export interface QuantityButtonProps {
-  onChange: (value: number) => void;
-  initialValue?: number
+  incrementItem: () => void
+  decrementItem: () => void
 }
