@@ -5,9 +5,12 @@ import { ISingleProduct } from "../../interfaces/IOrders";
 export interface IProductProps {
   name: string;
   description: string;
-  image: string;
-  price: string;
-  ingredients: string
+  image: File;
+  price: number;
+  ingredients: {
+    icon: string;
+    name: string;
+}[]
   category: string;
 }
 
@@ -19,7 +22,7 @@ export function useProduct() {
       formData.append("name", name);
       formData.append("description", description);
       formData.append("image", image);
-      formData.append("price", price);
+      formData.append("price", price.toString());
       formData.append("category", category);
       formData.append("ingredients", JSON.stringify(ingredients));
 

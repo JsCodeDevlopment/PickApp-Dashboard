@@ -13,7 +13,7 @@ interface ItemFormProps {
 export function ItemForm({ onProductSubmit }: ItemFormProps) {
   const [productName, setProductName] = useState<string>();
   const [productPrice, setProductPrice] = useState<number>();
-  const [productDescription, setProductDescription] = useState<string>();
+  const [productDescription, setProductDescription] = useState<string>("");
   const [productImage, setProductImage] = useState<File>();
   const [productCategory, setProductCategory] = useState<string>();
   const [ingredients, setIngredients] = useState<{ icon: string; name: string }[]>([{ icon: "", name: "" }]);
@@ -73,7 +73,7 @@ export function ItemForm({ onProductSubmit }: ItemFormProps) {
       price: productPrice,
       category: productCategory,
       ingredients: ingredients,
-    } as any);
+    });
 
     if (lastProductCreated) {
       setProduct(lastProductCreated);
