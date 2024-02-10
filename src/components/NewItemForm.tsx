@@ -1,5 +1,6 @@
 import { FormEvent, useEffect, useState } from "react";
 import Plus from "../assets/images/PlusLight.png";
+import Trash from "../assets/images/Trash.png";
 import { useProduct } from "../servises/api/ProductsRequest";
 import { toast } from "react-toastify";
 import { ISingleProduct } from "../interfaces/IOrders";
@@ -55,6 +56,12 @@ export function ItemForm({ onProductSubmit }: ItemFormProps) {
     setIngredients([...ingredients, { icon: "", name: "" }]);
   };
 
+  const handleDeleteIngredient = (index: number) => {
+    const updatedIngredients = [...ingredients];
+    updatedIngredients.splice(index, 1);
+    setIngredients(updatedIngredients);
+  };
+
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -75,7 +82,7 @@ export function ItemForm({ onProductSubmit }: ItemFormProps) {
     });
 
     if (lastProductCreated) {
-      onProductSubmit(lastProductCreated); 
+      onProductSubmit(lastProductCreated);
     }
 
     (event.target as HTMLFormElement).reset();
@@ -152,9 +159,7 @@ export function ItemForm({ onProductSubmit }: ItemFormProps) {
             </option>
             {categories &&
               categories.map((category) => (
-                <option 
-                key={category._id} 
-                value={category._id}>
+                <option key={category._id} value={category._id}>
                   {category.icon}
                   {category.name}
                 </option>
@@ -165,31 +170,35 @@ export function ItemForm({ onProductSubmit }: ItemFormProps) {
         <div className="flex flex-col gap-3">
           <div className="flex flex-col w-full gap-2 items-center justify-center max-lg:flex-wrap max-md:flex-nowrap max-sm:flex-wrap">
             {ingredients.map((ingredient, index) => (
-              <div
-                className="flex w-full gap-2 items-center justify-center max-lg:flex-wrap max-md:flex-nowrap max-sm:flex-wrap"
-                key={index}>
-                <label className="form-control w-full max-w-xs">
-                  <div className="label">
-                    <span className="label-text">Ícone</span>
-                  </div>
-                  <input
-                    type="text"
-                    placeholder="Ex.: 🧀"
-                    value={ingredient.icon}
-                    onChange={(e) => handleIngredientChange(index, "icon", e.target.value)}
-                    className="input input-bordered w-full max-w-xs"/>
-                </label>
-                <label className="form-control w-full max-w-xs">
-                  <div className="label">
-                    <span className="label-text">Nome</span>
-                  </div>
-                  <input
-                    type="text"
-                    placeholder="Ex.: Queijo"
-                    value={ingredient.name}
-                    onChange={(e) => handleIngredientChange(index, "name", e.target.value)}
-                    className="input input-bordered w-full max-w-xs"/>
-                </label>
+              <div className="flex items-end justify-center max-lg:items-center max-md:items-end max-sm:items-center" key={index}>
+                <div
+                  className="flex w-full gap-2 items-center justify-center max-lg:flex-wrap max-md:flex-nowrap max-sm:flex-wrap">
+                  <label className="form-control w-full max-w-xs">
+                    <div className="label">
+                      <span className="label-text">Ícone</span>
+                    </div>
+                    <input
+                      type="text"
+                      placeholder="Ex.: 🧀"
+                      value={ingredient.icon}
+                      onChange={(e) => handleIngredientChange(index, "icon", e.target.value)}
+                      className="input input-bordered w-full max-w-xs"/>
+                  </label>
+                  <label className="form-control w-full max-w-xs">
+                    <div className="label">
+                      <span className="label-text">Nome</span>
+                    </div>
+                    <input
+                      type="text"
+                      placeholder="Ex.: Queijo"
+                      value={ingredient.name}
+                      onChange={(e) => handleIngredientChange(index, "name", e.target.value)}
+                      className="input input-bordered w-full max-w-xs"/>
+                  </label>
+                </div>
+                <div onClick={()=>handleDeleteIngredient(index)} className="flex items-center justify-center p-3 cursor-pointer">
+                  <img className="w-6 h-6" src={Trash} alt="" />
+                </div>
               </div>
             ))}
           </div>
