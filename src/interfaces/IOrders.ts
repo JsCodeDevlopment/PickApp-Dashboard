@@ -33,7 +33,7 @@ export interface ISingleProduct {
     icon: string;
     _id: string;
   }[];
-  category: string;
+  category: ISingleCategory;
   __v?: number;
 }
 

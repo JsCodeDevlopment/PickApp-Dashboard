@@ -72,7 +72,7 @@ export function Cart() {
         <select
           onChange={handleTableChange}
           className="select select-bordered w-full max-w-xs">
-          <option disabled selected>
+          <option disabled selected value="">
             Escolha uma mesa
           </option>
           {tables &&

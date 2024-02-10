@@ -17,7 +17,6 @@ export function ItemForm({ onProductSubmit }: ItemFormProps) {
   const [productImage, setProductImage] = useState<File>();
   const [productCategory, setProductCategory] = useState<string>();
   const [ingredients, setIngredients] = useState<{ icon: string; name: string }[]>([{ icon: "", name: "" }]);
-  const [product, setProduct] = useState<ISingleProduct | undefined>(undefined);
   const [categories, setCategories] = useState<ICategories>([{ _id: "", name: "", icon: "" },]);
 
   const { CreateProduct } = useProduct();
@@ -76,8 +75,7 @@ export function ItemForm({ onProductSubmit }: ItemFormProps) {
     });
 
     if (lastProductCreated) {
-      setProduct(lastProductCreated);
-      product && onProductSubmit(product);
+      onProductSubmit(lastProductCreated); 
     }
 
     (event.target as HTMLFormElement).reset();
@@ -146,15 +144,17 @@ export function ItemForm({ onProductSubmit }: ItemFormProps) {
             <span className="label-text">Categoria</span>
           </div>
           <select
-            value={productCategory}
+            defaultValue={productCategory}
             onChange={(e) => setProductCategory(e.target.value)}
             className="select select-bordered w-full max-w-xs">
-            <option disabled selected>
+            <option disabled selected value="">
               Escolha uma categoria
             </option>
             {categories &&
               categories.map((category) => (
-                <option key={category._id} value={category._id}>
+                <option 
+                key={category._id} 
+                value={category._id}>
                   {category.icon}
                   {category.name}
                 </option>

@@ -16,8 +16,12 @@ export function ProductToBuy({ category, }: IProductToBuyProps) {
   const { addOrder } = useCart();
 
   const SearchedProducts = async () => {
-    const products = await ShowProductsByCategory(category);
-    setSearshedProducts(products);
+    if (!category){
+      return
+    } else {
+      const products = await ShowProductsByCategory(category);
+      setSearshedProducts(products);
+    }
   };
 
   useEffect(() => {

@@ -15,10 +15,6 @@ export type ICategories = {
 export function NewItem() {
   const [receivedProduct, setReceivedProduct] = useState<ISingleProduct | undefined>(undefined);
 
-  const handleChildStateUpdate = (product: ISingleProduct) => {
-    setReceivedProduct(product);
-  };
-
   return (
     <div className="bg-base-100 w-full h-screen overflow-y-scroll overflow-x-hidden scrollbar-thin scrollbar-thumb-neutral scrollbar-track-base-100">
       <Header />
@@ -48,7 +44,7 @@ export function NewItem() {
             </div>
             <button className="btn w-full btn-neutral">Criar</button>
           </div>
-          <ItemForm onProductSubmit={handleChildStateUpdate} />
+          <ItemForm onProductSubmit={(product)=>setReceivedProduct(product)} />
         </div>
         <div className="w-1/2 flex flex-col gap-5 max-md:w-full">
           <div className="flex flex-col w-full h-ful gap-2 shadow-lg rounded-md">
@@ -66,7 +62,7 @@ export function NewItem() {
                 </h1>
               </div>
             ) : (
-              <Product lastProduct={receivedProduct as any} />
+              <Product lastProduct={receivedProduct} />
             )}
           </div>
         </div>
