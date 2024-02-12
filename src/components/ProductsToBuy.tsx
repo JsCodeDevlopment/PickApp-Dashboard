@@ -10,7 +10,7 @@ interface IProductToBuyProps {
 }
 
 export function ProductToBuy({ category, }: IProductToBuyProps) {
-  const [searshedProducts, setSearshedProducts] = useState<ISingleProduct[]>();
+  const [searshedProducts, setSearshedProducts] = useState<ISingleProduct[]>([]);
 
   const { ShowProductsByCategory } = useProduct();
   const { addOrder } = useCart();
@@ -30,9 +30,9 @@ export function ProductToBuy({ category, }: IProductToBuyProps) {
 
   return (
     <div className="flex flex-col gap-3">
-      {!searshedProducts ? (
+      {searshedProducts.length <= 0 ? (
         <h1 className="text-base font-semibold">
-          Clique em uma categoria para exibir os produtos.
+          Ainda não existem produtos nesta categoria 😥
         </h1>
       ) : (
         searshedProducts.map((product) => (
