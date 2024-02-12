@@ -70,9 +70,10 @@ export function Cart() {
       </div>
       <div className="flex w-full items-center justify-center">
         <select
+          value={table}
           onChange={handleTableChange}
           className="select select-bordered w-full max-w-xs">
-          <option disabled selected value="">
+          <option disabled value="">
             Escolha uma mesa
           </option>
           {tables &&

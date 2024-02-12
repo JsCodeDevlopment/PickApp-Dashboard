@@ -16,9 +16,9 @@ export function QuantityButton({ incrementItem,decrementItem }: QuantityButtonPr
             viewBox="0 0 18 2">
             <path
               stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
               d="M1 1h16"/>
           </svg>
         </button>
@@ -35,9 +35,9 @@ export function QuantityButton({ incrementItem,decrementItem }: QuantityButtonPr
             viewBox="0 0 18 18">
             <path
               stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
               d="M9 1v16M1 9h16"/>
           </svg>
         </button>

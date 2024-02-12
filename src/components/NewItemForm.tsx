@@ -12,11 +12,11 @@ interface ItemFormProps {
 }
 
 export function ItemForm({ onProductSubmit }: ItemFormProps) {
-  const [productName, setProductName] = useState<string>();
+  const [productName, setProductName] = useState<string>("");
   const [productPrice, setProductPrice] = useState<number>();
   const [productDescription, setProductDescription] = useState<string>("");
   const [productImage, setProductImage] = useState<File>();
-  const [productCategory, setProductCategory] = useState<string>();
+  const [productCategory, setProductCategory] = useState<string>("");
   const [ingredients, setIngredients] = useState<{ icon: string; name: string }[]>([{ icon: "", name: "" }]);
   const [categories, setCategories] = useState<ICategories>([{ _id: "", name: "", icon: "" },]);
 
@@ -151,10 +151,10 @@ export function ItemForm({ onProductSubmit }: ItemFormProps) {
             <span className="label-text">Categoria</span>
           </div>
           <select
-            defaultValue={productCategory}
+            value={productCategory}
             onChange={(e) => setProductCategory(e.target.value)}
             className="select select-bordered w-full max-w-xs">
-            <option disabled selected value="">
+            <option disabled value="">
               Escolha uma categoria
             </option>
             {categories &&
