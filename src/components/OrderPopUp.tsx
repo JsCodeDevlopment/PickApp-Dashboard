@@ -13,6 +13,7 @@ export function OrderPopUp({ table, itens, products, status, id }: IOrderPopUpPr
       showModalBtn.current.showModal();
     }
   };
+
   function BtnStatus(status: keyof typeof OrderStatus) {
     return status === "IN_PRODUCTION"
       ? BtnOrderStatus.IN_PRODUCTION
@@ -21,10 +22,7 @@ export function OrderPopUp({ table, itens, products, status, id }: IOrderPopUpPr
       : BtnOrderStatus.CANCELED;
   }
 
-  async function handleChangeStatus(
-    id: string,
-    status: keyof typeof OrderStatus
-  ) {
+  async function handleChangeStatus( id: string, status: keyof typeof OrderStatus ) {
     switch (status) {
       case "WAITING":
         await ChangeOrderStatus({ id, status: "IN_PRODUCTION" });
@@ -48,7 +46,7 @@ export function OrderPopUp({ table, itens, products, status, id }: IOrderPopUpPr
 
   return (
     <div
-      className="flex flex-col w-full h-24 rounded-md bg-base-100 items-center justify-center"
+      className="flex flex-col w-full h-24 rounded-md bg-base-100 items-center justify-center cursor-pointer"
       onClick={handleClick}>
       <h1>Mesa {table}</h1>
       {itens <= 1 ? <p>{itens} item</p> : <p>{itens} itens</p>}

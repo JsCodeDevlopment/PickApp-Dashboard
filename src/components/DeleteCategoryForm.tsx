@@ -10,8 +10,7 @@ export function DeleteCategoryForm() {
           <input
             type="text"
             placeholder="Ex.: 🥤"
-            className="input input-bordered w-2/3 max-w-xs max-lg:w-full max-md:w-2/3 max-sm:w-full"
-          />
+            className="input input-bordered w-2/3 max-w-xs max-lg:w-full max-md:w-2/3 max-sm:w-full"/>
         </label>
         <label className="form-control w-full max-w-xs">
           <div className="label">
@@ -20,8 +19,7 @@ export function DeleteCategoryForm() {
           <input
             type="text"
             placeholder="Ex.: Refrigerantes"
-            className="input input-bordered w-full max-w-xs"
-          />
+            className="input input-bordered w-full max-w-xs"/>
         </label>
       </div>
       <button className="btn w-full btn-neutral">

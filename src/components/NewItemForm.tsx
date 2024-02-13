@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from "react";
+import { Dispatch, FormEvent, SetStateAction, useEffect, useState } from "react";
 import Plus from "../assets/images/PlusLight.png";
 import Trash from "../assets/images/Trash.png";
 import { useProduct } from "../servises/api/ProductsRequest";
@@ -7,11 +7,12 @@ import { ISingleProduct } from "../interfaces/IOrders";
 import { useCategory } from "../servises/api/CategoryRequest";
 import { ICategories } from "../pages/NewItems";
 
-interface ItemFormProps {
+export interface ItemFormProps {
   onProductSubmit: (product: ISingleProduct) => void;
+  setIsClosed: Dispatch<SetStateAction<boolean>>;
 }
 
-export function ItemForm({ onProductSubmit }: ItemFormProps) {
+export function ItemForm({ onProductSubmit, setIsClosed }: ItemFormProps) {
   const [productName, setProductName] = useState<string>("");
   const [productPrice, setProductPrice] = useState<number>();
   const [productDescription, setProductDescription] = useState<string>("");
@@ -83,6 +84,9 @@ export function ItemForm({ onProductSubmit }: ItemFormProps) {
 
     if (lastProductCreated) {
       onProductSubmit(lastProductCreated);
+    }
+    if (lastProductCreated) {
+      setIsClosed(true)
     }
 
     (event.target as HTMLFormElement).reset();
