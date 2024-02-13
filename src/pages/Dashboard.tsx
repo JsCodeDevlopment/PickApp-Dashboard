@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Category } from "../components/Category";
 import { Header } from "../components/Header";
-import { OrderPopUp } from "../components/OrderPopUp";
+import { OrderPopUp } from "../components/OrderDialog";
 import { OrderStatus } from "../interfaces/IOrderPopUpProps";
 import { useOrderContext } from "../context/OrderContext";
 

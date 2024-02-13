@@ -12,7 +12,7 @@ export interface ItemFormProps {
   setIsClosed: Dispatch<SetStateAction<boolean>>;
 }
 
-export function ItemForm({ onProductSubmit, setIsClosed }: ItemFormProps) {
+export function NewItemForm({ onProductSubmit, setIsClosed }: ItemFormProps) {
   const [productName, setProductName] = useState<string>("");
   const [productPrice, setProductPrice] = useState<number>();
   const [productDescription, setProductDescription] = useState<string>("");
@@ -35,7 +35,7 @@ export function ItemForm({ onProductSubmit, setIsClosed }: ItemFormProps) {
     getCategories();
   }, []);
 
-  const handleImageInputChange = ( event: React.ChangeEvent<HTMLInputElement> ) => {
+  const handleImageInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { type } = event.target;
 
     if (type === "file" && event.target instanceof HTMLInputElement) {
@@ -85,8 +85,9 @@ export function ItemForm({ onProductSubmit, setIsClosed }: ItemFormProps) {
     if (lastProductCreated) {
       onProductSubmit(lastProductCreated);
     }
+
     if (lastProductCreated) {
-      setIsClosed(true)
+      setIsClosed(true);
     }
 
     (event.target as HTMLFormElement).reset();
@@ -174,9 +175,10 @@ export function ItemForm({ onProductSubmit, setIsClosed }: ItemFormProps) {
         <div className="flex flex-col gap-3">
           <div className="flex flex-col w-full gap-2 items-center justify-center max-lg:flex-wrap max-md:flex-nowrap max-sm:flex-wrap">
             {ingredients.map((ingredient, index) => (
-              <div className="flex items-end justify-center max-lg:items-center max-md:items-end max-sm:items-center" key={index}>
-                <div
-                  className="flex w-full gap-2 items-center justify-center max-lg:flex-wrap max-md:flex-nowrap max-sm:flex-wrap">
+              <div
+                className="flex items-end justify-center max-lg:items-center max-md:items-end max-sm:items-center"
+                key={index}>
+                <div className="flex w-full gap-2 items-center justify-center max-lg:flex-wrap max-md:flex-nowrap max-sm:flex-wrap">
                   <label className="form-control w-full max-w-xs">
                     <div className="label">
                       <span className="label-text">Ícone</span>
@@ -185,7 +187,9 @@ export function ItemForm({ onProductSubmit, setIsClosed }: ItemFormProps) {
                       type="text"
                       placeholder="Ex.: 🧀"
                       value={ingredient.icon}
-                      onChange={(e) => handleIngredientChange(index, "icon", e.target.value)}
+                      onChange={(e) =>
+                        handleIngredientChange(index, "icon", e.target.value)
+                      }
                       className="input input-bordered w-full max-w-xs"/>
                   </label>
                   <label className="form-control w-full max-w-xs">
@@ -196,11 +200,15 @@ export function ItemForm({ onProductSubmit, setIsClosed }: ItemFormProps) {
                       type="text"
                       placeholder="Ex.: Queijo"
                       value={ingredient.name}
-                      onChange={(e) => handleIngredientChange(index, "name", e.target.value)}
+                      onChange={(e) =>
+                        handleIngredientChange(index, "name", e.target.value)
+                      }
                       className="input input-bordered w-full max-w-xs"/>
                   </label>
                 </div>
-                <div onClick={()=>handleDeleteIngredient(index)} className="flex items-center justify-center p-3 cursor-pointer">
+                <div
+                  onClick={() => handleDeleteIngredient(index)}
+                  className="flex items-center justify-center p-3 cursor-pointer">
                   <img className="w-6 h-6" src={Trash} alt="" />
                 </div>
               </div>

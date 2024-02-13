@@ -1,6 +1,6 @@
 import { Dispatch, ReactNode, SetStateAction, useRef } from "react";
 
-export function NewItemDialog({ children, isClosed, setIsClosed }: { children: ReactNode, isClosed: boolean, setIsClosed: Dispatch<SetStateAction<boolean>> }) {
+export function NewCategoryDialog({ children, isClosed, setIsClosed }: { children: ReactNode, isClosed: boolean, setIsClosed: Dispatch<SetStateAction<boolean>> }) {
   const modalBtn = useRef(null) as React.MutableRefObject<null | HTMLDialogElement>;
 
   const handleClick = () => {
@@ -8,7 +8,7 @@ export function NewItemDialog({ children, isClosed, setIsClosed }: { children: R
       modalBtn.current.showModal();
     }
   };
-
+  
   if (isClosed) {
     setIsClosed(false)
     modalBtn.current?.close()
@@ -18,7 +18,7 @@ export function NewItemDialog({ children, isClosed, setIsClosed }: { children: R
     <div
       className="flex flex-col w-full h-24 rounded-md bg-base-300 items-center justify-center cursor-pointer"
       onClick={handleClick}>
-      <h1 className="text-lg font-semibold">Criar Produto</h1>
+      <h1 className="text-lg font-semibold">Criar Categoria</h1>
       <dialog ref={modalBtn} className="modal">
         <div className="modal-box">
           <div className="flex flex-col gap-5">

@@ -2,12 +2,12 @@ import { Header } from "../components/Header";
 import Burguer from "../assets/images/Hamburger.png";
 import Not from "../assets/images/nenhum_prod.png";
 import { Product } from "../components/Product";
-import { ItemForm } from "../components/NewItemForm";
+import { NewItemForm } from "../components/NewItemForm";
 import { useState } from "react";
 import { ISingleProduct } from "../interfaces/IOrders";
-import { CategoryForm } from "../components/NewCategoryForm";
-import { DeleteCategoryForm } from "../components/DeleteCategoryForm";
+import { NewCategoryForm } from "../components/NewCategoryForm";
 import { NewItemDialog } from "../components/NewItemDialog";
+import { NewCategoryDialog } from "../components/NewCategoryDialog";
 
 export type ICategories = {
   _id: string;
@@ -24,11 +24,11 @@ export function NewItem() {
       <Header />
       <div className="flex w-full p-3 gap-3 justify-around max-md:flex-col max-md:items-center max-md:gap-10">
         <div className="flex flex-col gap-5 items-center w-1/2 max-md:w-full">
-          <CategoryForm />
-          <NewItemDialog 
-            isClosed={isClosed}
-            setIsClosed={setIsClosed}>
-            <ItemForm
+          <NewCategoryDialog isClosed={isClosed} setIsClosed={setIsClosed}>
+            <NewCategoryForm setIsClosed={setIsClosed} />
+          </NewCategoryDialog>
+          <NewItemDialog isClosed={isClosed} setIsClosed={setIsClosed}>
+            <NewItemForm
               setIsClosed={setIsClosed}
               onProductSubmit={(product) => setReceivedProduct(product)}/>
           </NewItemDialog>
@@ -51,7 +51,6 @@ export function NewItem() {
             ) : (
               <Product lastProduct={receivedProduct} />
             )}
-            <DeleteCategoryForm />
           </div>
         </div>
       </div>

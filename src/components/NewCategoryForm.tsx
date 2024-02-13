@@ -1,13 +1,18 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { useCategory } from "../servises/api/CategoryRequest";
 
-export function CategoryForm() {
+interface ICategoryFormProps {
+  setIsClosed: Dispatch<SetStateAction<boolean>>;
+}
+
+export function NewCategoryForm({ setIsClosed }: ICategoryFormProps) {
   const [icon, setIcon] = useState<string>("");
   const [category, setCategory] = useState<string>("");
 
   const { CreateCategory } = useCategory();
 
   const handleSubmit = async () => {
+    setIsClosed(true)
     await CreateCategory(icon, category);
   };
 
