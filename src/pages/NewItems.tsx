@@ -8,6 +8,8 @@ import { ISingleProduct } from "../interfaces/IOrders";
 import { NewCategoryForm } from "../components/NewCategoryForm";
 import { NewItemDialog } from "../components/NewItemDialog";
 import { NewCategoryDialog } from "../components/NewCategoryDialog";
+import { DeleteCategoryForm } from "../components/DeleteCategoryForm";
+import { DeleteCategoryDialog } from "../components/DeleteCategoryDialog";
 
 export type ICategories = {
   _id: string;
@@ -32,6 +34,9 @@ export function NewItem() {
               setIsClosed={setIsClosed}
               onProductSubmit={(product) => setReceivedProduct(product)}/>
           </NewItemDialog>
+          <DeleteCategoryDialog isClosed={isClosed} setIsClosed={setIsClosed}>
+            <DeleteCategoryForm/>
+          </DeleteCategoryDialog>
         </div>
         <div className="w-1/2 flex flex-col gap-5 max-md:w-full">
           <div className="flex flex-col w-full h-ful gap-2 shadow-lg rounded-md">
