@@ -1,4 +1,4 @@
-import { Dispatch, FormEvent, SetStateAction, useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import Plus from "../assets/images/PlusLight.png";
 import Trash from "../assets/images/Trash.png";
 import { useProduct } from "../servises/api/ProductsRequest";
@@ -6,13 +6,9 @@ import { toast } from "react-toastify";
 import { ISingleProduct } from "../interfaces/IOrders";
 import { useCategory } from "../servises/api/CategoryRequest";
 import { ICategories } from "../pages/NewItems";
+import { IItemFormProps } from "../interfaces/IItemFormProps";
 
-export interface ItemFormProps {
-  onProductSubmit: (product: ISingleProduct) => void;
-  setIsClosed: Dispatch<SetStateAction<boolean>>;
-}
-
-export function NewItemForm({ onProductSubmit, setIsClosed }: ItemFormProps) {
+export function NewItemForm({ onProductSubmit, setIsClosed }: IItemFormProps) {
   const [productName, setProductName] = useState<string>("");
   const [productPrice, setProductPrice] = useState<number>();
   const [productDescription, setProductDescription] = useState<string>("");

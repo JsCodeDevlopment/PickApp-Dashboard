@@ -35,7 +35,7 @@ export function NewItem() {
               onProductSubmit={(product) => setReceivedProduct(product)}/>
           </NewItemDialog>
           <DeleteCategoryDialog isClosed={isClosed} setIsClosed={setIsClosed}>
-            <DeleteCategoryForm/>
+            <DeleteCategoryForm setIsClosed={setIsClosed}/>
           </DeleteCategoryDialog>
         </div>
         <div className="w-1/2 flex flex-col gap-5 max-md:w-full">
