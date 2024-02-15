@@ -28,20 +28,6 @@ export function DeleteCategoryForm({ setIsClosed }: IDeleteCategoryFormProps) {
   return (
     <div className="flex w-full flex-col items-center justify-center gap-2 p-2 rounded-md bg-base-300 shadow-lg">
       <h1 className="text-lg font-semibold">Deletar Categoria</h1>
-
-      <label className="flex gap-2 text-base font-medium">
-        Categorias:
-        <input list="categories" className="input input-xs" />
-      </label>
-      <datalist id="categories">
-        {categories &&
-          categories.map((category) => (
-            <option key={category._id} value={category.name}>
-              {category.name}
-            </option>
-          ))}
-      </datalist>
-
       {categories &&
         categories.map((category) => (
           <div key={category._id} className="flex w-full p-2 gap-5 items-center justify-between rounded-md bg-base-200 shadow-md ">

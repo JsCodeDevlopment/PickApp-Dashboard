@@ -5,11 +5,10 @@ import { Product } from "../components/Product";
 import { NewItemForm } from "../components/NewItemForm";
 import { useState } from "react";
 import { ISingleProduct } from "../interfaces/IOrders";
-import { NewCategoryForm } from "../components/NewCategoryForm";
 import { NewItemDialog } from "../components/NewItemDialog";
-import { NewCategoryDialog } from "../components/NewCategoryDialog";
 import { DeleteCategoryForm } from "../components/DeleteCategoryForm";
 import { DeleteCategoryDialog } from "../components/DeleteCategoryDialog";
+import { SaveCategory } from "../components/SaveCategory";
 
 export type ICategories = {
   _id: string;
@@ -20,22 +19,24 @@ export type ICategories = {
 export function NewItem() {
   const [receivedProduct, setReceivedProduct] = useState<ISingleProduct | undefined>(undefined);
   const [isClosed, setIsClosed] = useState<boolean>(false);
-
+  
   return (
     <div className="bg-base-100 w-full h-screen overflow-y-scroll overflow-x-hidden scrollbar-thin scrollbar-thumb-neutral scrollbar-track-base-100">
       <Header />
       <div className="flex w-full p-3 gap-3 justify-around max-md:flex-col max-md:items-center max-md:gap-10">
         <div className="flex flex-col gap-5 items-center w-1/2 max-md:w-full">
-          <NewCategoryDialog isClosed={isClosed} setIsClosed={setIsClosed}>
-            <NewCategoryForm setIsClosed={setIsClosed} />
-          </NewCategoryDialog>
+          
+          <SaveCategory/>
+
+          
           <NewItemDialog isClosed={isClosed} setIsClosed={setIsClosed}>
             <NewItemForm
               setIsClosed={setIsClosed}
-              onProductSubmit={(product) => setReceivedProduct(product)}/>
+              onProductSubmit={(product) => setReceivedProduct(product)}
+            />
           </NewItemDialog>
           <DeleteCategoryDialog isClosed={isClosed} setIsClosed={setIsClosed}>
-            <DeleteCategoryForm setIsClosed={setIsClosed}/>
+            <DeleteCategoryForm setIsClosed={setIsClosed} />
           </DeleteCategoryDialog>
         </div>
         <div className="w-1/2 flex flex-col gap-5 max-md:w-full">
