@@ -6,13 +6,12 @@ interface IDeleteCategoryDialogProps {
   id: string;
   isClosed: boolean;
   setIsClosed: Dispatch<SetStateAction<boolean>>;
+  getCategories: () => Promise<void>
 }
 
-export function DeleteCategoryDialog({ id, isClosed, setIsClosed }: IDeleteCategoryDialogProps) {
+export function DeleteCategoryDialog({ id, isClosed, setIsClosed, getCategories }: IDeleteCategoryDialogProps) {
   const modalBtn = useRef(null) as React.MutableRefObject<null | HTMLDialogElement>;
-  
   const { DeleteCategory } = useCategory();
-
 
   const handleClick = () => {
     if (modalBtn.current) {
@@ -29,10 +28,10 @@ export function DeleteCategoryDialog({ id, isClosed, setIsClosed }: IDeleteCateg
     setIsClosed(true);
   };
 
-
   const handleDeleteCategory = async (id: string) => {
-    await DeleteCategory(id)
     setIsClosed(true)
+    await DeleteCategory(id)
+    getCategories()
   }
 
   return (

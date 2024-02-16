@@ -48,7 +48,7 @@ export function useCategory() {
     }
   };
 
-  const ChangeCategory = async ({ id, icon, name }: IChangeCategoryProps): Promise<void> => {
+  const ChangeCategory = async ({ id, icon, name }: IChangeCategoryProps): Promise<void> => {    
     try {
       const response = await fetch(`${baseURL}/categories/${id}`, {
         method: "PATCH",

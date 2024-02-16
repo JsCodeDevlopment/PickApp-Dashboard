@@ -4,27 +4,36 @@ import { ISingleCategory } from "../interfaces/IOrders";
 
 interface ISaveCategoryFormProps {
   setIsClosed: Dispatch<SetStateAction<boolean>>;
-  category?: ISingleCategory 
+  category?: ISingleCategory
+  getCategories: () => Promise<void>
 }
 
-export function SaveCategoryForm({ setIsClosed, category }: ISaveCategoryFormProps) {
+export function SaveCategoryForm({ setIsClosed, category, getCategories }: ISaveCategoryFormProps) {
   const [categoryIcon, setCategoryIcon] = useState<string>(category?.icon || "");
   const [categoryName, setCategoryName] = useState<string>(category?.name || "");
 
-  const { CreateCategory } = useCategory();
+  const { CreateCategory, ChangeCategory } = useCategory();
 
   const handleSubmit = async () => {
     setIsClosed(true)
+
     if (category) {
-      // update here function
+      const changeCategory = {
+        id: category._id,
+        icon: categoryIcon,
+        name: categoryName
+      }
+      await ChangeCategory(changeCategory)
+      getCategories()
     } else {
       await CreateCategory(categoryIcon, categoryName);
+      getCategories()
     }
   };
 
   return (
     <div className="flex flex-col items-center justify-center gap-2 p-2 rounded-md bg-base-300 shadow-lg">
-      <h1 className="text-lg font-semibold text-base-content">{category ? `Editar categoria ${category.name}` : "Criar Categoria"}</h1>
+      <h1 className="text-lg font-semibold text-base-content">{category ? `Editar Categoria ${category.name}` : "Criar Categoria"}</h1>
       <div className="flex w-full items-center justify-center max-lg:flex-wrap max-md:flex-nowrap max-sm:flex-wrap">
         <label className="form-control w-full max-w-xs">
           <div className="label">

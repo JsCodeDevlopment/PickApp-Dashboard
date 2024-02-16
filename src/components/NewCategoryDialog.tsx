@@ -1,8 +1,13 @@
 import { Dispatch, ReactNode, SetStateAction, useRef } from "react";
-import Add from "../assets/images/PlusLight.png";
 
+interface INewCategoryDialogProps {
+  children: ReactNode
+  isClosed: boolean
+  setIsClosed: Dispatch<SetStateAction<boolean>>
+  icon: string
+}
 
-export function NewCategoryDialog({ children, isClosed, setIsClosed }: { children: ReactNode, isClosed: boolean, setIsClosed: Dispatch<SetStateAction<boolean>> }) {
+export function NewCategoryDialog({ children, isClosed, setIsClosed, icon }: INewCategoryDialogProps) {
   const modalBtn = useRef(null) as React.MutableRefObject<null | HTMLDialogElement>;
 
   const handleClick = () => {
@@ -20,7 +25,7 @@ export function NewCategoryDialog({ children, isClosed, setIsClosed }: { childre
     <div
       className="flex flex-col btn btn-square btn-neutral btn-sm rounded-md items-center justify-center cursor-pointer"
       onClick={handleClick}>
-        <img src={Add} alt="" />
+        {icon && <img src={icon} alt="" />}
       <dialog ref={modalBtn} className="modal">
         <div className="modal-box">
           <div className="flex flex-col gap-5">

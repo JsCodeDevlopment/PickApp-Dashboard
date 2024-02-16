@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useCategory } from "../servises/api/CategoryRequest";
 import { ICategories } from "../pages/NewItems";
 import Edit from "../assets/images/edit.png";
+import Add from "../assets/images/PlusLight.png";
 import { NewCategoryDialog } from "./NewCategoryDialog";
 import { SaveCategoryForm } from "./SaveCategoryForm";
 import { DeleteCategoryDialog } from "./DeleteCategoryDialog";
@@ -12,21 +13,22 @@ export function SaveCategory() {
 
   const { ShowCategories } = useCategory();
 
+  const getCategories = async () => {
+    const allCategories = await ShowCategories();
+    allCategories && setCategories(allCategories);
+  };
+
   useEffect(() => {
-    const getCategories = async () => {
-      const allCategories = await ShowCategories();
-      allCategories && setCategories(allCategories);
-    };
     getCategories();
-  }, [categories]);
+  }, []);
 
   return (
     <div className="flex flex-col w-full gap-2 p-2 rounded-md bg-base-300 items-end">
       <div className="flex justify-center items-center w-full">
         <h1 className="text-2xl font-semibold">Categorias</h1>
       </div>
-      <NewCategoryDialog isClosed={isClosed} setIsClosed={setIsClosed}>
-        <SaveCategoryForm setIsClosed={setIsClosed} />
+      <NewCategoryDialog isClosed={isClosed} setIsClosed={setIsClosed} icon={Add}>
+        <SaveCategoryForm setIsClosed={setIsClosed} getCategories={getCategories} />
       </NewCategoryDialog>
       {categories &&
         categories.map((category) => (
@@ -44,10 +46,10 @@ export function SaveCategory() {
               </div>
             </div>
             <div className="flex gap-2">
-              <button className="btn btn-xs btn-square btn-ghost">
-                <img src={Edit} alt="" />
-              </button>
-              <DeleteCategoryDialog isClosed={isClosed} setIsClosed={setIsClosed} id={category._id} />
+              <NewCategoryDialog isClosed={isClosed} setIsClosed={setIsClosed} icon={Edit}>
+                <SaveCategoryForm setIsClosed={setIsClosed} category={category} getCategories={getCategories} />
+              </NewCategoryDialog>
+              <DeleteCategoryDialog isClosed={isClosed} setIsClosed={setIsClosed} id={category._id} getCategories={getCategories}/>
             </div>
           </div>
         ))}
