@@ -1,16 +1,14 @@
 import { useEffect, useState } from "react";
 import { useCategory } from "../servises/api/CategoryRequest";
 import { ICategories } from "../pages/NewItems";
-import Trash from "../assets/images/Trash.png";
 import Edit from "../assets/images/edit.png";
 import { NewCategoryDialog } from "./NewCategoryDialog";
 import { SaveCategoryForm } from "./SaveCategoryForm";
+import { DeleteCategoryDialog } from "./DeleteCategoryDialog";
 
 export function SaveCategory() {
   const [isClosed, setIsClosed] = useState<boolean>(false);
-  const [categories, setCategories] = useState<ICategories>([
-    { _id: "", name: "", icon: "" },
-  ]);
+  const [categories, setCategories] = useState<ICategories>([{ _id: "", name: "", icon: "" }]);
 
   const { ShowCategories } = useCategory();
 
@@ -49,9 +47,7 @@ export function SaveCategory() {
               <button className="btn btn-xs btn-square btn-ghost">
                 <img src={Edit} alt="" />
               </button>
-              <button className="btn btn-xs btn-square btn-ghost">
-                <img src={Trash} alt="" />
-              </button>
+              <DeleteCategoryDialog isClosed={isClosed} setIsClosed={setIsClosed} id={category._id} />
             </div>
           </div>
         ))}
