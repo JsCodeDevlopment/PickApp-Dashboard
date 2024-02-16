@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import { useCategory } from "../servises/api/CategoryRequest";
 import { ISingleCategory } from "../interfaces/IOrders";
+import Wind from '../assets/images/WindowsLogo.png'
 
 interface ISaveCategoryFormProps {
   setIsClosed: Dispatch<SetStateAction<boolean>>;
@@ -34,6 +35,7 @@ export function SaveCategoryForm({ setIsClosed, category, getCategories }: ISave
   return (
     <div className="flex flex-col items-center justify-center gap-2 p-2 rounded-md bg-base-300 shadow-lg">
       <h1 className="text-lg font-semibold text-base-content">{category ? `Editar Categoria ${category.name}` : "Criar Categoria"}</h1>
+      <p className="flex items-center justify-center">Tecle <img src={Wind} alt="" /> +. Para adicionar um ícone.</p>
       <div className="flex w-full items-center justify-center max-lg:flex-wrap max-md:flex-nowrap max-sm:flex-wrap">
         <label className="form-control w-full max-w-xs">
           <div className="label">

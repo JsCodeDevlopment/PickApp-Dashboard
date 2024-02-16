@@ -3,6 +3,7 @@ import { useCategory } from "../servises/api/CategoryRequest";
 import { ICategories } from "../pages/NewItems";
 import Edit from "../assets/images/edit.png";
 import Add from "../assets/images/PlusLight.png";
+import Icon from "../assets/images/categories.png";
 import { NewCategoryDialog } from "./NewCategoryDialog";
 import { SaveCategoryForm } from "./SaveCategoryForm";
 import { DeleteCategoryDialog } from "./DeleteCategoryDialog";
@@ -24,7 +25,8 @@ export function SaveCategory() {
 
   return (
     <div className="flex flex-col w-full gap-2 p-2 rounded-md bg-base-300 items-end">
-      <div className="flex justify-center items-center w-full">
+      <div className="flex justify-center items-center gap-2 w-full">
+        <img className="w-6 h-6" src={Icon} />
         <h1 className="text-2xl font-semibold">Categorias</h1>
       </div>
       <NewCategoryDialog isClosed={isClosed} setIsClosed={setIsClosed} icon={Add}>

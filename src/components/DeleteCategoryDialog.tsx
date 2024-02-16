@@ -49,6 +49,7 @@ export function DeleteCategoryDialog({ id, isClosed, setIsClosed, getCategories 
             </div>
             <div className="flex w-full flex-col items-center justify-center gap-5 p-2 rounded-md bg-base-300 shadow-lg">
               <h1 className="text-lg font-semibold">Está certo disso?</h1>
+              <p className="text-sm font-light">Caso haja produtos cadastrados nessa categoria, esses produtos serão perdidos.</p>
               <div className="flex w-full gap-3 items-center justify-around">
                 <button className="btn btn-outline btn-primary w-28" onClick={() => handleDeleteCategory(id)}>
                   Sim!
