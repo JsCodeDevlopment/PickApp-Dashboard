@@ -1,13 +1,12 @@
-import { Dispatch, ReactNode, SetStateAction, useRef } from "react";
-import Add from "../assets/images/PlusLight.png";
+import { Dispatch, SetStateAction, useRef } from "react";
+import Trash from "../assets/images/Trash.png";
 
-interface INewItemDialogProps {
-  children: ReactNode;
+interface IProductDialogProps {
   isClosed: boolean;
   setIsClosed: Dispatch<SetStateAction<boolean>>;
 }
 
-export function NewItemDialog({ children, isClosed, setIsClosed }: INewItemDialogProps) {
+export function ProductDialog({ setIsClosed, isClosed }: IProductDialogProps) {
   const modalBtn = useRef(null) as React.MutableRefObject<null | HTMLDialogElement>;
 
   const handleClick = () => {
@@ -23,9 +22,18 @@ export function NewItemDialog({ children, isClosed, setIsClosed }: INewItemDialo
 
   return (
     <div
-      className="flex flex-col btn btn-square btn-neutral btn-sm rounded-md items-center justify-center cursor-pointer"
+      className="flex flex-col w-full items-center justify-center cursor-pointer"
       onClick={handleClick}>
-        <img src={Add} alt="" />
+      <div className="flex w-full p-2 gap-5 items-center justify-between rounded-md bg-neutral shadow-md">
+        <div className="flex gap-5 max-sm:w-full max-sm:gap-2">
+          <p className="text-xl font-semibold text-neutral-content">
+            PRODUTO AQUI
+          </p>
+        </div>
+        <div className="flex gap-2">
+          <img src={Trash} alt="" />
+        </div>
+      </div>
       <dialog ref={modalBtn} className="modal">
         <div className="modal-box">
           <div className="flex flex-col gap-5">
@@ -34,7 +42,7 @@ export function NewItemDialog({ children, isClosed, setIsClosed }: INewItemDialo
                 Press ESC key or click outside to close
               </p>
             </div>
-            {children}
+            algo aqui
           </div>
         </div>
         <form method="dialog" className="modal-backdrop">

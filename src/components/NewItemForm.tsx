@@ -1,6 +1,7 @@
 import { FormEvent, useEffect, useState } from "react";
 import Plus from "../assets/images/PlusLight.png";
 import Trash from "../assets/images/Trash.png";
+import Wind from '../assets/images/WindowsLogo.png'
 import { useProduct } from "../servises/api/ProductsRequest";
 import { toast } from "react-toastify";
 import { ISingleProduct } from "../interfaces/IOrders";
@@ -168,6 +169,7 @@ export function NewItemForm({ onProductSubmit, setIsClosed }: IItemFormProps) {
           </select>
         </label>
         <h1 className="text-base font-semibold">Ingredientes</h1>
+        <p className="flex items-center justify-center">Tecle <img src={Wind} alt="" /> +. Para adicionar um ícone.</p>
         <div className="flex flex-col gap-3">
           <div className="flex flex-col w-full gap-2 items-center justify-center max-lg:flex-wrap max-md:flex-nowrap max-sm:flex-wrap">
             {ingredients.map((ingredient, index) => (
@@ -183,9 +185,7 @@ export function NewItemForm({ onProductSubmit, setIsClosed }: IItemFormProps) {
                       type="text"
                       placeholder="Ex.: 🧀"
                       value={ingredient.icon}
-                      onChange={(e) =>
-                        handleIngredientChange(index, "icon", e.target.value)
-                      }
+                      onChange={(e) => handleIngredientChange(index, "icon", e.target.value)}
                       className="input input-bordered w-full max-w-xs"/>
                   </label>
                   <label className="form-control w-full max-w-xs">
@@ -196,9 +196,7 @@ export function NewItemForm({ onProductSubmit, setIsClosed }: IItemFormProps) {
                       type="text"
                       placeholder="Ex.: Queijo"
                       value={ingredient.name}
-                      onChange={(e) =>
-                        handleIngredientChange(index, "name", e.target.value)
-                      }
+                      onChange={(e) => handleIngredientChange(index, "name", e.target.value)}
                       className="input input-bordered w-full max-w-xs"/>
                   </label>
                 </div>
