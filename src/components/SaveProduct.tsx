@@ -1,16 +1,24 @@
-import { Dispatch, useState } from "react";
+import { Dispatch, useEffect, useState } from "react";
 import Create from "../assets/images/create.png";
 import { NewItemDialog } from "./NewItemDialog";
 import { NewItemForm } from "./NewItemForm";
 import { ISingleProduct } from "../interfaces/IOrders";
 import { ProductDialog } from "./ProductDialog";
+import { DeleteProductDialog } from "./DeleteProductDialog";
+import { useOrderContext } from "../context/OrderContext";
 
 interface ISaveProductProps {
   setReceivedProduct: Dispatch<React.SetStateAction<ISingleProduct | undefined>>;
+  receveivedProduct: ISingleProduct | undefined
 }
 
-export function SaveProduct({ setReceivedProduct }: ISaveProductProps) {
+export function SaveProduct({ setReceivedProduct, receveivedProduct }: ISaveProductProps) {
   const [isClosed, setIsClosed] = useState<boolean>(false);
+  const { products, useRequestProducts } = useOrderContext();
+
+  useEffect(() => {
+    useRequestProducts()
+  },[])
 
   return (
     <div className="flex flex-col w-full gap-2 p-2 rounded-md bg-base-300 items-end">
@@ -21,9 +29,22 @@ export function SaveProduct({ setReceivedProduct }: ISaveProductProps) {
       <NewItemDialog isClosed={isClosed} setIsClosed={setIsClosed}>
         <NewItemForm
           setIsClosed={setIsClosed}
+          useRequestProducts={useRequestProducts}
           onProductSubmit={(product) => setReceivedProduct(product)}/>
       </NewItemDialog>
-      <ProductDialog isClosed={isClosed} setIsClosed={setIsClosed}/>
+      {products &&
+        products.map((product) => (
+          <div className="relative flex w-full" key={product._id}>
+            <DeleteProductDialog
+              setIsClosed={setIsClosed}
+              setReceivedProduct={setReceivedProduct}
+              receivedProduct={receveivedProduct}
+              isClosed={isClosed}
+              id={product._id}
+              useRequestProducts={useRequestProducts}/>
+            <ProductDialog isClosed={isClosed} setIsClosed={setIsClosed} product={product} />
+          </div>
+        ))}
     </div>
   );
 }

@@ -9,7 +9,7 @@ import { useCategory } from "../servises/api/CategoryRequest";
 import { ICategories } from "../pages/NewItems";
 import { IItemFormProps } from "../interfaces/IItemFormProps";
 
-export function NewItemForm({ onProductSubmit, setIsClosed }: IItemFormProps) {
+export function NewItemForm({ onProductSubmit, setIsClosed, useRequestProducts }: IItemFormProps) {
   const [productName, setProductName] = useState<string>("");
   const [productPrice, setProductPrice] = useState<number>();
   const [productDescription, setProductDescription] = useState<string>("");
@@ -81,9 +81,7 @@ export function NewItemForm({ onProductSubmit, setIsClosed }: IItemFormProps) {
 
     if (lastProductCreated) {
       onProductSubmit(lastProductCreated);
-    }
-
-    if (lastProductCreated) {
+      useRequestProducts()
       setIsClosed(true);
     }
 

@@ -63,5 +63,27 @@ export function useProduct() {
     }
   }
 
-  return { CreateProduct, ShowProductsByCategory };
+  const DeleteProduct = async (productId: string) => {
+    try {
+      const response = await fetch(`${baseURL}/products/${productId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        }
+      })
+      if (response.ok) {
+        toast.success("Produto excluido com sucesso!", {
+          autoClose: 1000 * 3,
+        });
+      } else {
+        toast.error(`Erro ao excluir o produto.`, {
+          autoClose: 1000 * 3,
+        });
+      }
+    } catch (error) {
+      console.error(error, "Erro ao requisitar a deletação do produto.")
+    }
+  }
+
+  return { CreateProduct, ShowProductsByCategory, DeleteProduct };
 }

@@ -24,7 +24,7 @@ export function NewItem() {
           <SaveCategory />
         </div>
         <div className="w-1/2 flex flex-col gap-5 max-md:w-full">
-          <SaveProduct setReceivedProduct={setReceivedProduct}/>
+          <SaveProduct setReceivedProduct={setReceivedProduct} receveivedProduct={receivedProduct}/>
           <div className="flex flex-col w-full h-ful gap-2 shadow-lg rounded-md">
             <div className="flex flex-wrap p-1 gap-2 items-center bg-neutral justify-center rounded-md">
               <img className="w-6 h-6" src={Burguer} />
