@@ -12,6 +12,7 @@ import { LoginProvider } from "./context/LoginContext";
 import { NewOrder } from "./pages/NewOrder";
 import { NewItem } from "./pages/NewItems";
 import { CartProvider } from "./context/CartContext";
+import { NewCategory } from "./pages/NewCategory";
 
 export function App() {
   const { currentTheme } = useTheme();
@@ -34,8 +35,9 @@ export function App() {
             <Route path="/" element={<LoginPage />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/dashboard/theme" element={<Theme />} />
-            <Route path="/dashboard/neworder" element={<CartProvider><NewOrder /></CartProvider>} />
+            <Route path="/dashboard/newcategory" element={<NewCategory />} />
             <Route path="/dashboard/newitem" element={<NewItem />} />
+            <Route path="/dashboard/neworder" element={<CartProvider><NewOrder /></CartProvider>} />
           </Routes>
         </main>
       </LoginProvider>

@@ -17,15 +17,10 @@ export function DeleteProductDialog({ id, isClosed, setIsClosed, useRequestProdu
   const { DeleteProduct } = useProduct();
 
   const handleClick = () => {
-    if (modalBtn.current) {
-      modalBtn.current.showModal();
-    }
+    modalBtn.current && modalBtn.current.showModal();
   };
 
-  if (isClosed) {
-    setIsClosed(false);
-    modalBtn.current?.close();
-  }
+  isClosed && setIsClosed(false), modalBtn.current?.close()
 
   const handleReject = () => {
     setIsClosed(true);
@@ -33,18 +28,14 @@ export function DeleteProductDialog({ id, isClosed, setIsClosed, useRequestProdu
 
   const handleDeleteCategory = async (id: string) => {
     setIsClosed(true)
-
-    if (receivedProduct?._id === id) {
-      setReceivedProduct(undefined)
-    }
-
+    receivedProduct?._id === id && setReceivedProduct(undefined)
     await DeleteProduct(id)
     useRequestProducts()
   }
 
   return (
     <div
-      className="flex flex-col btn btn-square btn-ghost btn-sm rounded-md items-center justify-center cursor-pointer z-10 absolute top-[1.3rem] right-2"
+      className="flex flex-col btn btn-square btn-ghost btn-sm rounded-md items-center justify-center cursor-pointer absolute top-[1.3rem] right-2"
       onClick={handleClick}>
       <img src={Trash} alt="" />
       <dialog ref={modalBtn} className="modal">

@@ -4,7 +4,6 @@ import Not from "../assets/images/nenhum_prod.png";
 import { Product } from "../components/Product";
 import { useState } from "react";
 import { ISingleProduct } from "../interfaces/IOrders";
-import { SaveCategory } from "../components/SaveCategory";
 import { SaveProduct } from "../components/SaveProduct";
 
 export type ICategories = {
@@ -21,10 +20,9 @@ export function NewItem() {
       <Header />
       <div className="flex w-full p-3 gap-3 justify-around max-md:flex-col max-md:items-center max-md:gap-10">
         <div className="flex flex-col gap-5 items-center w-1/2 max-md:w-full">
-          <SaveCategory />
+          <SaveProduct setReceivedProduct={setReceivedProduct} receveivedProduct={receivedProduct}/>
         </div>
         <div className="w-1/2 flex flex-col gap-5 max-md:w-full">
-          <SaveProduct setReceivedProduct={setReceivedProduct} receveivedProduct={receivedProduct}/>
           <div className="flex flex-col w-full h-ful gap-2 shadow-lg rounded-md">
             <div className="flex flex-wrap p-1 gap-2 items-center bg-neutral justify-center rounded-md">
               <img className="w-6 h-6" src={Burguer} />
