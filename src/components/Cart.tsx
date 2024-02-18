@@ -78,7 +78,7 @@ export function Cart() {
           </option>
           {tables &&
             tables.map((table) => (
-              <option key={table.id}>Mesa: {table.name}</option>
+              <option value={table.id} key={table.id}>Mesa: {table.name}</option>
             ))}
         </select>
       </div>
