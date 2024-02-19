@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useState } from "react";
-import { useCategory } from "../servises/api/CategoryRequest";
-import { ISingleCategory } from "../interfaces/IOrders";
-import Wind from '../assets/images/WindowsLogo.png'
+import { useCategory } from "../../servises/api/CategoryRequest";
+import { ISingleCategory } from "../../interfaces/IOrders";
+import Wind from '../../assets/images/WindowsLogo.png'
 
 interface ISaveCategoryFormProps {
   setIsClosed: Dispatch<SetStateAction<boolean>>;

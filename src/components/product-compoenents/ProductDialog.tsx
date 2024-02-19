@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useRef } from "react";
-import { ISingleProduct } from "../interfaces/IOrders";
-import { baseURL } from "../servises/BackEndBaseURL";
+import { ISingleProduct } from "../../interfaces/IOrders";
+import { baseURL } from "../../servises/BackEndBaseURL";
 import { Product } from "./Product";
 
 interface IProductDialogProps {

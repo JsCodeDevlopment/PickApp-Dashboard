@@ -1,4 +1,4 @@
-import { ICategoryProps } from "../interfaces/ICategoryProps";
+import { ICategoryProps } from "../../interfaces/ICategoryProps";
 
 export function Category({ name, quantity, children }: ICategoryProps) {
   return (

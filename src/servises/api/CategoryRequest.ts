@@ -1,8 +1,8 @@
 import { toast } from "react-toastify";
 import { ISingleCategory } from "../../interfaces/IOrders";
-import { ICategories } from "../../pages/NewItems";
 import { baseURL } from "../BackEndBaseURL";
 import { IChangeCategoryProps } from "../../interfaces/IChangeCategoryProps";
+import { ICategories, IFullCategory } from "../../interfaces/ICategory";
 
 export function useCategory() {
   const ShowCategories = async (): Promise<ICategories | undefined> => {
@@ -11,6 +11,19 @@ export function useCategory() {
         method: "GET",
       });
       const data: ICategories = await response.json();
+
+      return data;
+    } catch (error) {
+      console.error(error, "Erro ao buscar categortias.");
+    }
+  };
+
+  const ShowCategoryInfo = async (): Promise<IFullCategory[] | undefined> => {
+    try {
+      const response = await fetch(`${baseURL}/categoriesfull`, {
+        method: "GET",
+      });
+      const data: IFullCategory[] = await response.json();
 
       return data;
     } catch (error) {
@@ -103,5 +116,5 @@ export function useCategory() {
     }
   };
 
-  return { ShowCategories, CreateCategory, DeleteCategory, ChangeCategory };
+  return { ShowCategories, CreateCategory, DeleteCategory, ChangeCategory, ShowCategoryInfo };
 }

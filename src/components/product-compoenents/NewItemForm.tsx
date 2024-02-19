@@ -1,13 +1,13 @@
 import { FormEvent, useEffect, useState } from "react";
-import Plus from "../assets/images/PlusLight.png";
-import Trash from "../assets/images/Trash.png";
-import Wind from '../assets/images/WindowsLogo.png'
-import { useProduct } from "../servises/api/ProductsRequest";
+import Plus from "../../assets/images/PlusLight.png";
+import Trash from "../../assets/images/Trash.png";
+import Wind from '../../assets/images/WindowsLogo.png'
+import { useProduct } from "../../servises/api/ProductsRequest";
 import { toast } from "react-toastify";
-import { ISingleProduct } from "../interfaces/IOrders";
-import { useCategory } from "../servises/api/CategoryRequest";
-import { ICategories } from "../pages/NewItems";
-import { IItemFormProps } from "../interfaces/IItemFormProps";
+import { ISingleProduct } from "../../interfaces/IOrders";
+import { useCategory } from "../../servises/api/CategoryRequest";
+import { IItemFormProps } from "../../interfaces/IItemFormProps";
+import { ICategories } from "../../interfaces/ICategory";
 
 export function NewItemForm({ onProductSubmit, setIsClosed, useRequestProducts }: IItemFormProps) {
   const [productName, setProductName] = useState<string>("");

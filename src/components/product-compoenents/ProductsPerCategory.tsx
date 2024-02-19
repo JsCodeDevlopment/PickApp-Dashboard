@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { ProductToBuy } from "./ProductsToBuy";
-import { ICategories } from "../pages/NewItems";
-import { useCategory } from "../servises/api/CategoryRequest";
+import { useCategory } from "../../servises/api/CategoryRequest";
+import { ICategories } from "../../interfaces/ICategory";
 
 export function ProductsPerCategory() {
   const [categories, setCategories] = useState<ICategories>([{ _id: "", name: "", icon: "" },]);

@@ -1,9 +1,9 @@
-import { baseURL } from "../servises/BackEndBaseURL";
-import Cart from "../assets/images/CartLight.png";
-import { useProduct } from "../servises/api/ProductsRequest";
+import { baseURL } from "../../servises/BackEndBaseURL";
+import Cart from "../../assets/images/CartLight.png";
+import { useProduct } from "../../servises/api/ProductsRequest";
 import { useEffect, useState } from "react";
-import { ISingleProduct } from "../interfaces/IOrders";
-import { useCart } from "../context/CartContext";
+import { ISingleProduct } from "../../interfaces/IOrders";
+import { useCart } from "../../context/CartContext";
 
 interface IProductToBuyProps {
   category: string;

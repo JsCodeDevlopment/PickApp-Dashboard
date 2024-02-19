@@ -3,7 +3,7 @@ import EmptyCart from "../assets/images/emptyCart.png";
 import CartImg from "../assets/images/CartLight.png";
 import { useOrderContext } from "../context/OrderContext";
 import { useEffect } from "react";
-import { ProductsPerCategory } from "../components/ProductsPerCategory";
+import { ProductsPerCategory } from "../components/product-compoenents/ProductsPerCategory";
 import { Cart } from "../components/Cart";
 import { useCart } from "../context/CartContext";
 

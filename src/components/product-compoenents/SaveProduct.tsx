@@ -1,11 +1,11 @@
 import { Dispatch, useEffect, useState } from "react";
-import Create from "../assets/images/create.png";
+import Create from "../../assets/images/create.png";
 import { NewItemDialog } from "./NewItemDialog";
 import { NewItemForm } from "./NewItemForm";
-import { ISingleProduct } from "../interfaces/IOrders";
+import { ISingleProduct } from "../../interfaces/IOrders";
 import { ProductDialog } from "./ProductDialog";
 import { DeleteProductDialog } from "./DeleteProductDialog";
-import { useOrderContext } from "../context/OrderContext";
+import { useOrderContext } from "../../context/OrderContext";
 
 interface ISaveProductProps {
   setReceivedProduct: Dispatch<React.SetStateAction<ISingleProduct | undefined>>;
@@ -14,6 +14,8 @@ interface ISaveProductProps {
 
 export function SaveProduct({ setReceivedProduct, receveivedProduct }: ISaveProductProps) {
   const [isClosed, setIsClosed] = useState<boolean>(false);
+  const [showAllProducts, setShowAllProducts] = useState<boolean>(false);
+  
   const { products, useRequestProducts } = useOrderContext();
 
   useEffect(() => {
@@ -33,7 +35,7 @@ export function SaveProduct({ setReceivedProduct, receveivedProduct }: ISaveProd
           onProductSubmit={(product) => setReceivedProduct(product)}/>
       </NewItemDialog>
       {products &&
-        products.map((product) => (
+        products.slice(0, showAllProducts ? products.length : 5).map((product) => (
           <div className="relative flex w-full" key={product._id}>
             <DeleteProductDialog
               setIsClosed={setIsClosed}
@@ -45,6 +47,9 @@ export function SaveProduct({ setReceivedProduct, receveivedProduct }: ISaveProd
             <ProductDialog isClosed={isClosed} setIsClosed={setIsClosed} product={product} />
           </div>
         ))}
+      <div className="flex w-full items-center justify-center">
+        <button className="btn btn-neutral" onClick={() => setShowAllProducts(!showAllProducts)}>{showAllProducts ? "Mostrar menos" : "Mostrar mais"}</button>
+      </div>
     </div>
   );
 }

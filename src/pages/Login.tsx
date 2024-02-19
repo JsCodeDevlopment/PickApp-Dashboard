@@ -13,7 +13,7 @@ export function LoginPage() {
 
   const handleSubmit = async (ev: FormEvent) => {
     ev.preventDefault();
-      await login(email, password);
+    await login(email, password);
   };
 
   return (
@@ -38,8 +38,7 @@ export function LoginPage() {
               onChange={(ev) => setEmail(ev.target.value)}
               placeholder="Email"
               className="input input-bordered"
-              required
-            />
+              required/>
           </div>
           <div className="form-control">
             <label className="label">
@@ -52,8 +51,7 @@ export function LoginPage() {
               onChange={(ev) => setPassword(ev.target.value)}
               placeholder="Password"
               className="input input-bordered"
-              required
-            />
+              required/>
             <label className="label">
               <Link to={"/recover"} className="label-text-alt link link-hover">
                 Forgot password?
@@ -70,8 +68,7 @@ export function LoginPage() {
           <p className="text-sm">Dont have account?</p>
           <Link
             to={"/register"}
-            className="label-text-alt text-sm text-primary link link-hover"
-          >
+            className="label-text-alt text-sm text-primary link link-hover">
             Create
           </Link>
         </div>

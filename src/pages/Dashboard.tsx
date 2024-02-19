@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Category } from "../components/Category";
+import { Category } from "../components/category-components/Category";
 import { Header } from "../components/Header";
 import { OrderPopUp } from "../components/OrderDialog";
 import { OrderStatus } from "../interfaces/IOrderPopUpProps";

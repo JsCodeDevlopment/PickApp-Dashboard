@@ -1,5 +1,5 @@
-import { ISingleProduct } from "../interfaces/IOrders";
-import { baseURL } from "../servises/BackEndBaseURL";
+import { ISingleProduct } from "../../interfaces/IOrders";
+import { baseURL } from "../../servises/BackEndBaseURL";
 
 export interface IProductProps {
   lastProduct: ISingleProduct

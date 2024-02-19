@@ -1,5 +1,5 @@
 import { Dispatch, ReactNode, SetStateAction, useRef } from "react";
-import Add from "../assets/images/PlusLight.png";
+import Add from "../../assets/images/PlusLight.png";
 
 interface INewItemDialogProps {
   children: ReactNode;

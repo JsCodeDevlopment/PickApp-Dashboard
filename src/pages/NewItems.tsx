@@ -1,16 +1,10 @@
 import { Header } from "../components/Header";
 import Burguer from "../assets/images/Hamburger.png";
 import Not from "../assets/images/nenhum_prod.png";
-import { Product } from "../components/Product";
+import { Product } from "../components/product-compoenents/Product";
 import { useState } from "react";
 import { ISingleProduct } from "../interfaces/IOrders";
-import { SaveProduct } from "../components/SaveProduct";
-
-export type ICategories = {
-  _id: string;
-  name: string;
-  icon: string;
-}[];
+import { SaveProduct } from "../components/product-compoenents/SaveProduct";
 
 export function NewItem() {
   const [receivedProduct, setReceivedProduct] = useState<ISingleProduct | undefined>(undefined);
