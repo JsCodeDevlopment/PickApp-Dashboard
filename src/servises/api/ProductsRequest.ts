@@ -1,21 +1,10 @@
 import { toast } from "react-toastify";
 import { baseURL } from "../BackEndBaseURL";
-import { ISingleProduct } from "../../interfaces/IOrders";
-
-export interface IProductProps {
-  name: string;
-  description: string;
-  image: File;
-  price: number;
-  ingredients: {
-    icon: string;
-    name: string;
-}[]
-  category: string;
-}
+import { ISingleChangeProduct, ISingleProduct } from "../../interfaces/IOrders";
+import { ICreateProductProps } from "../../interfaces/IProductProps";
 
 export function useProduct() {
-  const CreateProduct = async ({ name, description, image, price, category, ingredients }: IProductProps): Promise<ISingleProduct | undefined> => {
+  const CreateProduct = async ({ name, description, image, price, category, ingredients }: ICreateProductProps): Promise<ISingleProduct | undefined> => {
     try {
       const formData = new FormData()
 
@@ -45,6 +34,41 @@ export function useProduct() {
     } catch (error) {
       console.error(error, "Erro ao criar produto.");
       toast.error(`${error} Erro ao criar produto.`, {
+        autoClose: 1000 * 3,
+      });
+    }
+  };
+  
+  const ChangeProduct = async ({ name, description, image, price, categoryId, ingredients, _id }: ISingleChangeProduct): Promise<ISingleProduct | undefined> => {
+    try {
+      const formData = new FormData()
+
+      formData.append("name", name);
+      formData.append("description", description);
+      if(image)formData.append("image", image)
+      formData.append("price", price.toString());
+      formData.append("category", categoryId);
+      formData.append("ingredients", JSON.stringify(ingredients));
+
+      const response = await fetch(`${baseURL}/products/${_id}`, {
+        method: "PATCH",
+        body: formData,
+      });
+      const data = await response.json()
+
+      if (response.ok) {
+        toast.success("Produto alterado com sucesso!", {
+          autoClose: 1000 * 3,
+        });
+        return data
+      } else {
+        toast.error(`Erro ao alterar Produto.`, {
+          autoClose: 1000 * 3,
+        });
+      }
+    } catch (error) {
+      console.error(error, "Erro ao alterar produto.");
+      toast.error(`${error} Erro ao alterar produto.`, {
         autoClose: 1000 * 3,
       });
     }
@@ -85,5 +109,5 @@ export function useProduct() {
     }
   }
 
-  return { CreateProduct, ShowProductsByCategory, DeleteProduct };
+  return { CreateProduct, ShowProductsByCategory, DeleteProduct, ChangeProduct };
 }

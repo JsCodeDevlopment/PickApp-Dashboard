@@ -5,9 +5,10 @@ interface INewItemDialogProps {
   children: ReactNode;
   isClosed: boolean;
   setIsClosed: Dispatch<SetStateAction<boolean>>;
+  icon?: string
 }
 
-export function NewItemDialog({ children, isClosed, setIsClosed }: INewItemDialogProps) {
+export function NewItemDialog({ children, isClosed, setIsClosed, icon }: INewItemDialogProps) {
   const modalBtn = useRef(null) as React.MutableRefObject<null | HTMLDialogElement>;
 
   const handleClick = () => {
@@ -23,9 +24,9 @@ export function NewItemDialog({ children, isClosed, setIsClosed }: INewItemDialo
 
   return (
     <div
-      className="flex flex-col btn btn-square btn-neutral btn-sm rounded-md items-center justify-center cursor-pointer"
+      className={!icon ? "flex flex-col btn btn-square btn-neutral btn-sm rounded-md items-center justify-center cursor-pointer" : "flex flex-col btn btn-square btn-ghost btn-sm rounded-md items-center justify-center cursor-pointer absolute top-[1.3rem] right-12"}
       onClick={handleClick}>
-        <img src={Add} alt="" />
+        <img src={icon ? icon : Add} alt="" />
       <dialog ref={modalBtn} className="modal">
         <div className="modal-box">
           <div className="flex flex-col gap-5">

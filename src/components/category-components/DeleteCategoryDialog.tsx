@@ -7,17 +7,15 @@ interface IDeleteCategoryDialogProps {
   isClosed: boolean;
   setIsClosed: Dispatch<SetStateAction<boolean>>;
   getCategories: () => Promise<void>;
-  productCount: number
+  productCount: number;
 }
 
-export function DeleteCategoryDialog({ id, isClosed, setIsClosed, getCategories, productCount }: IDeleteCategoryDialogProps) {
+export function DeleteCategoryDialog({ id, isClosed, setIsClosed, getCategories, productCount,}: IDeleteCategoryDialogProps) {
   const modalBtn = useRef(null) as React.MutableRefObject<null | HTMLDialogElement>;
   const { DeleteCategory } = useCategory();
 
   const handleClick = () => {
-    if (modalBtn.current) {
-      modalBtn.current.showModal();
-    }
+    modalBtn.current && modalBtn.current.showModal()
   };
 
   if (isClosed) {
@@ -50,7 +48,11 @@ export function DeleteCategoryDialog({ id, isClosed, setIsClosed, getCategories,
             </div>
             <div className="flex w-full flex-col items-center justify-center gap-5 p-2 rounded-md bg-base-300 shadow-lg">
               <h1 className="text-lg font-semibold">Está certo disso?</h1>
-              <p className="text-sm font-light">{`Existem ${productCount} produtos cadastrados nessa categoria. Caso clique em SIM, todos serão deletados.`}</p>
+              <p className="text-sm font-light">
+                {productCount > 1
+                  ? `Existem ${productCount} produtos cadastrados nessa categoria. Caso clique em SIM, todos serão deletados.`
+                  : `Essa categoria não possui nenhum produto, portanto nenhum produto será perdido.`}
+              </p>
               <div className="flex w-full gap-3 items-center justify-around">
                 <button
                   className="btn btn-outline btn-primary w-28"

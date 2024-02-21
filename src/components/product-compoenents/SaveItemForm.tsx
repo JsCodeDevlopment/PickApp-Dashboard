@@ -4,21 +4,21 @@ import Trash from "../../assets/images/Trash.png";
 import Wind from '../../assets/images/WindowsLogo.png'
 import { useProduct } from "../../servises/api/ProductsRequest";
 import { toast } from "react-toastify";
-import { ISingleProduct } from "../../interfaces/IOrders";
+import { ISingleChangeProduct, ISingleProduct } from "../../interfaces/IOrders";
 import { useCategory } from "../../servises/api/CategoryRequest";
 import { IItemFormProps } from "../../interfaces/IItemFormProps";
 import { ICategories } from "../../interfaces/ICategory";
 
-export function NewItemForm({ onProductSubmit, setIsClosed, useRequestProducts }: IItemFormProps) {
-  const [productName, setProductName] = useState<string>("");
-  const [productPrice, setProductPrice] = useState<number>();
-  const [productDescription, setProductDescription] = useState<string>("");
+export function NewItemForm({ onProductSubmit, setIsClosed, useRequestProducts, product }: IItemFormProps) {
+  const [productName, setProductName] = useState<string>(product?.name || "");
+  const [productPrice, setProductPrice] = useState<number>(product?.price || 0);
+  const [productDescription, setProductDescription] = useState<string>(product?.description || "");
   const [productImage, setProductImage] = useState<File>();
-  const [productCategory, setProductCategory] = useState<string>("");
-  const [ingredients, setIngredients] = useState<{ icon: string; name: string }[]>([{ icon: "", name: "" }]);
+  const [productCategory, setProductCategory] = useState<string>(product?.category._id || "");
+  const [ingredients, setIngredients] = useState<{ icon: string; name: string }[]>(product?.ingredients || [{ icon: "", name: "" }]);
   const [categories, setCategories] = useState<ICategories>([{ _id: "", name: "", icon: "" },]);
 
-  const { CreateProduct } = useProduct();
+  const { CreateProduct, ChangeProduct } = useProduct();
   const { ShowCategories } = useCategory();
 
   useEffect(() => {
@@ -63,35 +63,51 @@ export function NewItemForm({ onProductSubmit, setIsClosed, useRequestProducts }
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!productName || !productImage || !productPrice || !productCategory) {
-      toast.error(`Certifique-se de todos os campos estarem preenchidos.`, {
-        autoClose: 1000 * 3,
-      });
-      return;
-    }
-
-    const lastProductCreated: ISingleProduct | undefined = await CreateProduct({
-      name: productName,
-      description: productDescription,
-      image: productImage,
-      price: productPrice,
-      category: productCategory,
-      ingredients: ingredients,
-    });
-
-    if (lastProductCreated) {
-      onProductSubmit(lastProductCreated);
-      useRequestProducts()
+    if(product) {
+      const changeItem: ISingleChangeProduct = {
+        _id: product._id,
+        name: productName,
+        description: productDescription,
+        image: productImage,
+        price: productPrice,
+        categoryId: productCategory,
+        ingredients: ingredients,
+      }
+      await ChangeProduct(changeItem)
       setIsClosed(true);
+      useRequestProducts()
+    } else {
+      if (!productName || !productImage || !productPrice || !productCategory) {
+        toast.error(`Certifique-se de todos os campos estarem preenchidos.`, {
+          autoClose: 1000 * 3,
+        });
+        return;
+      }
+  
+      const lastProductCreated: ISingleProduct | undefined = await CreateProduct({
+        name: productName,
+        description: productDescription,
+        image: productImage,
+        price: productPrice,
+        category: productCategory,
+        ingredients: ingredients,
+      });
+  
+      if (lastProductCreated) {
+        onProductSubmit(lastProductCreated);
+        useRequestProducts()
+        setIsClosed(true);
+      }
+  
+      (event.target as HTMLFormElement).reset();
+      setProductName("");
+      setProductDescription("");
+      setProductImage(undefined);
+      setProductPrice(0);
+      setProductCategory("");
+      setIngredients([{ icon: "", name: "" }]);
     }
 
-    (event.target as HTMLFormElement).reset();
-    setProductName("");
-    setProductDescription("");
-    setProductImage(undefined);
-    setProductPrice(0);
-    setProductCategory("");
-    setIngredients([{ icon: "", name: "" }]);
   };
 
   return (
@@ -99,7 +115,7 @@ export function NewItemForm({ onProductSubmit, setIsClosed, useRequestProducts }
       onSubmit={handleSubmit}
       method="post"
       className="flex flex-col items-center justify-center gap-2 p-2 rounded-md bg-base-300 shadow-lg">
-      <h1 className="text-lg font-semibold">Criar Produto</h1>
+      <h1 className="text-lg font-semibold">{product ? "Editar Produto" : "Criar Produto"}</h1>
       <div className="flex w-full flex-col items-center justify-center max-lg:flex-wrap max-md:flex-nowrap max-sm:flex-wrap">
         <div className="flex w-full gap-2 items-center justify-center max-lg:flex-wrap max-md:flex-nowrap max-sm:flex-wrap">
           <label className="form-control w-full max-w-xs">
@@ -144,7 +160,7 @@ export function NewItemForm({ onProductSubmit, setIsClosed, useRequestProducts }
             type="file"
             onChange={handleImageInputChange}
             className="file-input file-input-xs file-input-bordered w-full max-w-xs"
-            required/>
+            required={!product}/>
         </label>
         <label className="form-control w-full max-w-xs">
           <div className="label">
@@ -216,7 +232,7 @@ export function NewItemForm({ onProductSubmit, setIsClosed, useRequestProducts }
         </div>
       </div>
       <button type="submit" className="btn w-full btn-neutral">
-        Criar
+        {product ? "Editar" : "Criar"}
       </button>
     </form>
   );

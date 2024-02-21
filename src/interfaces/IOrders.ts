@@ -36,6 +36,18 @@ export interface ISingleProduct {
   category: ISingleCategory;
   __v?: number;
 }
+export interface ISingleChangeProduct {
+  _id: string;
+  name: string;
+  description: string;
+  image: File | undefined;
+  price: number;
+  ingredients: {
+    name: string;
+    icon: string;
+  }[];
+  categoryId: string;
+}
 
 export interface ISingleCategory {
   _id: string;
