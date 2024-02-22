@@ -9,16 +9,11 @@ import { DeleteProductDialog } from "./DeleteProductDialog";
 import { useOrderContext } from "../../context/OrderContext";
 
 interface ISaveProductProps {
-  setReceivedProduct: Dispatch<
-    React.SetStateAction<ISingleProduct | undefined>
-  >;
+  setReceivedProduct: Dispatch<React.SetStateAction<ISingleProduct | undefined>>;
   receveivedProduct: ISingleProduct | undefined;
 }
 
-export function SaveProduct({
-  setReceivedProduct,
-  receveivedProduct,
-}: ISaveProductProps) {
+export function SaveProduct({ setReceivedProduct, receveivedProduct }: ISaveProductProps) {
   const [isClosed, setIsClosed] = useState<boolean>(false);
   const [showAllProducts, setShowAllProducts] = useState<boolean>(false);
 
@@ -38,8 +33,7 @@ export function SaveProduct({
         <NewItemForm
           setIsClosed={setIsClosed}
           useRequestProducts={useRequestProducts}
-          onProductSubmit={(product) => setReceivedProduct(product)}
-        />
+          onProductSubmit={(product) => setReceivedProduct(product)}/>
       </NewItemDialog>
       {products &&
         products
@@ -59,20 +53,17 @@ export function SaveProduct({
                 receivedProduct={receveivedProduct}
                 isClosed={isClosed}
                 id={product._id}
-                useRequestProducts={useRequestProducts}
-              />
+                useRequestProducts={useRequestProducts}/>
               <ProductDialog
                 isClosed={isClosed}
                 setIsClosed={setIsClosed}
-                product={product}
-              />
+                product={product}/>
             </div>
           ))}
       <div className="flex w-full items-center justify-center">
         <button
           className="btn btn-neutral"
-          onClick={() => setShowAllProducts(!showAllProducts)}
-        >
+          onClick={() => setShowAllProducts(!showAllProducts)}>
           {showAllProducts ? "Mostrar menos" : "Mostrar mais"}
         </button>
       </div>

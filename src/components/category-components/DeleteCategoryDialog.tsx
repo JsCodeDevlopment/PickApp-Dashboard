@@ -49,7 +49,7 @@ export function DeleteCategoryDialog({ id, isClosed, setIsClosed, getCategories,
             <div className="flex w-full flex-col items-center justify-center gap-5 p-2 rounded-md bg-base-300 shadow-lg">
               <h1 className="text-lg font-semibold">Está certo disso?</h1>
               <p className="text-sm font-light">
-                {productCount > 1
+                {productCount > 0
                   ? `Existem ${productCount} produtos cadastrados nessa categoria. Caso clique em SIM, todos serão deletados.`
                   : `Essa categoria não possui nenhum produto, portanto nenhum produto será perdido.`}
               </p>

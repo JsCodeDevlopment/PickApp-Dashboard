@@ -14,7 +14,7 @@ export function NewItemForm({ onProductSubmit, setIsClosed, useRequestProducts, 
   const [productPrice, setProductPrice] = useState<number>(product?.price || 0);
   const [productDescription, setProductDescription] = useState<string>(product?.description || "");
   const [productImage, setProductImage] = useState<File>();
-  const [productCategory, setProductCategory] = useState<string>(product?.category._id || "");
+  const [productCategory, setProductCategory] = useState(product?.category || "");
   const [ingredients, setIngredients] = useState<{ icon: string; name: string }[]>(product?.ingredients || [{ icon: "", name: "" }]);
   const [categories, setCategories] = useState<ICategories>([{ _id: "", name: "", icon: "" },]);
 
@@ -70,7 +70,7 @@ export function NewItemForm({ onProductSubmit, setIsClosed, useRequestProducts, 
         description: productDescription,
         image: productImage,
         price: productPrice,
-        categoryId: productCategory,
+        categoryId: productCategory as string,
         ingredients: ingredients,
       }
       await ChangeProduct(changeItem)
@@ -89,7 +89,7 @@ export function NewItemForm({ onProductSubmit, setIsClosed, useRequestProducts, 
         description: productDescription,
         image: productImage,
         price: productPrice,
-        category: productCategory,
+        category: productCategory as string,
         ingredients: ingredients,
       });
   
@@ -167,7 +167,7 @@ export function NewItemForm({ onProductSubmit, setIsClosed, useRequestProducts, 
             <span className="label-text">Categoria</span>
           </div>
           <select
-            value={productCategory}
+            value={productCategory as string}
             onChange={(e) => setProductCategory(e.target.value)}
             className="select select-bordered w-full max-w-xs">
             <option disabled value="">
