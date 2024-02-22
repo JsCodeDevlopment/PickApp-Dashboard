@@ -1,6 +1,18 @@
+import { FormEvent, useState } from "react";
 import Logo from "../assets/images/logo-for-lightBG.png";
+import { useRegister } from "../servises/api/RegisterRequest";
 
 export function RecoverPassword() {
+  const [email, setEmail] = useState<string>("")
+  const [waiting, setWaiting] = useState<boolean>(false)
+  const { ForgotPassword } = useRegister()
+
+  const handleSubmit = async (ev: FormEvent<HTMLFormElement>) => {
+    ev.preventDefault()
+    setWaiting(true)
+    await ForgotPassword(email)
+  }
+
   return (
     <main className="flex flex-col items-center justify-center w-full h-full">
       <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
@@ -18,21 +30,25 @@ export function RecoverPassword() {
             sua senha.
           </p>
         </div>
-        <form className="card-body">
+        <form 
+        onSubmit={handleSubmit}
+        method="post" 
+        className="card-body">
           <div className="form-control">
             <label className="label">
               <span className="label-text">Email</span>
             </label>
             <input
               type="email"
+              value={email}
+              onChange={(e)=>setEmail(e.target.value)}
               placeholder="Email"
               className="input input-bordered"
-              required
-            />
+              required/>
           </div>
           <div className="form-control mt-6">
-            <button className="btn btn-primary text-primary-content">
-              <a href="/dashboard">Recuperar</a>
+            <button type="submit" className="btn btn-primary text-primary-content">
+              {waiting ? (<span className="loading loading-dots loading-sm"></span>) : "Recuperar"}
             </button>
           </div>
         </form>

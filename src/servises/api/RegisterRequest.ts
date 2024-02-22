@@ -71,5 +71,62 @@ export function useRegister() {
     }
   } 
 
-  return { CreateUser, VerifyToken };
+  const ForgotPassword = async (email: string): Promise<void | undefined> => {
+    try {
+      const response = await fetch(`${baseURL}/forgot-password`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({email}),
+      });
+
+      if (response.ok) {
+        navigate("/wait", { replace: true });
+      } else {
+        toast.error(`Erro ao enviar email.`, {
+          autoClose: 1000 * 3,
+        });
+        navigate("/recover", { replace: true });
+      }
+
+    } catch (error){
+      console.error(error, "Erro na requisição de verificação do token.")
+      toast.error(`Erro na requisição de verificação do token.`, {
+        autoClose: 1000 * 3,
+      });
+    }
+  }
+
+  const ChangePassword = async (token: string, password: string) => {
+    try {
+      const response = await fetch(`${baseURL}/reset-password?token=${token}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({password}),
+      });
+
+      if (response.ok) {
+        toast.error(`Senha alterada com sucesso!`, {
+          autoClose: 1000 * 3,
+        });
+        navigate("/", { replace: true });
+      } else {
+        toast.error(`Erro ao atualizar a senha.`, {
+          autoClose: 1000 * 3,
+        });
+        navigate("/recover", { replace: true });
+      }
+
+    } catch (error){
+      console.error(error, "Erro na requisição de verificação do token.")
+      toast.error(`Erro na requisição de verificação do token.`, {
+        autoClose: 1000 * 3,
+      });
+    }
+  }
+
+  return { CreateUser, VerifyToken, ForgotPassword, ChangePassword };
 }

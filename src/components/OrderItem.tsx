@@ -12,7 +12,7 @@ export function OrderItem({ order }: IOrderItemProps) {
   const { incrementItem, decrementItem, removeOrder } = useCart();
 
   return (
-    <div className="flex w-full p-2 gap-5 items-center justify-between rounded-md bg-base-300 shadow-md max-lg:flex-col max-md:flex-row max-sm:flex-col">
+    <div className="flex w-full p-2 gap-5 items-center justify-around rounded-md bg-base-300 shadow-md max-lg:flex-col max-md:flex-row max-sm:flex-col">
       <div className="flex gap-5 max-sm:flex-wrap max-sm:w-full max-sm:items-center max-sm:flex-col max-sm:gap-2">
         <img
           className="w-20 h-16 rounded-md object-cover max-sm:w-full max-sm:h-36"
@@ -29,9 +29,13 @@ export function OrderItem({ order }: IOrderItemProps) {
           </p>
         </div>
       </div>
-      <QuantityButton
-        incrementItem={() => incrementItem(order._id)}
-        decrementItem={() => decrementItem(order._id)}/>
+      <div className="flex flex-1 w-20 items-center justify-end">
+        <div className="flex">
+          <QuantityButton
+            incrementItem={() => incrementItem(order._id)}
+            decrementItem={() => decrementItem(order._id)}/>
+        </div>
+      </div>
       <div
         onClick={() => removeOrder(order._id)}
         className="flex items-center justify-center cursor-pointer">

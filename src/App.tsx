@@ -13,6 +13,8 @@ import { NewOrder } from "./pages/NewOrder";
 import { NewItem } from "./pages/NewItems";
 import { CartProvider } from "./context/CartContext";
 import { NewCategory } from "./pages/NewCategory";
+import { Wait } from "./pages/Wait";
+import { ChangePassword } from "./pages/ChangePassword";
 
 export function App() {
   const { currentTheme } = useTheme();
@@ -31,6 +33,8 @@ export function App() {
           <Routes>
             <Route path="/authenticate" element={<AuthenticateToken />} />
             <Route path="/recover" element={<RecoverPassword />} />
+            <Route path="/wait" element={<Wait />} />
+            <Route path="/changepassword" element={<ChangePassword />} />
             <Route path="/register" element={<Register />} />
             <Route path="/" element={<LoginPage />} />
             <Route path="/dashboard" element={<Dashboard />} />

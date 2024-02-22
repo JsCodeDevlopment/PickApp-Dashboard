@@ -3,7 +3,7 @@ import { QuantityButtonProps } from "../interfaces/IQuantityButtonProps";
 export function QuantityButton({ incrementItem,decrementItem }: QuantityButtonProps) {
   return (
     <form className="max-w-xs mx-auto">
-      <div className="relative flex items-center max-w-[8rem]">
+      <div className="flex items-center max-w-[8rem]">
         <button
           type="button"
           onClick={decrementItem}

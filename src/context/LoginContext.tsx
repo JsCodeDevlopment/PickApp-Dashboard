@@ -19,10 +19,7 @@ export const LoginProvider = ({ children }: { children: ReactNode }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const login = async (
-    email: string,
-    password: string
-  ): Promise<void | boolean> => {
+  const login = async (email: string, password: string): Promise<void | boolean> => {
     try {
       const response = await fetch(`${baseURL}/login`, {
         method: "POST",
@@ -90,9 +87,9 @@ export const LoginProvider = ({ children }: { children: ReactNode }) => {
 
     if (isAuthenticated) {
       navigate("/dashboard", { replace: true });
-    } else if (location.pathname !== "/") {
+    } else if (location.pathname !== "/" && !location.pathname.includes("changepassword")) {
       navigate("/", { replace: true });
-    }
+    } 
   }, [isAuthenticated]);
 
   return (
