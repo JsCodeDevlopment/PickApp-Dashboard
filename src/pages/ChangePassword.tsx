@@ -5,34 +5,32 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export function ChangePassword() {
-  const [password, setPassword] = useState<string>("")
-  const [passwordConfirmation, setPasswordConfirmation] = useState<string>("")
-  const [waiting, setWaiting] = useState<boolean>(false)
-  const [searchParams] = useSearchParams()
-  const token = searchParams.get("token")
-  const navigate = useNavigate()
-  
+  const [password, setPassword] = useState<string>("");
+  const [passwordConfirmation, setPasswordConfirmation] = useState<string>("");
+  const [waiting, setWaiting] = useState<boolean>(false);
+  const [searchParams] = useSearchParams();
+  const token = searchParams.get("token");
+  const navigate = useNavigate();
 
-  const { ChangePassword } = useRegister()
+  const { ChangePassword } = useRegister();
 
   const handleSubmit = async (ev: FormEvent<HTMLFormElement>) => {
-    ev.preventDefault()
+    ev.preventDefault();
     if (password !== passwordConfirmation) {
       toast.error(`As senhas devem ser exatamente iguais.`, {
         autoClose: 1000 * 3,
       });
-      return
+      return;
     }
 
-    setWaiting(true)
-    await ChangePassword(token!, password)
-  }
+    setWaiting(true);
+    await ChangePassword(token!, password);
+  };
   useEffect(() => {
     if (!token) {
-      navigate("/", {replace: false})
+      navigate("/", { replace: false });
     }
-  },[])
-  
+  }, []);
 
   return (
     <main className="flex flex-col items-center justify-center w-full h-full">
@@ -46,10 +44,7 @@ export function ChangePassword() {
             Prontinho! Agora basta escolher sua nova senha...
           </p>
         </div>
-        <form 
-        onSubmit={handleSubmit}
-        method="post" 
-        className="card-body">
+        <form onSubmit={handleSubmit} method="post" className="card-body">
           <div className="form-control">
             <label className="label">
               <span className="label-text">Nova Senha</span>
@@ -57,7 +52,7 @@ export function ChangePassword() {
             <input
               type="password"
               value={password}
-              onChange={(e)=>setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="Senha"
               className="input input-bordered"
               required/>
@@ -69,15 +64,23 @@ export function ChangePassword() {
             <input
               type="password"
               value={passwordConfirmation}
-              onChange={(e)=>setPasswordConfirmation(e.target.value)}
+              onChange={(e) => setPasswordConfirmation(e.target.value)}
               placeholder="Confirme sua senha."
               className="input input-bordered"
               required/>
           </div>
           <div className="form-control mt-6">
-            <button type="submit" className="btn btn-primary text-primary-content">
-              {waiting ? (<span className="loading loading-dots loading-sm"></span>) : "Recuperar"}
-            </button>
+            {!waiting ? (
+              <button
+                type="submit"
+                className="btn btn-primary text-primary-content">
+                Recuperar
+              </button>
+            ) : (
+              <button className="btn" disabled={true}>
+                <span className="loading loading-dots loading-sm"></span>
+              </button>
+            )}
           </div>
         </form>
       </div>

@@ -1,6 +1,11 @@
-import { IUser } from "./IUser";
-
-export interface ILogedUser {
-  token: string;
-  user: IUser;
-}{}
+export interface ILogedUserInfo {
+  user: {
+    id: string
+    name: string;
+    email: string;
+    password: string;
+    imagePath: string;
+    rule: string;
+    token: string;
+  };
+}

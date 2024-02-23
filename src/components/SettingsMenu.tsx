@@ -30,7 +30,7 @@ export function SettingsMenu() {
         <li className="menu-title text-neutral-content">Opções</li>
         <hr />
         <li>
-          <Link to={"/dashboard"} className="text-neutral-content"><img className="w-4 h-4" src={UserIcon}/> Editar Perfil</Link>
+          <Link to={"/dashboard/editprofile"} className="text-neutral-content"><img className="w-4 h-4" src={UserIcon}/> Editar Perfil</Link>
         </li>
         <li>
           <Link to={"/dashboard/theme"} className="text-neutral-content"><img className="w-4 h-4" src={ThemeIcon}/> Temas</Link>

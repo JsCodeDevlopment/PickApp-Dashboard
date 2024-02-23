@@ -1,21 +1,15 @@
-import {
-  ReactNode,
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { ReactNode, createContext, useContext, useEffect, useState } from "react";
 import { baseURL } from "../servises/BackEndBaseURL";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { ILogedUser } from "../interfaces/ILogedUser";
 import { ILoginContext } from "../interfaces/ILoginContext";
+import { ILogedUserInfo } from "../interfaces/ILogedUser";
 
 export const LoginContext = createContext({} as ILoginContext);
 
 export const LoginProvider = ({ children }: { children: ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [logedUser, setLogedUser] = useState<ILogedUser>();
+  const [logedUser, setLogedUser] = useState<ILogedUserInfo>();
   const navigate = useNavigate();
   const location = useLocation();
 
