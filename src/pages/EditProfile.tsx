@@ -1,12 +1,9 @@
-import { Route, Routes } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { Header } from "../components/Header";
 import { EditOrganizationMenu } from "../components/user-components/EditOrganizationMenu";
 import { EditUserMenu } from "../components/user-components/EditUserMenu";
-import { SaveUserForm } from "../components/user-components/SaveUserForm";
-import { useLogin } from "../context/LoginContext";
 
 export function EditProfile() {
-  const { logedUser } = useLogin();
 
   return (
     <div className="bg-base-100 w-full h-screen overflow-y-scroll overflow-x-hidden scrollbar-thin scrollbar-thumb-neutral scrollbar-track-base-100">
@@ -17,9 +14,7 @@ export function EditProfile() {
           <EditOrganizationMenu />
         </div>
         <div className="flex w-2/3 items-center justify-center max-sm:w-full">
-          <Routes>
-            <Route path="/dashboard/editprofile/editarusuario" element={<SaveUserForm LogedUser={logedUser} />} />
-          </Routes>
+          <Outlet/>
         </div>
       </div>
     </div>

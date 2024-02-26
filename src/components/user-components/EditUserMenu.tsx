@@ -8,10 +8,10 @@ export function EditUserMenu() {
       </div>
       <ul className="flex w-full flex-col pt-2 gap-2">
         <li className="flex p-2 rounded-md cursor-pointer bg-base-100">
-          <Link to={"/dashboard/editprofile/editarusuario"}>Editar Perfil</Link>
+          <Link to={"/dashboard/editprofile"}>Editar Perfil</Link>
         </li>
         <li className="flex p-2 rounded-md cursor-pointer bg-base-100">
-          Trocar Senha
+          <Link to={"/dashboard/editprofile/changepassword"}>Trocar Senha</Link>
         </li>
       </ul>
     </div>

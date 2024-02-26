@@ -19,7 +19,7 @@ export function Register() {
             Preencha os campos abaixo e aperte em criar.
           </p>
         </div>
-        <SaveUserForm/>
+        <SaveUserForm />
       </div>
     </main>
   );

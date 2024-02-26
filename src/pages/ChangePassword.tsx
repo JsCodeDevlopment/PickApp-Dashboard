@@ -20,6 +20,7 @@ export function ChangePassword() {
       toast.error(`As senhas devem ser exatamente iguais.`, {
         autoClose: 1000 * 3,
       });
+      setWaiting(false)
       return;
     }
 

@@ -65,6 +65,7 @@ export const LoginProvider = ({ children }: { children: ReactNode }) => {
   const logout = () => {
     setIsAuthenticated(false);
     localStorage.removeItem("acessToken")
+    setLogedUser(undefined)
 
     if (!isAuthenticated) {
       toast.success("Desconectado com sucesso!", {

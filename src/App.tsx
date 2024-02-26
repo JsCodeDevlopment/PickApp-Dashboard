@@ -16,6 +16,7 @@ import { NewCategory } from "./pages/NewCategory";
 import { Wait } from "./pages/Wait";
 import { ChangePassword } from "./pages/ChangePassword";
 import { EditProfile } from "./pages/EditProfile";
+import { SaveUserForm } from "./components/user-components/SaveUserForm";
 
 export function App() {
   const { currentTheme } = useTheme();
@@ -39,7 +40,10 @@ export function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/" element={<LoginPage />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/dashboard/editprofile/" element={<EditProfile />} />
+            <Route path="/dashboard/editprofile" element={<EditProfile/>}>
+              <Route index element={<SaveUserForm/>} />
+              <Route path="changepassword" element={<p>componente da edição de senha aqui!</p>} />
+            </Route>
             <Route path="/dashboard/theme" element={<Theme />} />
             <Route path="/dashboard/newcategory" element={<NewCategory />} />
             <Route path="/dashboard/newitem" element={<NewItem />} />

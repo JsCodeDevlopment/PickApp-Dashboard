@@ -10,7 +10,8 @@ export function RecoverPassword() {
   const handleSubmit = async (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
     setWaiting(true);
-    await ForgotPassword(email);
+    const forgot = await ForgotPassword(email);
+    !forgot && setWaiting(false)
   };
 
   return (

@@ -1,22 +1,20 @@
 import { useState } from "react";
 import { useRegister } from "../../servises/api/RegisterRequest";
 import { IUser } from "../../interfaces/IUser";
-import { ILogedUserInfo } from "../../interfaces/ILogedUser";
 import ProfilePicture from "../../assets/images/profile.jpg";
 import { baseURL } from "../../servises/BackEndBaseURL";
+import { useLogin } from "../../context/LoginContext";
 
-interface ISaveUserFormProps {
-  LogedUser?: ILogedUserInfo;
-}
-
-export function SaveUserForm({ LogedUser }: ISaveUserFormProps) {
+export function SaveUserForm() {
   const { CreateUser } = useRegister();
+  const { logedUser } = useLogin();
+
   const [newUser, setNewUser] = useState<IUser>({
-    name: LogedUser?.user?.name || "",
-    email: LogedUser?.user?.email || "",
+    name: logedUser?.user?.name || "",
+    email: logedUser?.user?.email || "",
     password: "",
-    imagePath: LogedUser?.user?.imagePath || ProfilePicture,
-    rule: LogedUser?.user?.rule || "USER",
+    imagePath: logedUser?.user?.imagePath || ProfilePicture,
+    rule: logedUser?.user?.rule || "USER",
   });
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -61,9 +59,9 @@ export function SaveUserForm({ LogedUser }: ISaveUserFormProps) {
           <img
             className="rounded-full w-16 h-16"
             src={
-              !LogedUser
+              !logedUser
                 ? ProfilePicture
-                : `${baseURL}/uploads/${LogedUser?.user.imagePath}`}
+                : `${baseURL}/uploads/${logedUser?.user.imagePath}`}
             alt=""/>
           <div className="flex flex-col">
             <label className="label">
@@ -92,7 +90,7 @@ export function SaveUserForm({ LogedUser }: ISaveUserFormProps) {
           className="input input-bordered"
           required/>
       </div>
-      {LogedUser ? (
+      {logedUser ? (
         <></>
       ) : (
         <>

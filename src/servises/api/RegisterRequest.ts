@@ -87,7 +87,7 @@ export function useRegister() {
         toast.error(`Erro ao enviar email.`, {
           autoClose: 1000 * 3,
         });
-        navigate("/recover", { replace: true });
+        return
       }
 
     } catch (error){
