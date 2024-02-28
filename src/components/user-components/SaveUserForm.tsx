@@ -8,6 +8,7 @@ import { useLogin } from "../../context/LoginContext";
 export function SaveUserForm() {
   const { CreateUser } = useRegister();
   const { logedUser } = useLogin();
+  const { UpdateUser } = useRegister()
 
   const [newUser, setNewUser] = useState<IUser>({
     name: logedUser?.user?.name || "",
@@ -49,8 +50,14 @@ export function SaveUserForm() {
   const handleSubmit = async () => {
     setIsLoading(true);
 
-    await CreateUser(newUser);
-    setIsLoading(false);
+    if(!logedUser){
+      await CreateUser(newUser);
+      setIsLoading(false);
+    } else {
+      await UpdateUser(newUser.name, newUser.imagePath, logedUser.user._id);
+      setIsLoading(false)
+    }
+
   };
   return (
     <form action="/upload" method="POST" className="card-body">

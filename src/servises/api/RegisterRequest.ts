@@ -40,6 +40,36 @@ export function useRegister() {
     }
   };
 
+  const UpdateUser = async (name: string, imagePath: string, id: string): Promise<IUser | undefined> => {
+    try {
+      const formData = new FormData()
+
+      formData.append("name", name)
+      formData.append("image", imagePath)
+
+      const response = await fetch(`${baseURL}/register?id=${id}`, {
+        method: "PATCH",
+        body: formData,
+      });
+      const data = await response.json() as IUser
+      if (response.ok) {
+        toast.success("Tudo ok! Recarregue para ver as alterações!", {
+          autoClose: 1000 * 3,
+        });
+        return data
+      } else {
+        toast.error(`Erro ao ditar perfil.`, {
+          autoClose: 1000 * 3,
+        });
+      }
+    } catch (error) {
+      console.error(error, "Erro na requisição de editar perfil.");
+      toast.error(`${error} Erro na requisição de editar perfil.`, {
+        autoClose: 1000 * 3,
+      });
+    }
+  };
+
   const VerifyToken = async (token: string): Promise<string | undefined> => {
     try {
       const response = await fetch(`${baseURL}/verify/${token}`, {
@@ -128,5 +158,5 @@ export function useRegister() {
     }
   }
 
-  return { CreateUser, VerifyToken, ForgotPassword, ChangePassword };
+  return { CreateUser, VerifyToken, ForgotPassword, ChangePassword, UpdateUser };
 }

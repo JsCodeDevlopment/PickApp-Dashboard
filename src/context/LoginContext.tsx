@@ -88,7 +88,7 @@ export const LoginProvider = ({ children }: { children: ReactNode }) => {
   }, [isAuthenticated]);
 
   return (
-    <LoginContext.Provider value={{ logedUser, login, logout }}>
+    <LoginContext.Provider value={{ logedUser, login, logout, setLogedUser }}>
       {children}
     </LoginContext.Provider>
   );
