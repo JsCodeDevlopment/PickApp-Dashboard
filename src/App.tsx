@@ -17,6 +17,7 @@ import { Wait } from "./pages/Wait";
 import { ChangePassword } from "./pages/ChangePassword";
 import { EditProfile } from "./pages/EditProfile";
 import { SaveUserForm } from "./components/user-components/SaveUserForm";
+import { ChangeUserPassword } from "./components/user-components/ChangeUserPassword";
 
 export function App() {
   const { currentTheme } = useTheme();
@@ -42,7 +43,7 @@ export function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/dashboard/editprofile" element={<EditProfile/>}>
               <Route index element={<SaveUserForm/>} />
-              <Route path="changepassword" element={<p>componente da edição de senha aqui!</p>} />
+              <Route path="changepassword" element={<ChangeUserPassword/>} />
             </Route>
             <Route path="/dashboard/theme" element={<Theme />} />
             <Route path="/dashboard/newcategory" element={<NewCategory />} />
