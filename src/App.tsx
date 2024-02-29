@@ -44,6 +44,8 @@ export function App() {
             <Route path="/dashboard/editprofile" element={<EditProfile/>}>
               <Route index element={<SaveUserForm/>} />
               <Route path="changepassword" element={<ChangeUserPassword/>} />
+              <Route path="changepermissions" element={<p>Pagina de edição de permições aqui!</p>} />
+              <Route path="deleteusers" element={<p>Pagina de edição de exclusão de usuários aqui!</p>} />
             </Route>
             <Route path="/dashboard/theme" element={<Theme />} />
             <Route path="/dashboard/newcategory" element={<NewCategory />} />
