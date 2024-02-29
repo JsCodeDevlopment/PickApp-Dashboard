@@ -40,7 +40,8 @@ export function ChangeUserPassword() {
     }
     setIsLoading(true);
     const update = await UpdateUserPassword(pass.lastPass, pass.newPass)
-    !update ? setIsLoading(false) : setPass({
+    !update && setIsLoading(false)
+    setPass({
       lastPass: "",
       newPass: "",
       confirmPass: "",
