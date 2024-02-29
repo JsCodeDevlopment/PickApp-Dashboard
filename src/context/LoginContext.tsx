@@ -9,7 +9,8 @@ export const LoginContext = createContext({} as ILoginContext);
 
 export const LoginProvider = ({ children }: { children: ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [logedUser, setLogedUser] = useState<ILogedUserInfo>();
+  const [logedUser, setLogedUser] = useState<ILogedUserInfo | undefined>(undefined);
+  const [logedUserToken, setLogedUserToken] = useState<string>("");
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -25,6 +26,7 @@ export const LoginProvider = ({ children }: { children: ReactNode }) => {
       const data = await response.json();
       if (response.ok) {
         localStorage.setItem("acessToken", data.token);
+        setLogedUserToken(data.token)
         setLogedUser(data);
         setIsAuthenticated(true);
       } else {
@@ -52,6 +54,7 @@ export const LoginProvider = ({ children }: { children: ReactNode }) => {
       const data = await response.json();
       
       if (response.ok) {
+        setLogedUserToken(token)
         setLogedUser(data);
         setIsAuthenticated(true);
       } else {
@@ -88,7 +91,7 @@ export const LoginProvider = ({ children }: { children: ReactNode }) => {
   }, [isAuthenticated]);
 
   return (
-    <LoginContext.Provider value={{ logedUser, login, logout, setLogedUser }}>
+    <LoginContext.Provider value={{ logedUser, login, logout, setLogedUser, logedUserToken }}>
       {children}
     </LoginContext.Provider>
   );

@@ -6,6 +6,6 @@ export interface ILogedUserInfo {
     password: string;
     imagePath: string;
     rule: string;
-    token: string;
+    verificationToken: string;
   };
 }

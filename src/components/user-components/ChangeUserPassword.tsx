@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
+import { toast } from "react-toastify";
+import { useRegister } from "../../servises/api/RegisterRequest";
 
 interface IPass {
   lastPass: string;
@@ -14,7 +16,9 @@ export function ChangeUserPassword() {
     confirmPass: "",
   });
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const { UpdateUserPassword } = useRegister()
+
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
     if (event.target instanceof HTMLInputElement) {
@@ -25,8 +29,22 @@ export function ChangeUserPassword() {
     }
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (ev: FormEvent) => {
+    ev.preventDefault()
+
+    if (pass.newPass !== pass.confirmPass) {
+      toast.error(`Nova senha e a senha de confirmação precisam ser iguais.`, {
+        autoClose: 1000 * 3,
+      });
+      return
+    }
     setIsLoading(true);
+    const update = await UpdateUserPassword(pass.lastPass, pass.newPass)
+    !update ? setIsLoading(false) : setPass({
+      lastPass: "",
+      newPass: "",
+      confirmPass: "",
+    })
   };
 
   return (

@@ -2,9 +2,11 @@ import { toast } from "react-toastify";
 import { IUser } from "../../interfaces/IUser";
 import { baseURL } from "../BackEndBaseURL";
 import { useNavigate } from "react-router-dom";
+import { useLogin } from "../../context/LoginContext";
 
 export function useRegister() {
   const navigate = useNavigate();
+  const { logedUserToken } = useLogin()
 
   const CreateUser = async ({ name, email, password, rule, imagePath}: IUser): Promise<void> => {
     try {
@@ -65,6 +67,39 @@ export function useRegister() {
     } catch (error) {
       console.error(error, "Erro na requisição de editar perfil.");
       toast.error(`${error} Erro na requisição de editar perfil.`, {
+        autoClose: 1000 * 3,
+      });
+    }
+  };
+  const UpdateUserPassword = async (lastPassword: string, newPassword: string): Promise<void | undefined> => {
+    try {
+      const token = logedUserToken
+
+      const response = await fetch(`${baseURL}/register/update-password`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          lastPassword,
+          newPassword
+        }),
+      });
+
+      if (response.ok) {
+        toast.success("Senha Alterada com sucesso.", {
+          autoClose: 1000 * 3,
+        });
+      } else {
+        toast.error(`Erro na alteração da senha.`, {
+          autoClose: 1000 * 3,
+        });
+        return
+      }
+    } catch (error) {
+      console.error(error, "Erro na requisição de edição de senha.");
+      toast.error(`${error} Erro na requisição de edição de senha.`, {
         autoClose: 1000 * 3,
       });
     }
@@ -158,5 +193,5 @@ export function useRegister() {
     }
   }
 
-  return { CreateUser, VerifyToken, ForgotPassword, ChangePassword, UpdateUser };
+  return { CreateUser, VerifyToken, ForgotPassword, ChangePassword, UpdateUser, UpdateUserPassword };
 }
