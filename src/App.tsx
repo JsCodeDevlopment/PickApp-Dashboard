@@ -37,20 +37,19 @@ export function App() {
             <Route path="/authenticate" element={<AuthenticateToken />} />
             <Route path="/recover" element={<RecoverPassword />} />
             <Route path="/wait" element={<Wait />} />
-            <Route path="/changepassword" element={<ChangePassword />} />
+            <Route path="/change-password" element={<ChangePassword />} />
             <Route path="/register" element={<Register />} />
             <Route path="/" element={<LoginPage />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/dashboard/editprofile" element={<EditProfile/>}>
+            <Route path="/dashboard/edit-profile" element={<EditProfile/>}>
               <Route index element={<SaveUserForm/>} />
-              <Route path="changepassword" element={<ChangeUserPassword/>} />
-              <Route path="changepermissions" element={<p>Pagina de edição de permições aqui!</p>} />
-              <Route path="deleteusers" element={<p>Pagina de edição de exclusão de usuários aqui!</p>} />
+              <Route path="change-password" element={<ChangeUserPassword/>} />
+              <Route path="user-management" element={<p>Pagina de edição de permições aqui!</p>} />
             </Route>
             <Route path="/dashboard/theme" element={<Theme />} />
-            <Route path="/dashboard/newcategory" element={<NewCategory />} />
-            <Route path="/dashboard/newitem" element={<NewItem />} />
-            <Route path="/dashboard/neworder" element={<CartProvider><NewOrder /></CartProvider>} />
+            <Route path="/dashboard/new-category" element={<NewCategory />} />
+            <Route path="/dashboard/new-item" element={<NewItem />} />
+            <Route path="/dashboard/new-order" element={<CartProvider><NewOrder /></CartProvider>} />
           </Routes>
         </main>
       </LoginProvider>

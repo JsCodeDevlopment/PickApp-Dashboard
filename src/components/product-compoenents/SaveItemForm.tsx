@@ -183,7 +183,7 @@ export function NewItemForm({ onProductSubmit, setIsClosed, useRequestProducts, 
           </select>
         </label>
         <h1 className="text-base font-semibold">Ingredientes</h1>
-        <p className="flex items-center justify-center">Tecle <img src={Wind} alt="" /> +. Para adicionar um ícone.</p>
+        <p className="flex items-center justify-center">Tecle<kbd className="kbd"><img src={Wind} alt="" /></kbd> + <kbd className="kbd">.</kbd> Para adicionar um ícone.</p>
         <div className="flex flex-col gap-3">
           <div className="flex flex-col w-full gap-2 items-center justify-center max-lg:flex-wrap max-md:flex-nowrap max-sm:flex-wrap">
             {ingredients.map((ingredient, index) => (

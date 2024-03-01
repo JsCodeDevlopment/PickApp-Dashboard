@@ -31,7 +31,7 @@ export function CategoryInfo({ item }: ICategoryInfoProps) {
             .slice(0, showAllProducts ? item.products.length : 5)
             .map((product) => (
               <div className="flex w-full p-2 gap-5 items-center justify-between rounded-md bg-neutral shadow-md">
-                <div className="flex gap-5 items-center justify-center max-sm:w-full max-sm:gap-2">
+                <div className="flex gap-5 items-center justify-center">
                   <img
                     className="w-16 h-14 object-cover rounded-md"
                     src={`${baseURL}/uploads/${product.imagePath}`}

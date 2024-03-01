@@ -17,7 +17,7 @@ export function SettingsMenu() {
     backgroundPosition: "center",
   };
   return (
-    <div className="dropdown dropdown-bottom dropdown-end">
+    <div className="dropdown dropdown-bottom dropdown-end max-md:hidden">
       <div
         tabIndex={0}
         role="button"
@@ -30,19 +30,19 @@ export function SettingsMenu() {
         <li className="menu-title text-neutral-content">Opções</li>
         <hr />
         <li>
-          <Link to={"/dashboard/editprofile"} className="text-neutral-content"><img className="w-4 h-4" src={UserIcon}/> Editar Perfil</Link>
+          <Link to={"/dashboard/edit-profile"} className="text-neutral-content"><img className="w-4 h-4" src={UserIcon}/> Editar Perfil</Link>
         </li>
         <li>
           <Link to={"/dashboard/theme"} className="text-neutral-content"><img className="w-4 h-4" src={ThemeIcon}/> Temas</Link>
         </li>
         <li>
-          <Link to={"/dashboard/newcategory"} className="text-neutral-content"><img className="w-4 h-4" src={Ctgy}/> Categorias</Link>
+          <Link to={"/dashboard/new-category"} className="text-neutral-content"><img className="w-4 h-4" src={Ctgy}/> Categorias</Link>
         </li>
         <li>
-          <Link to={"/dashboard/newitem"} className="text-neutral-content"><img className="w-4 h-4" src={Burguer}/> Produtos</Link>
+          <Link to={"/dashboard/new-item"} className="text-neutral-content"><img className="w-4 h-4" src={Burguer}/> Produtos</Link>
         </li>
         <li>
-          <Link to={"/dashboard/neworder"} className="text-neutral-content"><img className="w-4 h-4" src={Cart}/> Criar Pedido</Link>
+          <Link to={"/dashboard/new-order"} className="text-neutral-content"><img className="w-4 h-4" src={Cart}/> Criar Pedido</Link>
         </li>
         <hr />
         <li onClick={logout}>
