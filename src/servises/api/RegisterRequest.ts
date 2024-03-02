@@ -90,12 +90,10 @@ export function useRegister() {
 
   const UpdateUserPassword = async (lastPassword: string, newPassword: string): Promise<void | undefined> => {
     try {
-      const token = logedUserToken
-
       const response = await fetch(`${baseURL}/register/update-password`, {
         method: "PATCH",
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${logedUserToken}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -180,6 +178,39 @@ export function useRegister() {
     }
   }
 
+  const DeleteUser = async (id: string): Promise<void> => {
+    try {
+      const response = await fetch(`${baseURL}/register/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${logedUserToken}`,
+          "Content-Type": "application/json",
+        }
+      });
+
+      if (response.ok) {
+        toast.success("Usuário deletado com sucesso!", {
+          autoClose: 1000 * 3,
+        });
+      } else {
+        toast.error("Você não possui autorização para deletar usuários!", {
+          autoClose: 1000 * 3,
+        });
+      }
+    } catch (error) {
+      console.error(
+        error,
+        "Erro ao requisitar a exclusão do usuário."
+      );
+      toast.error(
+        `${error} Erro ao requisitar a exclusão do usuário.`,
+        {
+          autoClose: 1000 * 3,
+        }
+      );
+    }
+  };
+
   const ChangePassword = async (token: string, password: string) => {
     try {
       const response = await fetch(`${baseURL}/reset-password?token=${token}`, {
@@ -210,5 +241,5 @@ export function useRegister() {
     }
   }
 
-  return { CreateUser, ShowAllRegisters, VerifyToken, ForgotPassword, ChangePassword, UpdateUser, UpdateUserPassword };
+  return { CreateUser, ShowAllRegisters, VerifyToken, ForgotPassword, ChangePassword, UpdateUser, UpdateUserPassword, DeleteUser };
 }
