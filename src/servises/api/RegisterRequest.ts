@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import { IUser } from "../../interfaces/IUser";
+import { IFullUser, IUser } from "../../interfaces/IUser";
 import { baseURL } from "../BackEndBaseURL";
 import { useNavigate } from "react-router-dom";
 import { useLogin } from "../../context/LoginContext";
@@ -24,7 +24,7 @@ export function useRegister() {
       });
 
       if (response.ok) {
-        toast.success("Usuário criado com sucesso!", {
+        toast.success("Processo de criação iniciado com sucesso!", {
           autoClose: 1000 * 3,
         });
         navigate("/authenticate", { replace: true });
@@ -71,6 +71,23 @@ export function useRegister() {
       });
     }
   };
+
+  const ShowAllRegisters = async (): Promise<IFullUser[] | undefined> => {
+    try {
+      const response = await fetch(`${baseURL}/register`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        }
+      });
+      const data: IFullUser[] = await response.json()
+      return data
+    } catch (error) {
+      console.error(error, "Erro ao requisitar todos os usuários cadastrados.")
+      return
+    }
+  }
+
   const UpdateUserPassword = async (lastPassword: string, newPassword: string): Promise<void | undefined> => {
     try {
       const token = logedUserToken
@@ -193,5 +210,5 @@ export function useRegister() {
     }
   }
 
-  return { CreateUser, VerifyToken, ForgotPassword, ChangePassword, UpdateUser, UpdateUserPassword };
+  return { CreateUser, ShowAllRegisters, VerifyToken, ForgotPassword, ChangePassword, UpdateUser, UpdateUserPassword };
 }

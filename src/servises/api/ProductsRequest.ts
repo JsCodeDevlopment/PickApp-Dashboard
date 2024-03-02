@@ -2,8 +2,10 @@ import { toast } from "react-toastify";
 import { baseURL } from "../BackEndBaseURL";
 import { ISingleChangeProduct, ISingleProduct } from "../../interfaces/IOrders";
 import { ICreateProductProps } from "../../interfaces/IProductProps";
+import { useLogin } from "../../context/LoginContext";
 
 export function useProduct() {
+  const { logedUserToken } =useLogin()
   const CreateProduct = async ({ name, description, image, price, category, ingredients }: ICreateProductProps): Promise<ISingleProduct | undefined> => {
     try {
       const formData = new FormData()
@@ -17,6 +19,9 @@ export function useProduct() {
 
       const response = await fetch(`${baseURL}/products`, {
         method: "POST",
+        headers:{
+          Authorization: `Bearer ${logedUserToken}`,
+        },
         body: formData,
       });
       const data = await response.json()
@@ -27,7 +32,7 @@ export function useProduct() {
         });
         return data
       } else {
-        toast.error(`Erro ao criar Produto.`, {
+        toast.error(`Você não possui permição para executar essa ação.`, {
           autoClose: 1000 * 3,
         });
       }
@@ -52,6 +57,9 @@ export function useProduct() {
 
       const response = await fetch(`${baseURL}/products/${_id}`, {
         method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${logedUserToken}`,
+        },
         body: formData,
       });
       const data = await response.json()
@@ -62,7 +70,7 @@ export function useProduct() {
         });
         return data
       } else {
-        toast.error(`Erro ao alterar Produto.`, {
+        toast.error(`Você não possui permição para executar essa ação.`, {
           autoClose: 1000 * 3,
         });
       }
@@ -92,6 +100,7 @@ export function useProduct() {
       const response = await fetch(`${baseURL}/products/${productId}`, {
         method: "DELETE",
         headers: {
+          Authorization: `Bearer ${logedUserToken}`,
           "Content-Type": "application/json",
         }
       })
@@ -100,7 +109,7 @@ export function useProduct() {
           autoClose: 1000 * 3,
         });
       } else {
-        toast.error(`Erro ao excluir o produto.`, {
+        toast.error(`Você não possui permição para executar essa ação.`, {
           autoClose: 1000 * 3,
         });
       }

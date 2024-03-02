@@ -3,8 +3,11 @@ import { ISingleCategory } from "../../interfaces/IOrders";
 import { baseURL } from "../BackEndBaseURL";
 import { IChangeCategoryProps } from "../../interfaces/IChangeCategoryProps";
 import { ICategories, IFullCategory } from "../../interfaces/ICategory";
+import { useLogin } from "../../context/LoginContext";
 
 export function useCategory() {
+  const { logedUserToken } = useLogin()
+
   const ShowCategories = async (): Promise<ICategories | undefined> => {
     try {
       const response = await fetch(`${baseURL}/categories`, {
@@ -36,6 +39,7 @@ export function useCategory() {
       const response = await fetch(`${baseURL}/categories`, {
         method: "POST",
         headers: {
+          Authorization: `Bearer ${logedUserToken}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -49,7 +53,7 @@ export function useCategory() {
           autoClose: 1000 * 3,
         });
       } else {
-        toast.error(`Me parece que algo deu errado!`, {
+        toast.error(`Você não possui permição para executar essa ação.`, {
           autoClose: 1000 * 3,
         });
       }
@@ -66,6 +70,7 @@ export function useCategory() {
       const response = await fetch(`${baseURL}/categories/${id}`, {
         method: "PATCH",
         headers: {
+          Authorization: `Bearer ${logedUserToken}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -79,7 +84,7 @@ export function useCategory() {
           autoClose: 1000 * 3,
         });
       } else {
-        toast.error(`Me parece que algo deu errado!`, {
+        toast.error(`Você não possui permição para executar essa ação.`, {
           autoClose: 1000 * 3,
         });
       }
@@ -99,6 +104,7 @@ export function useCategory() {
       const response = await fetch(`${baseURL}/categories/${id}`, {
         method: "DELETE",
         headers: {
+          Authorization: `Bearer ${logedUserToken}`,
           "Content-Type": "application/json",
         },
       });
@@ -107,7 +113,7 @@ export function useCategory() {
           autoClose: 1000 * 3,
         });
       } else {
-        toast.error(`Erro ao excluir a categoria.`, {
+        toast.error(`Você não possui permição para executar essa ação.`, {
           autoClose: 1000 * 3,
         });
       }
