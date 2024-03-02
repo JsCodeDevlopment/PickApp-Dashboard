@@ -4,15 +4,20 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ILoginContext } from "../interfaces/ILoginContext";
 import { ILogedUserInfo } from "../interfaces/ILogedUser";
+import { useRegister } from "../servises/api/RegisterRequest";
+import { IFullUser } from "../interfaces/IUser";
 
 export const LoginContext = createContext({} as ILoginContext);
 
 export const LoginProvider = ({ children }: { children: ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [logedUser, setLogedUser] = useState<ILogedUserInfo | undefined>(undefined);
+  const [AllUsers, setAllUsers] = useState<IFullUser[] | undefined>(undefined);
   const [logedUserToken, setLogedUserToken] = useState<string>("");
   const navigate = useNavigate();
   const location = useLocation();
+  const { ShowAllRegisters } = useRegister();
+
 
   const login = async (email: string, password: string): Promise<void | boolean> => {
     try {
@@ -37,6 +42,11 @@ export const LoginProvider = ({ children }: { children: ReactNode }) => {
     } catch (error) {
       console.error(error, "Erro ao fazer a requisição.");
     }
+  };
+
+  const getAllUsers = async () => {
+    const allUsers = await ShowAllRegisters();
+    setAllUsers(allUsers)
   };
 
   const authenticateToken = async () => {
@@ -79,6 +89,8 @@ export const LoginProvider = ({ children }: { children: ReactNode }) => {
   };
 
   useEffect(() => {
+    getAllUsers()
+
     if (!isAuthenticated) {
       authenticateToken()
     }
@@ -91,7 +103,7 @@ export const LoginProvider = ({ children }: { children: ReactNode }) => {
   }, [isAuthenticated]);
 
   return (
-    <LoginContext.Provider value={{ logedUser, login, logout, setLogedUser, logedUserToken }}>
+    <LoginContext.Provider value={{ logedUser, AllUsers, login, logout, setLogedUser, logedUserToken }}>
       {children}
     </LoginContext.Provider>
   );

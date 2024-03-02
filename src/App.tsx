@@ -18,6 +18,7 @@ import { ChangePassword } from "./pages/ChangePassword";
 import { EditProfile } from "./pages/EditProfile";
 import { SaveUserForm } from "./components/user-components/SaveUserForm";
 import { ChangeUserPassword } from "./components/user-components/ChangeUserPassword";
+import { ManagementUserTable } from "./components/ManagementUsersTable";
 
 export function App() {
   const { currentTheme } = useTheme();
@@ -32,7 +33,9 @@ export function App() {
           hideProgressBar={false}
           closeOnClick={true}
           pauseOnHover={true}/>
-        <main data-theme={currentTheme} className="flex items-center justify-center w-full min-h-screen h-full bg-base-300">
+        <main
+          data-theme={currentTheme}
+          className="flex items-center justify-center w-full min-h-screen h-full bg-base-300">
           <Routes>
             <Route path="/authenticate" element={<AuthenticateToken />} />
             <Route path="/recover" element={<RecoverPassword />} />
@@ -41,15 +44,20 @@ export function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/" element={<LoginPage />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/dashboard/edit-profile" element={<EditProfile/>}>
-              <Route index element={<SaveUserForm/>} />
-              <Route path="change-password" element={<ChangeUserPassword/>} />
-              <Route path="user-management" element={<p>Pagina de edição de permições aqui!</p>} />
+            <Route path="/dashboard/edit-profile" element={<EditProfile />}>
+              <Route index element={<SaveUserForm />} />
+              <Route path="change-password" element={<ChangeUserPassword />} />
+              <Route path="user-management" element={<ManagementUserTable />} />
             </Route>
             <Route path="/dashboard/theme" element={<Theme />} />
             <Route path="/dashboard/new-category" element={<NewCategory />} />
             <Route path="/dashboard/new-item" element={<NewItem />} />
-            <Route path="/dashboard/new-order" element={<CartProvider><NewOrder /></CartProvider>} />
+            <Route 
+            path="/dashboard/new-order" 
+            element={
+                <CartProvider>
+                  <NewOrder />
+                </CartProvider>}/>
           </Routes>
         </main>
       </LoginProvider>
