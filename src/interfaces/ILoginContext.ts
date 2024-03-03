@@ -9,4 +9,6 @@ export interface ILoginContext {
   AllUsers: IFullUser[] | undefined;
   logedUserToken: string;
   setLogedUser: Dispatch<SetStateAction<ILogedUserInfo | undefined>>
+  authenticateToken: () => Promise<void>
+  getAllUsers: () => Promise<void>
 }

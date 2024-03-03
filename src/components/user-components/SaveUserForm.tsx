@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRegister } from "../../servises/api/RegisterRequest";
 import { IUser } from "../../interfaces/IUser";
 import ProfilePicture from "../../assets/images/profile.jpg";
@@ -7,7 +7,7 @@ import { useLogin } from "../../context/LoginContext";
 
 export function SaveUserForm() {
   const { CreateUser } = useRegister();
-  const { logedUser } = useLogin();
+  const { logedUser, authenticateToken } = useLogin();
   const { UpdateUser } = useRegister()
 
   const [newUser, setNewUser] = useState<IUser>({
@@ -18,6 +18,10 @@ export function SaveUserForm() {
     rule: logedUser?.user?.rule || "USER",
   });
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  useEffect(()=>{
+    authenticateToken()
+  },[isLoading])
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type } = event.target;

@@ -1,16 +1,36 @@
 import { useLogin } from "../context/LoginContext";
 import { baseURL } from "../servises/BackEndBaseURL";
-import Trash from "../assets/images/Trash.png";
+import { useEffect, useState } from "react";
+import { DeleteUserDialog } from "./user-components/DeleteUserDialog";
 import { useRegister } from "../servises/api/RegisterRequest";
-
+import { toast } from "react-toastify";
 
 export function ManagementUserTable() {
-  const { AllUsers } = useLogin();
-  const { DeleteUser } = useRegister();
+  const [isClosed, setIsClosed] = useState<boolean>(false);
+  const [isSubmit, setIsSubmit] = useState<boolean>(false);
+  const { AllUsers, logedUser, getAllUsers } = useLogin();
+  const { UpdateUserRule } = useRegister();
 
-  const handleDelete = async (id: string) => {
-    await DeleteUser(id)
+  const update = async () => {
+    await getAllUsers()
   }
+
+  useEffect(()=>{
+    update()
+  },[isSubmit])
+
+  const handleRoleChange = async (id: string) => {
+    setIsSubmit(true)
+    if (logedUser?.user._id === id && logedUser.user.rule !== "ADM") {
+      toast.error(`Alteração não finalizada por você não ter permição para isso.`, {
+        autoClose: 1000 * 3,
+      });
+      return
+    }
+    const updateRule = await UpdateUserRule(id)
+    updateRule && setIsSubmit(false)
+  }
+
   return (
     <div className="overflow-x-auto">
       <table className="table">
@@ -53,14 +73,13 @@ export function ManagementUserTable() {
                   <input
                     type="checkbox"
                     name="rule"
+                    value={user.rule}
+                    onClick={()=>handleRoleChange(user._id)}
+                    defaultChecked={user.rule === "ADM"}                    
                     className="toggle toggle-primary"/>
                 </th>
                 <th>
-                  <button 
-                  onClick={()=>handleDelete(user._id)}
-                  className="btn btn-sm btn-ghost btn-square">
-                    <img src={Trash} alt="" />
-                  </button>
+                  <DeleteUserDialog id={user._id} isClosed={isClosed} setIsClosed={setIsClosed} />
                 </th>
               </tr>
             ))}
