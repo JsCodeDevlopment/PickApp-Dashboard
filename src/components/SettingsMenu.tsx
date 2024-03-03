@@ -9,7 +9,7 @@ import { useLogin } from "../context/LoginContext";
 import { baseURL } from "../servises/BackEndBaseURL";
 
 export function SettingsMenu() {
-  const { logout, logedUser } = useLogin()
+  const { logout, logedUser } = useLogin();
 
   const divStyle = {
     backgroundImage: `url(${baseURL}/uploads/${logedUser?.user.imagePath})`,
@@ -22,32 +22,81 @@ export function SettingsMenu() {
         tabIndex={0}
         role="button"
         className="btn m-1 rounded-full w-16 h-16 border-solid border-2 hover:border-base-100"
-        style={divStyle}>          
-        </div>
+        style={divStyle}></div>
       <ul
         tabIndex={0}
         className="dropdown-content z-[1] menu p-2 shadow gap-2 bg-neutral rounded-box w-52">
         <li className="menu-title text-neutral-content">Opções</li>
         <hr />
-        <li>
-          <Link to={"/dashboard/edit-profile"} className="text-neutral-content"><img className="w-4 h-4" src={UserIcon}/> Editar Perfil</Link>
-        </li>
-        <li>
-          <Link to={"/dashboard/theme"} className="text-neutral-content"><img className="w-4 h-4" src={ThemeIcon}/> Temas</Link>
-        </li>
-        <li>
-          <Link to={"/dashboard/new-category"} className="text-neutral-content"><img className="w-4 h-4" src={Ctgy}/> Categorias</Link>
-        </li>
-        <li>
-          <Link to={"/dashboard/new-item"} className="text-neutral-content"><img className="w-4 h-4" src={Burguer}/> Produtos</Link>
-        </li>
-        <li>
-          <Link to={"/dashboard/new-order"} className="text-neutral-content"><img className="w-4 h-4" src={Cart}/> Criar Pedido</Link>
-        </li>
-        <hr />
-        <li onClick={logout}>
-          <a className="text-neutral-content"><img className="w-4 h-4" src={LogOutIcon}/> Sair</a>
-        </li>
+        {logedUser?.user.rule === "ADM" ? (
+          <>
+            <li>
+              <Link
+                to={"/dashboard/edit-profile"}
+                className="text-neutral-content">
+                <img className="w-4 h-4" src={UserIcon} /> Editar Perfil
+              </Link>
+            </li>
+            <li>
+              <Link to={"/dashboard/theme"} className="text-neutral-content">
+                <img className="w-4 h-4" src={ThemeIcon} /> Temas
+              </Link>
+            </li>
+            <li>
+              <Link
+                to={"/dashboard/new-category"}
+                className="text-neutral-content">
+                <img className="w-4 h-4" src={Ctgy} /> Categorias
+              </Link>
+            </li>
+            <li>
+              <Link to={"/dashboard/new-item"} className="text-neutral-content">
+                <img className="w-4 h-4" src={Burguer} /> Produtos
+              </Link>
+            </li>
+            <li>
+              <Link
+                to={"/dashboard/new-order"}
+                className="text-neutral-content">
+                <img className="w-4 h-4" src={Cart} /> Criar Pedido
+              </Link>
+            </li>
+            <hr />
+            <li onClick={logout}>
+              <a className="text-neutral-content">
+                <img className="w-4 h-4" src={LogOutIcon} /> Sair
+              </a>
+            </li>
+          </>
+        ) : (
+          <>
+            <li>
+              <Link
+                to={"/dashboard/edit-profile"}
+                className="text-neutral-content">
+                <img className="w-4 h-4" src={UserIcon} /> Editar Perfil
+              </Link>
+            </li>
+            <li>
+              <Link to={"/dashboard/theme"} className="text-neutral-content">
+                <img className="w-4 h-4" src={ThemeIcon} /> Temas
+              </Link>
+            </li>
+            <li>
+              <Link
+                to={"/dashboard/new-order"}
+                className="text-neutral-content">
+                <img className="w-4 h-4" src={Cart} /> Criar Pedido
+              </Link>
+            </li>
+            <hr />
+            <li onClick={logout}>
+              <a className="text-neutral-content">
+                <img className="w-4 h-4" src={LogOutIcon} /> Sair
+              </a>
+            </li>
+          </>
+        )}
       </ul>
     </div>
   );
