@@ -42,12 +42,12 @@ export function useRegister() {
     }
   };
 
-  const UpdateUser = async ( name: string, imagePath: string, id: string ): Promise<IUser | undefined> => {
+  const UpdateUser = async ( name: string, id: string, imagePath?: File ): Promise<IUser | undefined> => {
     try {
       const formData = new FormData();
 
       formData.append("name", name);
-      formData.append("image", imagePath);
+      if(imagePath)formData.append("image", imagePath);
 
       const response = await fetch(`${baseURL}/register?id=${id}`, {
         method: "PATCH",

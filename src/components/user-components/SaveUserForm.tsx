@@ -1,70 +1,57 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRegister } from "../../servises/api/RegisterRequest";
 import { IUser } from "../../interfaces/IUser";
 import ProfilePicture from "../../assets/images/profile.jpg";
 import { baseURL } from "../../servises/BackEndBaseURL";
 import { useLogin } from "../../context/LoginContext";
+import { useForm } from "react-hook-form";
+import { z } from "zod"
+import { zodResolver } from "@hookform/resolvers/zod"
+
+const saverUserSchema = z.object({
+  imagePath:z.instanceof(FileList).transform(fileList=>fileList.item(0) ?? undefined).optional(),
+  name: z.string().min(5, "O nome precisa ter no minimo 5 caracteres."),
+  email: z.string().email("Digite um formato de email válido.").optional(),
+  password: z.string().min(6, "Sua senha deve ter um minimo de 6 caracteres.").optional(),
+  rule: z.boolean().transform(rule=>rule ? "ADM" : "USER").optional()
+})
+
+type saverUserSchema = z.infer<typeof saverUserSchema>
 
 export function SaveUserForm() {
   const { CreateUser } = useRegister();
   const { logedUser, authenticateToken } = useLogin();
   const { UpdateUser } = useRegister()
 
-  const [newUser, setNewUser] = useState<IUser>({
-    name: logedUser?.user?.name || "",
-    email: logedUser?.user?.email || "",
-    password: "",
-    imagePath: logedUser?.user?.imagePath || ProfilePicture,
-    rule: logedUser?.user?.rule || "USER",
-  });
+  const { register, handleSubmit, formState:{errors} } = useForm<saverUserSchema>({
+    resolver: zodResolver(saverUserSchema),
+    defaultValues: {
+      name: logedUser?.user.name ?? "",
+    }
+  })
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  useEffect(()=>{
-    authenticateToken()
-  },[isLoading])
-
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type } = event.target;
-
-    if (type === "file" && event.target instanceof HTMLInputElement) {
-      const file = event.target.files?.[0];
-
-      if (file) {
-        setNewUser((prevState) => ({
-          ...prevState,
-          [name]: file,
-        }));
-      }
-    } else {
-      setNewUser((prevState) => ({
-        ...prevState,
-        [name]: value,
-      }));
-    }
-  };
-
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, checked } = event.target;
-    setNewUser((prevState) => ({
-      ...prevState,
-      [name]: checked ? "ADM" : "USER",
-    }));
-  };
-
-  const handleSubmit = async () => {
+  const handleSave = async (data: saverUserSchema) => {
+    
+    console.log(data)
+    console.log(!logedUser ? "crie um usuário" : "esse é o usuário logado",logedUser)
+    
     setIsLoading(true);
 
     if(!logedUser){
-      await CreateUser(newUser);
+      await CreateUser(data as unknown as IUser);
       setIsLoading(false);
     } else {
-      await UpdateUser(newUser.name, newUser.imagePath, logedUser.user._id);
+      console.log("caiu no else")
+      const updatedUser = await UpdateUser(data.name, logedUser.user._id, data.imagePath);
+      updatedUser && authenticateToken()
       setIsLoading(false)
     }
 
   };
   return (
-    <form action="/upload" method="POST" className="card-body">
+    <form onSubmit={handleSubmit(handleSave)} className="card-body">
       <div className="form-control">
         <div className="flex gap-4">
           <img
@@ -80,11 +67,8 @@ export function SaveUserForm() {
             </label>
             <input
               type="file"
-              name="imagePath"
-              value={""}
-              onChange={handleInputChange}
-              className="file-input file-input-xs file-input-bordered file-input-primary w-full max-w-xs"
-              required/>
+              {...register("imagePath")}
+              className="file-input file-input-xs file-input-bordered file-input-primary w-full max-w-xs"/>
           </div>
         </div>
       </div>
@@ -94,12 +78,11 @@ export function SaveUserForm() {
         </label>
         <input
           type="text"
-          name="name"
-          value={newUser.name}
-          onChange={handleInputChange}
+          {...register("name")}
           placeholder="Name"
           className="input input-bordered"
           required/>
+          {errors.name && <span>{errors.name.message}</span>}
       </div>
       {logedUser ? (
         <></>
@@ -111,12 +94,11 @@ export function SaveUserForm() {
             </label>
             <input
               type="email"
-              name="email"
-              value={newUser.email}
-              onChange={handleInputChange}
+              {...register("email")}
               placeholder="Email"
               className="input input-bordered"
               required/>
+              {errors.email && <span>{errors.email.message}</span>}
           </div>
           <div className="form-control">
             <label className="label">
@@ -124,19 +106,16 @@ export function SaveUserForm() {
             </label>
             <input
               type="password"
-              name="password"
-              value={newUser.password}
-              onChange={handleInputChange}
+              {...register("password")}
               placeholder="Password"
               className="input input-bordered"
               required/>
+              {errors.password && <span>{errors.password.message}</span>}
             <label className="label">
               <p className="label-text">Criar como administrador?</p>
               <input
                 type="checkbox"
-                name="rule"
-                checked={newUser.rule === "ADM"}
-                onChange={handleCheckboxChange}
+                {...register("rule")}
                 className="toggle toggle-primary"/>
             </label>
           </div>
@@ -146,7 +125,6 @@ export function SaveUserForm() {
         {!isLoading ? (
           <button
             type="submit"
-            onClick={handleSubmit}
             className="btn btn-primary text-primary-content">
             Salvar
           </button>
