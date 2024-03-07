@@ -33,10 +33,7 @@ export function SaveUserForm() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleSave = async (data: saverUserSchema) => {
-    
-    console.log(data)
-    console.log(!logedUser ? "crie um usuário" : "esse é o usuário logado",logedUser)
-    
+
     setIsLoading(true);
 
     if(!logedUser){

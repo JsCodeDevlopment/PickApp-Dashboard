@@ -28,7 +28,7 @@ export function NewItemDialog({ children, isClosed, setIsClosed, icon }: INewIte
       onClick={handleClick}>
         <img src={icon ? icon : Add} alt="" />
       <dialog ref={modalBtn} className="modal">
-        <div className="modal-box">
+        <div className="modal-box overflow-y-auto scrollbar-thin scrollbar-thumb-neutral scrollbar-track-base-100">
           <div className="flex flex-col gap-5">
             <div className="flex w-full items-center justify-end">
               <p className="text-sm font-light">

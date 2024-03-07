@@ -51,7 +51,7 @@ export function OrderPopUp({ table, itens, products, status, id }: IOrderPopUpPr
       <h1>Mesa {table}</h1>
       {itens <= 1 ? <p>{itens} item</p> : <p>{itens} itens</p>}
       <dialog ref={showModalBtn} className="modal">
-        <div className="modal-box">
+        <div className="modal-box overflow-y-auto scrollbar-thin scrollbar-thumb-neutral scrollbar-track-base-100">
           <div className="flex flex-col gap-5">
             <div className="flex w-full items-center justify-between">
               <h1 className="font-bold text-2xl">MESA {table}</h1>
