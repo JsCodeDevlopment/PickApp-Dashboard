@@ -47,18 +47,19 @@ export function useCategory() {
           name,
         }),
       });
+      const data = await response.json();
+
 
       if (response.ok) {
         toast.success("Categoria criada com sucesso!", {
           autoClose: 1000 * 3,
         });
       } else {
-        toast.error(`Você não possui permição para executar essa ação.`, {
+        toast.error(data.error, {
           autoClose: 1000 * 3,
         });
       }
 
-      const data = await response.json();
       return data;
     } catch (error) {
       console.error(error, "Erro ao criar uma categoria.");

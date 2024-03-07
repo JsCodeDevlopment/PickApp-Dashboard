@@ -16,8 +16,6 @@ export function SaveCategoryForm({ setIsClosed, category, getCategories }: ISave
   const { CreateCategory, ChangeCategory } = useCategory();
 
   const handleSubmit = async () => {
-    setIsClosed(true)
-
     if (category) {
       const changeCategory = {
         id: category._id,
@@ -27,9 +25,13 @@ export function SaveCategoryForm({ setIsClosed, category, getCategories }: ISave
       await ChangeCategory(changeCategory)
       getCategories()
     } else {
+      if (categoryIcon === "" || categoryName === "") {
+        return
+      }
       await CreateCategory(categoryIcon, categoryName);
       getCategories()
     }
+    setIsClosed(true)
   };
 
   return (
