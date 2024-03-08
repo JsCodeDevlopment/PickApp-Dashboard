@@ -23,7 +23,7 @@ type saveCategorySchema = z.infer<typeof saveCategorySchema>;
 export function SaveCategoryForm({ setIsClosed, category, getCategories }: ISaveCategoryFormProps) {
   const { CreateCategory, ChangeCategory } = useCategory();
 
-  const { register, handleSubmit, formState: { errors } } = useForm<saveCategorySchema>({
+  const { register, handleSubmit, formState: { errors }, reset } = useForm<saveCategorySchema>({
     resolver: zodResolver(saveCategorySchema),
     defaultValues: {
       icon: category?.icon ?? "",
@@ -40,12 +40,14 @@ export function SaveCategoryForm({ setIsClosed, category, getCategories }: ISave
       };
       await ChangeCategory(changeCategory);
       getCategories();
+      reset()
     } else {
       if (data.icon === "" || data.name === "") {
         return;
       }
       await CreateCategory(data.icon, data.name);
       getCategories();
+      reset()
     }
     setIsClosed(true);
   };
@@ -78,19 +80,11 @@ export function SaveCategoryForm({ setIsClosed, category, getCategories }: ISave
             <div className="label">
               <span className="label-text">Name da categoria</span>
             </div>
-            {!errors.name ? (
-              <input
-                type="text"
-                {...register("name")}
-                placeholder="Ex.: Refrigerantes"
-                className="input input-bordered w-full max-w-xs"/>
-            ) : (
-              <input
-                type="text"
-                {...register("name")}
-                placeholder="Ex.: Refrigerantes"
-                className="input input-bordered input-error w-full max-w-xs"/>
-            )}
+            <input
+              type="text"
+              {...register("name")}
+              placeholder="Ex.: Refrigerantes"
+              className={`input input-bordered w-full max-w-xs ${errors.name && "input-error"}`}/>
             {errors.name && <span>{errors.name.message}</span>}
           </label>
         </div>

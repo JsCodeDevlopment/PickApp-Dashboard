@@ -18,7 +18,7 @@ export function ChangeUserPasswordForm() {
 
   const { UpdateUserPassword } = useRegister()
 
-  const { register, handleSubmit, formState:{errors} } = useForm<changeUsePassword>({
+  const { register, handleSubmit, formState:{errors}, reset } = useForm<changeUsePassword>({
     resolver: zodResolver(changeUsePassword)
   })
 
@@ -31,6 +31,7 @@ export function ChangeUserPasswordForm() {
     }
     setIsLoading(true);
     const update = await UpdateUserPassword(data.lastPass, data.newPass)
+    reset()
     !update && setIsLoading(false)
   };
 
