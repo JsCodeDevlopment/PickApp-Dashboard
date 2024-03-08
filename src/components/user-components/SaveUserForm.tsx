@@ -40,7 +40,6 @@ export function SaveUserForm() {
       await CreateUser(data as unknown as IUser);
       setIsLoading(false);
     } else {
-      console.log("caiu no else")
       const updatedUser = await UpdateUser(data.name, logedUser.user._id, data.imagePath);
       updatedUser && authenticateToken()
       setIsLoading(false)

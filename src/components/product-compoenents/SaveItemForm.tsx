@@ -21,14 +21,12 @@ export function NewItemForm({ onProductSubmit, setIsClosed, useRequestProducts, 
   const { CreateProduct, ChangeProduct } = useProduct();
   const { ShowCategories } = useCategory();
 
+  const getCategories = async () => {
+    const allCategories = await ShowCategories();
+    allCategories && setCategories(allCategories);
+  };
+  
   useEffect(() => {
-    const getCategories = async () => {
-      const allCategories = await ShowCategories();
-
-      if (allCategories) {
-        setCategories(allCategories);
-      }
-    };
     getCategories();
   }, []);
 
