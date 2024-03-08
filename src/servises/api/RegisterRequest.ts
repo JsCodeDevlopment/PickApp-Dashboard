@@ -130,13 +130,14 @@ export function useRegister() {
           newPassword,
         }),
       });
+      const data = await response.json()
 
       if (response.ok) {
         toast.success("Senha Alterada com sucesso.", {
           autoClose: 1000 * 3,
         });
       } else {
-        toast.error(`Erro na alteração da senha.`, {
+        toast.error(data.error, {
           autoClose: 1000 * 3,
         });
         return;

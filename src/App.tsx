@@ -17,7 +17,7 @@ import { Wait } from "./pages/Wait";
 import { ChangePassword } from "./pages/ChangePassword";
 import { EditProfile } from "./pages/EditProfile";
 import { SaveUserForm } from "./components/user-components/SaveUserForm";
-import { ChangeUserPassword } from "./components/user-components/ChangeUserPassword";
+import { ChangeUserPasswordForm } from "./components/user-components/ChangeUserPasswordForm";
 import { ManagementUserTable } from "./components/ManagementUsersTable";
 
 export function App() {
@@ -46,7 +46,7 @@ export function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/dashboard/edit-profile" element={<EditProfile />}>
               <Route index element={<SaveUserForm />} />
-              <Route path="change-password" element={<ChangeUserPassword />} />
+              <Route path="change-password" element={<ChangeUserPasswordForm />} />
               <Route path="user-management" element={<ManagementUserTable />} />
             </Route>
             <Route path="/dashboard/theme" element={<Theme />} />

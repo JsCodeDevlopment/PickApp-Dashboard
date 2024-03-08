@@ -1,67 +1,52 @@
-import { ChangeEvent, FormEvent, useState } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
 import { useRegister } from "../../servises/api/RegisterRequest";
+import { useForm } from "react-hook-form";
+import { z } from "zod"
+import { zodResolver } from "@hookform/resolvers/zod"
 
-interface IPass {
-  lastPass: string;
-  newPass: string;
-  confirmPass: string;
-}
+const changeUsePassword = z.object({
+  lastPass: z.string().min(6, "Sua senha deve ter um minimo de 6 caracteres."),
+  newPass: z.string().min(6, "Sua senha deve ter um minimo de 6 caracteres."),
+  confirmPass: z.string().min(6, "Sua senha deve ter um minimo de 6 caracteres.")
+})
 
-export function ChangeUserPassword() {
+type changeUsePassword = z.infer<typeof changeUsePassword>
+
+export function ChangeUserPasswordForm() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [pass, setPass] = useState<IPass>({
-    lastPass: "",
-    newPass: "",
-    confirmPass: "",
-  });
 
   const { UpdateUserPassword } = useRegister()
 
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
+  const { register, handleSubmit, formState:{errors} } = useForm<changeUsePassword>({
+    resolver: zodResolver(changeUsePassword)
+  })
 
-    if (event.target instanceof HTMLInputElement) {
-      setPass((prevState) => ({
-        ...prevState,
-        [name]: value,
-      }));
-    }
-  };
-
-  const handleSubmit = async (ev: FormEvent) => {
-    ev.preventDefault()
-
-    if (pass.newPass !== pass.confirmPass) {
+  const handleChange = async (data: changeUsePassword) => {
+    if (data.newPass !== data.confirmPass) {
       toast.error(`Nova senha e a senha de confirmação precisam ser iguais.`, {
         autoClose: 1000 * 3,
       });
       return
     }
     setIsLoading(true);
-    const update = await UpdateUserPassword(pass.lastPass, pass.newPass)
+    const update = await UpdateUserPassword(data.lastPass, data.newPass)
     !update && setIsLoading(false)
-    setPass({
-      lastPass: "",
-      newPass: "",
-      confirmPass: "",
-    })
   };
 
   return (
-    <form action="/upload" method="POST" className="card-body">
+    <form onSubmit={handleSubmit(handleChange)} className="card-body">
       <div className="form-control">
         <label className="label">
           <span className="label-text">Senha atual</span>
         </label>
         <input
           type="password"
-          name="lastPass"
-          value={pass.lastPass}
-          onChange={handleInputChange}
+          {...register("lastPass")}
           placeholder="Senha atual"
-          className="input input-bordered"
+          className={`input input-bordered ${errors.lastPass && "input-error"}`}
           required/>
+          {errors.lastPass && <span>{errors.lastPass.message}</span>}
       </div>
       <div className="form-control">
         <label className="label">
@@ -69,12 +54,11 @@ export function ChangeUserPassword() {
         </label>
         <input
           type="password"
-          name="newPass"
-          value={pass.newPass}
-          onChange={handleInputChange}
+          {...register("newPass")}
           placeholder="Nova senha"
-          className="input input-bordered"
+          className={`input input-bordered ${errors.newPass && "input-error"}`}
           required/>
+          {errors.newPass && <span>{errors.newPass.message}</span>}
       </div>
       <div className="form-control">
         <label className="label">
@@ -82,18 +66,16 @@ export function ChangeUserPassword() {
         </label>
         <input
           type="password"
-          name="confirmPass"
-          value={pass.confirmPass}
-          onChange={handleInputChange}
+          {...register("confirmPass")}
           placeholder="Confirmar senha"
-          className="input input-bordered"
+          className={`input input-bordered ${errors.confirmPass && "input-error"}`}
           required/>
+          {errors.confirmPass && <span>{errors.confirmPass.message}</span>}
       </div>
       <div className="form-control mt-6">
         {!isLoading ? (
           <button
             type="submit"
-            onClick={handleSubmit}
             className="btn btn-primary text-primary-content">
             Salvar
           </button>
