@@ -9,7 +9,7 @@ export const OrderProvider = ({ children }: { children: ReactNode }) => {
   const [orders, setOrders] = useState<IOrder[]>([]);
   const [products, setProducts] = useState<ISingleProduct[]>([]);
 
-  const useRequestOrders = async () => {
+  const RequestOrders = async () => {
     try {
       const response = await fetch(`${baseURL}/orders`);
       const data = await response.json();
@@ -20,7 +20,7 @@ export const OrderProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const useRequestProducts = async () => {
+  const RequestProducts = async () => {
     try {
       const response = await fetch(`${baseURL}/products`);
       const data = await response.json();      
@@ -32,7 +32,7 @@ export const OrderProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <OrderContext.Provider value={{ useRequestOrders, orders, useRequestProducts, products }}>
+    <OrderContext.Provider value={{ RequestOrders, orders, RequestProducts, products }}>
       {children}
     </OrderContext.Provider>
   );

@@ -1,6 +1,5 @@
 import { ReactNode, createContext, useContext, useEffect, useState } from "react";
-import { ISingleProduct } from "../interfaces/IOrders";
-import { Order } from "../pages/NewOrder";
+import { ISingleProduct, OrderItem } from "../interfaces/IOrders";
 
 interface ICartContext {
   addOrder: (product: ISingleProduct) => void
@@ -8,23 +7,23 @@ interface ICartContext {
   incrementItem: (id: string) => void
   decrementItem: (id: string) => void
   clearAll: () => void
-  orders: Order[]
+  cartItem: OrderItem[]
 }
 
 export const CartContext = createContext({} as ICartContext);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
-  const [orders, setOrders] = useState<Order[]>(()=>{
+  const [cartItem, setCartItem] = useState<OrderItem[]>(()=>{
     const persistedOrders = localStorage.getItem("order")
     return persistedOrders ? JSON.parse(persistedOrders) : []
   });
 
   const addOrder = (product: ISingleProduct) => {
    
-    setOrders((prevOrders) => {
+    setCartItem((prevOrders) => {
       const index = prevOrders.findIndex((order) => order._id === product._id);
       if (index === -1) {
-        const newOrder: Order = {
+        const newOrder: OrderItem = {
           _id: product._id,
           name: product.name,
           price: product.price,
@@ -40,13 +39,13 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const removeOrder = (id: string) => {
-    setOrders((prevOrders) => {
+    setCartItem((prevOrders) => {
       return prevOrders.filter(order => order._id !== id)
     })
   }
 
   const incrementItem = (id: string) => {
-    setOrders((prevOrders) => {
+    setCartItem((prevOrders) => {
       const index = prevOrders.findIndex((order) => order._id === id);
       if (index !== -1) {
         prevOrders[index].quantity += 1;
@@ -56,7 +55,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   }
 
   const decrementItem = (id: string) => {
-    setOrders((prevOrders) => {
+    setCartItem((prevOrders) => {
       const index = prevOrders.findIndex((order) => order._id === id);
       if (index !== -1) {
         prevOrders[index].quantity -= 1
@@ -69,14 +68,14 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   }
 
   const clearAll = () => {
-    setOrders([])
+    setCartItem([])
   }
 
   useEffect(()=>{
-    localStorage.setItem("order", JSON.stringify(orders));
-  },[orders])
+    localStorage.setItem("order", JSON.stringify(cartItem));
+  },[cartItem])
 
-  return <CartContext.Provider value={{orders, addOrder, removeOrder, incrementItem, decrementItem, clearAll}}>
+  return <CartContext.Provider value={{cartItem, addOrder, removeOrder, incrementItem, decrementItem, clearAll}}>
     {children}
     </CartContext.Provider>;
 };

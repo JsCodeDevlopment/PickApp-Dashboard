@@ -17,10 +17,10 @@ export function SaveProduct({ setReceivedProduct, receveivedProduct }: ISaveProd
   const [isClosed, setIsClosed] = useState<boolean>(false);
   const [showAllProducts, setShowAllProducts] = useState<boolean>(false);
 
-  const { products, useRequestProducts } = useOrderContext();
+  const { products, RequestProducts } = useOrderContext();
 
   useEffect(() => {
-    useRequestProducts();
+    RequestProducts();
   }, []);
 
   return (
@@ -32,7 +32,7 @@ export function SaveProduct({ setReceivedProduct, receveivedProduct }: ISaveProd
       <NewItemDialog isClosed={isClosed} setIsClosed={setIsClosed}>
         <NewItemForm
           setIsClosed={setIsClosed}
-          useRequestProducts={useRequestProducts}
+          useRequestProducts={RequestProducts}
           onProductSubmit={(product) => setReceivedProduct(product)}/>
       </NewItemDialog>
       {products &&
@@ -44,7 +44,7 @@ export function SaveProduct({ setReceivedProduct, receveivedProduct }: ISaveProd
                 <NewItemForm
                   product={product}
                   setIsClosed={setIsClosed}
-                  useRequestProducts={useRequestProducts}
+                  useRequestProducts={RequestProducts}
                   onProductSubmit={(product) => setReceivedProduct(product)}/>
               </NewItemDialog>
               <DeleteProductDialog
@@ -53,7 +53,7 @@ export function SaveProduct({ setReceivedProduct, receveivedProduct }: ISaveProd
                 receivedProduct={receveivedProduct}
                 isClosed={isClosed}
                 id={product._id}
-                useRequestProducts={useRequestProducts}/>
+                useRequestProducts={RequestProducts}/>
               <ProductDialog
                 isClosed={isClosed}
                 setIsClosed={setIsClosed}

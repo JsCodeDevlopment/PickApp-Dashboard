@@ -6,8 +6,17 @@ export interface IOrder {
   status: keyof typeof OrderStatus;
   createdAt: string;
   products: IProduct[];
+  observations: string;
   __v?: number;
 }
+
+export type OrderItem = {
+  _id: string;
+  name: string;
+  price: number;
+  quantity: number;
+  icon: string;
+};
 
 export interface IProduct {
   product: ISingleProduct

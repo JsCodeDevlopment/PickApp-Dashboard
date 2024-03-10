@@ -4,9 +4,7 @@ import { useCategory } from "../../servises/api/CategoryRequest";
 import { ICategories } from "../../interfaces/ICategory";
 
 export function ProductsPerCategory() {
-  const [categories, setCategories] = useState<ICategories>([
-    { _id: "", name: "", icon: "" },
-  ]);
+  const [categories, setCategories] = useState<ICategories>([{ _id: "", name: "", icon: "" }]);
   const [selectedCategory, setSelectedCategory] = useState<string>("");
 
   const { ShowCategories } = useCategory();

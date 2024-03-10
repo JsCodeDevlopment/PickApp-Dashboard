@@ -7,20 +7,12 @@ import { ProductsPerCategory } from "../components/product-compoenents/ProductsP
 import { Cart } from "../components/Cart";
 import { useCart } from "../context/CartContext";
 
-export type Order = {
-  _id: string;
-  name: string;
-  price: number;
-  quantity: number;
-  icon: string;
-};
-
 export function NewOrder() {
-  const { useRequestProducts } = useOrderContext();
-  const { orders } = useCart()
+  const { RequestProducts } = useOrderContext();
+  const { cartItem } = useCart()
 
   useEffect(() => {
-    useRequestProducts();
+    RequestProducts();
   }, []);
 
   return (
@@ -37,7 +29,7 @@ export function NewOrder() {
               Carrinho
             </p>
           </div>
-          {orders.length <= 0 ? (
+          {cartItem.length <= 0 ? (
             <div className="flex w-full flex-col p-2 items-center justify-center rounded-md shadow-md bg-base-300">
               <img className="w-56 rounded-md" src={EmptyCart} alt="" />
               <p className="text-xl font-semibold">Your cart is empty!</p>

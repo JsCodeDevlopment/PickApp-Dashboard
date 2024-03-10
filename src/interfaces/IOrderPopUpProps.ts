@@ -6,6 +6,7 @@ export interface IOrderPopUpProps {
   itens: number;
   status: keyof typeof OrderStatus
   products: IProduct[];
+  observations?: string;
 }
 
 export enum OrderStatus {

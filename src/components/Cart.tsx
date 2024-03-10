@@ -3,13 +3,15 @@ import { ITables } from "../interfaces/ISelectProps";
 import { OrderItem } from "./OrderItem";
 import { useCart } from "../context/CartContext";
 import { toast } from "react-toastify";
-import { useChangeOrderStatus } from "../servises/api/OrdersRequest";
+import { useOrder } from "../servises/api/OrdersRequest";
+import { ChangeOrderObservationsFomr } from "./OrderObservationForm";
 
 export function Cart() {
   const [table, setTable] = useState<string>("");
+  const [observations, setObservations] = useState<string>("");
 
-  const { CreateOrder } = useChangeOrderStatus();
-  const {orders, clearAll} = useCart()
+  const { CreateOrder } = useOrder();
+  const {cartItem, clearAll} = useCart()
 
   const tables: ITables = [
     { id: "1", name: "01" },
@@ -24,9 +26,9 @@ export function Cart() {
     { id: "10", name: "10" },
   ];
 
-  const formattedOrders = orders.map((order) => ({
-    product: order._id,
-    quantity: order.quantity,
+  const formattedOrders = cartItem.map((item) => ({
+    product: item._id,
+    quantity: item.quantity,
   }));
   const handleTableChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedIndex = event.target.selectedIndex - 1;
@@ -35,24 +37,21 @@ export function Cart() {
     setTable(selectedOption);
   }
 
-  const finishOrder = async (
-    table: string,
-    products: { product: string; quantity: number }[]
-  ) => {
+  const finishOrder = async ( table: string, products: { product: string; quantity: number }[], observations: string ) => {
     if (!table) {
       toast.error("Nenhuma mesa selecionada.", {
         autoClose: 1000 * 3,
       });
       return;
     }
-    await CreateOrder(table, products);
+    await CreateOrder(table, products, observations);
     clearAll()
     localStorage.removeItem("order");
   };
   return (
     <>
-      {orders &&
-        orders.map((order) => (
+      {cartItem &&
+        cartItem.map((order) => (
           <OrderItem
             order={order}
             key={order._id}/>
@@ -60,7 +59,7 @@ export function Cart() {
       <div className="flex w-full bg-neutral rounded-md px-2 justify-between">
         <p className="text-md text-neutral-content font-semibold">Total</p>
         <p className="text-md text-neutral-content font-semibold">
-          {orders
+          {cartItem
             .reduce((acc, order) => acc + order.price * order.quantity, 0)
             .toLocaleString("pt-BR", {
               style: "currency",
@@ -68,6 +67,9 @@ export function Cart() {
             })}
         </p>
       </div>
+      <ChangeOrderObservationsFomr
+        observations={observations}
+        setObservations={setObservations}/>
       <div className="flex w-full items-center justify-center">
         <select
           value={table}
@@ -83,7 +85,7 @@ export function Cart() {
         </select>
       </div>
       <button
-        onClick={() => finishOrder(table, formattedOrders)}
+        onClick={() => finishOrder(table, formattedOrders, observations)}
         className="btn btn-block btn-primary text-danger">
         Finalizar Pedido
       </button>

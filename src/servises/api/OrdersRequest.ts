@@ -2,10 +2,10 @@ import { baseURL } from "../BackEndBaseURL";
 import { toast } from "react-toastify";
 import { IChangeOrderStatusProps } from "../../interfaces/IChangeOrderStatusProps";
 
-export function useChangeOrderStatus() {
+export function useOrder() {
 
-  const CreateOrder = async ( table: string, products: { product: string; quantity: number }[] ) => {
-    
+  const CreateOrder = async ( table: string, products: { product: string; quantity: number }[], observations: string ) => {
+
     try {
       const response = await fetch(`${baseURL}/orders`, {
         method: "POST",
@@ -14,7 +14,8 @@ export function useChangeOrderStatus() {
         },
         body: JSON.stringify({
           table,
-          products
+          products,
+          observations
         }),
       });
       if (response.ok) {
@@ -69,6 +70,41 @@ export function useChangeOrderStatus() {
     }
   };
 
+  const ChangeOrderObservation = async ({ id, observations }: { id: string; observations: string }) => {
+    try {
+      const response = await fetch(`${baseURL}/orders/observations/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          observations,
+        }),
+      });
+
+      if (response.ok) {
+        toast.success("Observações alteradas com sucesso!", {
+          autoClose: 1000 * 3,
+        });
+      } else {
+        toast.error(`Erro ao alterar as observações do pedido.`, {
+          autoClose: 1000 * 3,
+        });
+      }
+    } catch (error) {
+      console.error(
+        error,
+        "Erro ao requisitar a alteração das observações do pedido."
+      );
+      toast.error(
+        `${error} Erro ao requisitar a alteração das observações do pedido.`,
+        {
+          autoClose: 1000 * 3,
+        }
+      );
+    }
+  }
+
   const DeleteOrder = async ({ id }: Omit<IChangeOrderStatusProps, "status">) => {
     try {
       const response = await fetch(`${baseURL}/orders/${id}`, {
@@ -101,5 +137,5 @@ export function useChangeOrderStatus() {
     }
   };
 
-  return { CreateOrder, ChangeOrderStatus, DeleteOrder };
+  return { CreateOrder, ChangeOrderStatus, DeleteOrder, ChangeOrdersObservations: ChangeOrderObservation };
 }

@@ -1,12 +1,17 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { BtnOrderStatus, IOrderPopUpProps, OrderStatus } from "../interfaces/IOrderPopUpProps";
-import { useChangeOrderStatus } from "../servises/api/OrdersRequest";
+import { useOrder } from "../servises/api/OrdersRequest";
 import { useOrderContext } from "../context/OrderContext";
+import { ChangeOrderObservationsDialog } from "./ChangeOrderObservationsDialog";
+import Edit from "../assets/images/edit.png";
+import { ChangeOrderObservationsFomr } from "./OrderObservationForm";
 
-export function OrderPopUp({ table, itens, products, status, id }: IOrderPopUpProps) {
+export function OrderDialog({ table, itens, products, status, id, observations }: IOrderPopUpProps) {
   const showModalBtn = useRef(null) as React.MutableRefObject<null | HTMLDialogElement>;
-  const { ChangeOrderStatus, DeleteOrder } = useChangeOrderStatus();
-  const { useRequestOrders } = useOrderContext();
+  const [isClosed, setIsClosed] = useState<boolean>(false);
+  const [observation, setObservations] = useState<string>(observations && observations || "");
+  const { ChangeOrderStatus, DeleteOrder } = useOrder();
+  const { RequestOrders } = useOrderContext();
 
   const handleClick = () => {
     if (showModalBtn.current) {
@@ -26,22 +31,23 @@ export function OrderPopUp({ table, itens, products, status, id }: IOrderPopUpPr
     switch (status) {
       case "WAITING":
         await ChangeOrderStatus({ id, status: "IN_PRODUCTION" });
+        RequestOrders();
         break;
       case "IN_PRODUCTION":
         await ChangeOrderStatus({ id, status: "DONE" });
+        RequestOrders();
         break;
     }
-    await useRequestOrders();
   }
 
   async function handleCanceled(id: string) {
     await ChangeOrderStatus({ id, status: "CANCELED" });
-    await useRequestOrders();
+    await RequestOrders();
   }
 
   async function handleDeleteOrder(id: string) {
     await DeleteOrder({ id });
-    await useRequestOrders();
+    await RequestOrders();
   }
 
   return (
@@ -51,7 +57,7 @@ export function OrderPopUp({ table, itens, products, status, id }: IOrderPopUpPr
       <h1>Mesa {table}</h1>
       {itens <= 1 ? <p>{itens} item</p> : <p>{itens} itens</p>}
       <dialog ref={showModalBtn} className="modal">
-        <div className="modal-box overflow-y-auto scrollbar-thin scrollbar-thumb-neutral scrollbar-track-base-100">
+        <div className="modal-box overflow-y-auto scrollbar-thin scrollbar-thumb-neutral scrollbar-track-base-100 cursor-default">
           <div className="flex flex-col gap-5">
             <div className="flex w-full items-center justify-between">
               <h1 className="font-bold text-2xl">MESA {table}</h1>
@@ -66,10 +72,14 @@ export function OrderPopUp({ table, itens, products, status, id }: IOrderPopUpPr
             <div className="flex flex-col gap-3 p-1 rounded-md bg-base-300">
               <p className="text-sm font-light">Itens</p>
               {products.map(({ product, quantity }) => (
-                <div key={product._id} className="flex w-full p-1 bg-base-200 rounded-md shadow-md gap-3">
+                <div
+                  key={product._id}
+                  className="flex w-full p-1 bg-base-200 rounded-md shadow-md gap-3">
                   <img
                     className="w-14 h-12 object-cover rounded-md"
-                    src={`${import.meta.env.VITE_API_URL}/uploads/${product.imagePath}`}
+                    src={`${import.meta.env.VITE_API_URL}/uploads/${
+                      product.imagePath
+                    }`}
                     alt=""/>
                   <p className="text-sm font-light">{quantity}x</p>
                   <div className="flex flex-col gap-1">
@@ -87,7 +97,11 @@ export function OrderPopUp({ table, itens, products, status, id }: IOrderPopUpPr
                 <p className="text-sm font-light">Total</p>
                 <p className="text-base font-semibold">
                   {products
-                    .reduce((acc, { product, quantity }) => acc + product.price * quantity, 0)
+                    .reduce(
+                      (acc, { product, quantity }) =>
+                        acc + product.price * quantity,
+                      0
+                    )
                     .toLocaleString("pt-BR", {
                       style: "currency",
                       currency: "BRL",
@@ -95,12 +109,36 @@ export function OrderPopUp({ table, itens, products, status, id }: IOrderPopUpPr
                 </p>
               </div>
             </div>
+            <div className="flex flex-col gap-3 p-1 rounded-md bg-base-300 relative">
+              <p className="text-sm font-light">Observações:</p>
+              {!observations ? (
+                <h1 className="font-medium">Nenhuma observação adicionada.</h1>
+              ) : (
+                <>
+                  <h1 className="font-medium">
+                    {observations && observations}
+                  </h1>
+                  <ChangeOrderObservationsDialog
+                    isClosed={isClosed}
+                    setIsClosed={setIsClosed}
+                    icon={Edit}>
+                    <h1 className="font-bold text-xl">Alterar Observação</h1>
+                    <ChangeOrderObservationsFomr
+                      observation={observation}
+                      setObservations={setObservations}
+                      setIsClosed={setIsClosed}
+                      orderId={id}
+                      requestOrders={RequestOrders}/>
+                  </ChangeOrderObservationsDialog>
+                </>
+              )}
+            </div>
             <div className="flex w-full gap-3 flex-col">
               {status === "CANCELED" ? (
                 <button
                   onClick={() => handleDeleteOrder(id)}
                   className="btn btn-block btn-ghost text-danger">
-                   {BtnStatus(status)}
+                  {BtnStatus(status)}
                 </button>
               ) : (
                 <>

@@ -1,11 +1,11 @@
 import { baseURL } from "../servises/BackEndBaseURL";
 import Trash from "../assets/images/Trash.png";
 import { QuantityButton } from "./QuantityButton";
-import { Order } from "../pages/NewOrder";
 import { useCart } from "../context/CartContext";
+import { OrderItem } from "../interfaces/IOrders";
 
 interface IOrderItemProps {
-  order: Order;
+  order: OrderItem;
 }
 
 export function OrderItem({ order }: IOrderItemProps) {

@@ -1,7 +1,7 @@
-import { Order } from "../pages/NewOrder";
+import { OrderItem } from "./IOrders";
 
 export interface ICreateOrderProps {
   table: string;
-  orders: Order[];
+  orders: OrderItem[];
   quantity: number;
 }
