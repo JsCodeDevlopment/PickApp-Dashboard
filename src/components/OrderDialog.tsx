@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { MutableRefObject, useRef, useState } from "react";
 import { BtnOrderStatus, IOrderPopUpProps, OrderStatus } from "../interfaces/IOrderPopUpProps";
 import { useOrder } from "../servises/api/OrdersRequest";
 import { useOrderContext } from "../context/OrderContext";
@@ -7,9 +7,11 @@ import Edit from "../assets/images/edit.png";
 import { ChangeOrderObservationsFomr } from "./OrderObservationForm";
 
 export function OrderDialog({ table, itens, products, status, id, observations }: IOrderPopUpProps) {
-  const showModalBtn = useRef(null) as React.MutableRefObject<null | HTMLDialogElement>;
+  const showModalBtn = useRef(null) as MutableRefObject<null | HTMLDialogElement>;
   const [isClosed, setIsClosed] = useState<boolean>(false);
-  const [observation, setObservations] = useState<string>(observations && observations || "");
+  const [observation, setObservations] = useState<string>(
+    (observations && observations) || ""
+  );
   const { ChangeOrderStatus, DeleteOrder } = useOrder();
   const { RequestOrders } = useOrderContext();
 
@@ -27,7 +29,7 @@ export function OrderDialog({ table, itens, products, status, id, observations }
       : BtnOrderStatus.CANCELED;
   }
 
-  async function handleChangeStatus( id: string, status: keyof typeof OrderStatus ) {
+  async function handleChangeStatus(id: string, status: keyof typeof OrderStatus) {
     switch (status) {
       case "WAITING":
         await ChangeOrderStatus({ id, status: "IN_PRODUCTION" });
@@ -97,11 +99,7 @@ export function OrderDialog({ table, itens, products, status, id, observations }
                 <p className="text-sm font-light">Total</p>
                 <p className="text-base font-semibold">
                   {products
-                    .reduce(
-                      (acc, { product, quantity }) =>
-                        acc + product.price * quantity,
-                      0
-                    )
+                    .reduce((acc, { product, quantity }) => acc + product.price * quantity, 0)
                     .toLocaleString("pt-BR", {
                       style: "currency",
                       currency: "BRL",
@@ -118,18 +116,20 @@ export function OrderDialog({ table, itens, products, status, id, observations }
                   <h1 className="font-medium">
                     {observations && observations}
                   </h1>
-                  <ChangeOrderObservationsDialog
-                    isClosed={isClosed}
-                    setIsClosed={setIsClosed}
-                    icon={Edit}>
-                    <h1 className="font-bold text-xl">Alterar Observação</h1>
-                    <ChangeOrderObservationsFomr
-                      observation={observation}
-                      setObservations={setObservations}
+                  {status === "WAITING" && (
+                    <ChangeOrderObservationsDialog
+                      isClosed={isClosed}
                       setIsClosed={setIsClosed}
-                      orderId={id}
-                      requestOrders={RequestOrders}/>
-                  </ChangeOrderObservationsDialog>
+                      icon={Edit}>
+                      <h1 className="font-bold text-xl text-base-content">Alterar Observação</h1>
+                      <ChangeOrderObservationsFomr
+                        observations={observation}
+                        setObservations={setObservations}
+                        setIsClosed={setIsClosed}
+                        orderId={id}
+                        requestOrders={RequestOrders}/>
+                    </ChangeOrderObservationsDialog>
+                  )}
                 </>
               )}
             </div>

@@ -2,32 +2,36 @@ import { Dispatch, FormEvent, SetStateAction } from "react";
 import { useOrder } from "../servises/api/OrdersRequest";
 
 interface IObservationsFormProps {
-  observation: string;
+  observations?: string;
   setObservations: Dispatch<SetStateAction<string>>;
-  orderId: string;
-  setIsClosed: Dispatch<SetStateAction<boolean>>;
-  requestOrders: ()=> void;
+  orderId?: string;
+  setIsClosed?: Dispatch<SetStateAction<boolean>>;
+  requestOrders?: () => void;
 }
 
-export function ChangeOrderObservationsFomr({ observation, setObservations, orderId, setIsClosed, requestOrders }: IObservationsFormProps) {
+export function ChangeOrderObservationsFomr({ observations, setObservations, orderId, setIsClosed, requestOrders }: IObservationsFormProps) {
   const { ChangeOrdersObservations } = useOrder();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
-    await ChangeOrdersObservations({ id: orderId, observations: observation });
-    requestOrders()
-    setIsClosed(true);
+
+    if (orderId && observations) {
+      const id = orderId;
+      const obs = observations;
+      await ChangeOrdersObservations({ id, observations: obs });
+      requestOrders && requestOrders();
+      setIsClosed && setIsClosed(true);
+    }
   };
 
   return (
     <form onSubmit={handleSubmit} className="flex w-ful flex-col gap-3">
       <textarea
-        value={observation}
+        value={observations}
         onChange={(e) => setObservations(e.target.value)}
-        className="textarea textarea-bordered w-full"
-        placeholder="Observações"/>
-      {observation && (
+        className="textarea textarea-bordered w-full text-base-content placeholder:text-base-content/65"
+        placeholder="Observações:"/>
+      {orderId && (
         <button type="submit" className="btn btn-primary">
           Editar
         </button>

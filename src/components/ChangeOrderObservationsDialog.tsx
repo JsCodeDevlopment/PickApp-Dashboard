@@ -30,7 +30,7 @@ export function ChangeOrderObservationsDialog({ children ,isClosed, setIsClosed,
         <div className="modal-box">
           <div className="flex flex-col gap-5">
             <div className="flex w-full items-center justify-end">
-              <p className="text-sm font-light">
+              <p className="text-sm font-light text-base-content">
                 Press ESC key or click outside to close
               </p>
             </div>
