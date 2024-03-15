@@ -19,6 +19,7 @@ import { EditProfile } from "./pages/EditProfile";
 import { SaveUserForm } from "./components/user-components/SaveUserForm";
 import { ChangeUserPasswordForm } from "./components/user-components/ChangeUserPasswordForm";
 import { ManagementUserTable } from "./components/ManagementUsersTable";
+import { SaveTable } from "./components/table-components/SaveTable";
 
 export function App() {
   const { currentTheme } = useTheme();
@@ -46,18 +47,19 @@ export function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/dashboard/edit-profile" element={<EditProfile />}>
               <Route index element={<SaveUserForm />} />
-              <Route path="change-password" element={<ChangeUserPasswordForm />} />
+              <Route path="change-password" element={<ChangeUserPasswordForm />}/>
               <Route path="user-management" element={<ManagementUserTable />} />
+              <Route path="table-management" element={<SaveTable />} />
             </Route>
             <Route path="/dashboard/theme" element={<Theme />} />
             <Route path="/dashboard/new-category" element={<NewCategory />} />
             <Route path="/dashboard/new-item" element={<NewItem />} />
-            <Route 
-            path="/dashboard/new-order" 
+            <Route path="/dashboard/new-order" 
             element={
                 <CartProvider>
                   <NewOrder />
-                </CartProvider>}/>
+                </CartProvider>
+              }/>
           </Routes>
         </main>
       </LoginProvider>

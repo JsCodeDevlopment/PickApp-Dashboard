@@ -24,13 +24,25 @@ export function EditOrganizationMenu() {
                 Gerenciamento de usuários
               </li>
             </Link>
+            <Link to={"/dashboard/edit-profile/table-management"}>
+              <li className="flex p-2 rounded-md cursor-pointer bg-base-100">
+                Gerenciamento de mesas
+              </li>
+            </Link>
           </>
         ) : (
-          <li
-            onClick={handleError}
-            className="flex p-2 rounded-md cursor-pointer bg-base-100">
-            Gerenciamento de usuários
-          </li>
+          <>
+            <li
+              onClick={handleError}
+              className="flex p-2 rounded-md cursor-pointer bg-base-100">
+              Gerenciamento de usuários
+            </li>
+            <li
+              onClick={handleError}
+              className="flex p-2 rounded-md cursor-pointer bg-base-100">
+              Gerenciamento de mesas
+            </li>
+          </>
         )}
       </ul>
     </div>

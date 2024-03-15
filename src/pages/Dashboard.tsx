@@ -26,8 +26,7 @@ export function Dashboard() {
                 itens={order.products.length}
                 status={order.status}
                 products={order.products}
-                observations={order.observations}
-              />
+                observations={order.observations}/>
             ))}
           </Category>
           <Category name={OrderStatus.IN_PRODUCTION} quantity={orders.filter((order)=> order.status === "IN_PRODUCTION").length}>
@@ -39,8 +38,7 @@ export function Dashboard() {
                 itens={order.products.length}
                 status={order.status}
                 products={order.products}
-                observations={order.observations}
-              />
+                observations={order.observations}/>
             ))}
           </Category>
           <Category name={OrderStatus.DONE} quantity={orders.filter((order)=> order.status === "DONE").length}>
@@ -52,8 +50,7 @@ export function Dashboard() {
                 itens={order.products.length}
                 status={order.status}
                 products={order.products}
-                observations={order.observations}
-              />
+                observations={order.observations}/>
             ))}
           </Category>
           <Category name={OrderStatus.CANCELED} quantity={orders.filter((order)=> order.status === "CANCELED").length}>
@@ -65,8 +62,7 @@ export function Dashboard() {
                 itens={order.products.length}
                 status={order.status}
                 products={order.products}
-                observations={order.observations}
-              />
+                observations={order.observations}/>
             ))}
           </Category>
         </div>
