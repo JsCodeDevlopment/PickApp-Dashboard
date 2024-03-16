@@ -8,6 +8,8 @@ import { useOrderContext } from "../../context/OrderContext";
 
 export function SaveTable() {
   const [isClosed, setIsClosed] = useState<boolean>(false);
+  const [showAllTables, setShowAllTables] = useState<boolean>(false);
+
   const { RequestTables, tables } = useOrderContext();
   
   const getTables = async () => {
@@ -30,7 +32,10 @@ export function SaveTable() {
       {tables.length < 0 ? 
         <h1>Nenhuma mesa adicionada.</h1>
        : (
-        tables.map((table) => (
+        tables
+        .sort((a, b) => parseInt(a.name.split(' ')[1]) - parseInt(b.name.split(' ')[1]))
+        .slice(0, showAllTables ? tables.length : 5)
+        .map((table) => (
           <div
             className="flex w-full p-2 gap-5 items-center justify-between rounded-md bg-neutral shadow-md"
             key={table._id}>
@@ -49,6 +54,13 @@ export function SaveTable() {
           </div>
         ))
       )}
+      <div className="flex w-full items-center justify-center">
+        <button
+          className="btn btn-neutral"
+          onClick={() => setShowAllTables(!showAllTables)}>
+          {showAllTables ? "Mostrar menos" : "Mostrar mais"}
+        </button>
+      </div>
     </div>
   );
 }
