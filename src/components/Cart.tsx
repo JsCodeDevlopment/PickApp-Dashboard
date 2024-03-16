@@ -1,30 +1,25 @@
-import { useState } from "react";
-import { ITables } from "../interfaces/ISelectProps";
+import { useEffect, useState } from "react";
 import { OrderItem } from "./OrderItem";
 import { useCart } from "../context/CartContext";
 import { toast } from "react-toastify";
 import { useOrder } from "../servises/api/OrdersRequest";
-import { ChangeOrderObservationsFomr } from "./OrderObservationForm";
+import { OrderObservationsFomr } from "./OrderObservationForm";
+import { useOrderContext } from "../context/OrderContext";
 
 export function Cart() {
   const [table, setTable] = useState<string>("");
-  const [observations, setObservations] = useState<string>("");
+  const [observations, setObservations] = useState<string | undefined>(undefined);
 
   const { CreateOrder } = useOrder();
   const {cartItem, clearAll} = useCart()
+  const { tables, RequestTables } = useOrderContext();
 
-  const tables: ITables = [
-    { id: "1", name: "01" },
-    { id: "2", name: "02" },
-    { id: "3", name: "03" },
-    { id: "4", name: "04" },
-    { id: "5", name: "05" },
-    { id: "6", name: "06" },
-    { id: "7", name: "07" },
-    { id: "8", name: "08" },
-    { id: "9", name: "09" },
-    { id: "10", name: "10" },
-  ];
+  const getTables = async () => {
+    await RequestTables();
+  };
+  useEffect(() => {
+    getTables();
+  }, []);
 
   const formattedOrders = cartItem.map((item) => ({
     product: item._id,
@@ -32,12 +27,12 @@ export function Cart() {
   }));
   const handleTableChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const selectedIndex = event.target.selectedIndex - 1;
-    const selectedOption = tables[selectedIndex].id;
+    const selectedOption = tables[selectedIndex].name;
 
     setTable(selectedOption);
   }
 
-  const finishOrder = async ( table: string, products: { product: string; quantity: number }[], observations: string ) => {
+  const finishOrder = async ( table: string, products: { product: string; quantity: number }[], observations: string | undefined ) => {
     if (!table) {
       toast.error("Nenhuma mesa selecionada.", {
         autoClose: 1000 * 3,
@@ -67,7 +62,7 @@ export function Cart() {
             })}
         </p>
       </div>
-      <ChangeOrderObservationsFomr
+      <OrderObservationsFomr
         observations={observations}
         setObservations={setObservations}/>
       <div className="flex w-full items-center justify-center">
@@ -80,12 +75,12 @@ export function Cart() {
           </option>
           {tables &&
             tables.map((table) => (
-              <option value={table.id} key={table.id}>Mesa: {table.name}</option>
+              <option value={table.name} key={table._id}>{table.name}</option>
             ))}
         </select>
       </div>
       <button
-        onClick={() => finishOrder(table, formattedOrders, observations)}
+        onClick={() => finishOrder(table, formattedOrders, observations ? observations : "Nenhuma observação.")}
         className="btn btn-block btn-primary text-danger">
         Finalizar Pedido
       </button>

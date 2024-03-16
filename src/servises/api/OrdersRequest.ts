@@ -4,7 +4,7 @@ import { IChangeOrderStatusProps } from "../../interfaces/IChangeOrderStatusProp
 
 export function useOrder() {
 
-  const CreateOrder = async ( table: string, products: { product: string; quantity: number }[], observations: string ) => {
+  const CreateOrder = async ( table: string, products: { product: string; quantity: number }[], observations: string | undefined ) => {
 
     try {
       const response = await fetch(`${baseURL}/orders`, {

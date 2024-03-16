@@ -5,8 +5,3 @@ export interface ISelectProps {
   options: ISingleProduct[]
   onSelectChange: (selectedOption: ISingleProduct) => void;
 }
-
-export type ITables = {
-  id: string;
-  name: string;
-}[];

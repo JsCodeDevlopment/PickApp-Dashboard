@@ -2,14 +2,14 @@ import { Dispatch, FormEvent, SetStateAction } from "react";
 import { useOrder } from "../servises/api/OrdersRequest";
 
 interface IObservationsFormProps {
-  observations?: string;
-  setObservations: Dispatch<SetStateAction<string>>;
+  observations?: string | undefined;
+  setObservations: Dispatch<SetStateAction<string | undefined>>;
   orderId?: string;
   setIsClosed?: Dispatch<SetStateAction<boolean>>;
   requestOrders?: () => void;
 }
 
-export function ChangeOrderObservationsFomr({ observations, setObservations, orderId, setIsClosed, requestOrders }: IObservationsFormProps) {
+export function OrderObservationsFomr({ observations, setObservations, orderId, setIsClosed, requestOrders }: IObservationsFormProps) {
   const { ChangeOrdersObservations } = useOrder();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {

@@ -4,13 +4,13 @@ import { useOrder } from "../servises/api/OrdersRequest";
 import { useOrderContext } from "../context/OrderContext";
 import { ChangeOrderObservationsDialog } from "./ChangeOrderObservationsDialog";
 import Edit from "../assets/images/edit.png";
-import { ChangeOrderObservationsFomr } from "./OrderObservationForm";
+import { OrderObservationsFomr } from "./OrderObservationForm";
 
 export function OrderDialog({ table, itens, products, status, id, observations }: IOrderPopUpProps) {
   const showModalBtn = useRef(null) as MutableRefObject<null | HTMLDialogElement>;
   const [isClosed, setIsClosed] = useState<boolean>(false);
-  const [observation, setObservations] = useState<string>(
-    (observations && observations) || ""
+  const [observation, setObservations] = useState<string | undefined>(
+    (observations && observations) || undefined
   );
   const { ChangeOrderStatus, DeleteOrder } = useOrder();
   const { RequestOrders } = useOrderContext();
@@ -56,13 +56,13 @@ export function OrderDialog({ table, itens, products, status, id, observations }
     <div
       className="flex flex-col w-full h-24 rounded-md bg-base-100 items-center justify-center cursor-pointer"
       onClick={handleClick}>
-      <h1>Mesa {table}</h1>
+      <h1>{table}</h1>
       {itens <= 1 ? <p>{itens} item</p> : <p>{itens} itens</p>}
       <dialog ref={showModalBtn} className="modal">
         <div className="modal-box overflow-y-auto scrollbar-thin scrollbar-thumb-neutral scrollbar-track-base-100 cursor-default">
           <div className="flex flex-col gap-5">
             <div className="flex w-full items-center justify-between">
-              <h1 className="font-bold text-2xl">MESA {table}</h1>
+              <h1 className="font-bold text-2xl">{table}</h1>
               <p className="text-sm font-light">
                 Press ESC key or click outside to close
               </p>
@@ -109,9 +109,7 @@ export function OrderDialog({ table, itens, products, status, id, observations }
             </div>
             <div className="flex flex-col gap-3 p-1 rounded-md bg-base-300 relative">
               <p className="text-sm font-light">Observações:</p>
-              {!observations ? (
-                <h1 className="font-medium">Nenhuma observação adicionada.</h1>
-              ) : (
+              {observations && (
                 <>
                   <h1 className="font-medium">
                     {observations && observations}
@@ -122,7 +120,7 @@ export function OrderDialog({ table, itens, products, status, id, observations }
                       setIsClosed={setIsClosed}
                       icon={Edit}>
                       <h1 className="font-bold text-xl text-base-content">Alterar Observação</h1>
-                      <ChangeOrderObservationsFomr
+                      <OrderObservationsFomr
                         observations={observation}
                         setObservations={setObservations}
                         setIsClosed={setIsClosed}
