@@ -74,7 +74,9 @@ export function Cart() {
             Escolha uma mesa
           </option>
           {tables &&
-            tables.map((table) => (
+            tables
+            .sort((a, b) => parseInt(a.name.split(' ')[1]) - parseInt(b.name.split(' ')[1]))
+            .map((table) => (
               <option value={table.name} key={table._id}>{table.name}</option>
             ))}
         </select>
