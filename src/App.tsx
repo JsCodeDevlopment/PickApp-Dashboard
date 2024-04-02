@@ -20,6 +20,7 @@ import { SaveUserForm } from "./components/user-components/SaveUserForm";
 import { ChangeUserPasswordForm } from "./components/user-components/ChangeUserPasswordForm";
 import { ManagementUserTable } from "./components/ManagementUsersTable";
 import { SaveTable } from "./components/table-components/SaveTable";
+import { Charts } from "./pages/Charts";
 
 export function App() {
   const { currentTheme } = useTheme();
@@ -45,6 +46,7 @@ export function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/" element={<LoginPage />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/charts" element={<Charts />} />
             <Route path="/dashboard/edit-profile" element={<EditProfile />}>
               <Route index element={<SaveUserForm />} />
               <Route path="change-password" element={<ChangeUserPasswordForm />}/>

@@ -4,6 +4,7 @@ import Ctgy from "../assets/images/categories.png";
 import UserIcon from "../assets/images/User.png";
 import Cart from "../assets/images/CartLight.png";
 import LogOutIcon from "../assets/images/LogOut.png";
+import Chart from "../assets/images/Chart.png";
 import { Link } from "react-router-dom";
 import { useLogin } from "../context/LoginContext";
 
@@ -51,6 +52,13 @@ export function MobileSttingsMenu() {
               className="flex p-2 rounded-md hover:bg-base-300 max-sm:w-full">
               <li className="text-neutral-content flex items-center justify-center gap-2">
                 <img className="w-4 h-4" src={Cart} /> Criar Pedido
+              </li>
+            </Link>
+            <Link
+              to={"/charts"}
+              className="flex p-2 rounded-md hover:bg-base-300 max-sm:w-full">
+              <li className="text-neutral-content flex items-center justify-center gap-2">
+                <img className="w-4 h-4" src={Chart} /> Relatórios
               </li>
             </Link>
             <li

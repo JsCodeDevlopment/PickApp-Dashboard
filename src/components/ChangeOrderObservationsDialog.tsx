@@ -23,7 +23,7 @@ export function ChangeOrderObservationsDialog({ children ,isClosed, setIsClosed,
 
   return (
     <div
-      className="flex flex-col btn btn-square btn-neutral btn-sm rounded-md items-center justify-center cursor-pointer absolute right-1"
+      className="flex flex-col btn btn-square btn-neutral btn-sm rounded-md items-center justify-center cursor-pointer absolute right-2"
       onClick={handleClick}>
       {icon && <img src={icon} alt="" />}
       <dialog ref={modalBtn} className="modal">

@@ -1,17 +1,35 @@
 import { MutableRefObject, useRef, useState } from "react";
-import { BtnOrderStatus, IOrderPopUpProps, OrderStatus } from "../interfaces/IOrderPopUpProps";
+import {
+  BtnOrderStatus,
+  IOrderPopUpProps,
+  OrderStatus,
+} from "../interfaces/IOrderPopUpProps";
 import { useOrder } from "../servises/api/OrdersRequest";
 import { useOrderContext } from "../context/OrderContext";
 import { ChangeOrderObservationsDialog } from "./ChangeOrderObservationsDialog";
 import Edit from "../assets/images/edit.png";
 import { OrderObservationsFomr } from "./OrderObservationForm";
+import dayjs from "dayjs";
 
-export function OrderDialog({ table, itens, products, status, id, observations }: IOrderPopUpProps) {
-  const showModalBtn = useRef(null) as MutableRefObject<null | HTMLDialogElement>;
+export function OrderDialog({
+  table,
+  itens,
+  products,
+  status,
+  id,
+  observations,
+  createdAt,
+}: IOrderPopUpProps) {
+  const showModalBtn = useRef(
+    null
+  ) as MutableRefObject<null | HTMLDialogElement>;
   const [isClosed, setIsClosed] = useState<boolean>(false);
   const [observation, setObservations] = useState<string | undefined>(
     (observations && observations) || undefined
   );
+
+  const criado = dayjs(createdAt).format("DD/MM/YYYY - HH:mm");
+
   const { ChangeOrderStatus, DeleteOrder } = useOrder();
   const { RequestOrders } = useOrderContext();
 
@@ -29,7 +47,10 @@ export function OrderDialog({ table, itens, products, status, id, observations }
       : BtnOrderStatus.CANCELED;
   }
 
-  async function handleChangeStatus(id: string, status: keyof typeof OrderStatus) {
+  async function handleChangeStatus(
+    id: string,
+    status: keyof typeof OrderStatus
+  ) {
     switch (status) {
       case "WAITING":
         await ChangeOrderStatus({ id, status: "IN_PRODUCTION" });
@@ -55,7 +76,8 @@ export function OrderDialog({ table, itens, products, status, id, observations }
   return (
     <div
       className="flex flex-col w-full h-24 rounded-md bg-base-100 items-center justify-center cursor-pointer"
-      onClick={handleClick}>
+      onClick={handleClick}
+    >
       <h1>{table}</h1>
       {itens <= 1 ? <p>{itens} item</p> : <p>{itens} itens</p>}
       <dialog ref={showModalBtn} className="modal">
@@ -67,22 +89,30 @@ export function OrderDialog({ table, itens, products, status, id, observations }
                 Press ESC key or click outside to close
               </p>
             </div>
-            <div className="flex flex-col gap-0">
-              <p className="text-sm font-light">Status do Pedido</p>
-              <p className="text-base font-semibold">{OrderStatus[status]}</p>
+            <div className="flex gap-1 items-center justify-between">
+              <div className="flex flex-col gap-0 items-center">
+                <p className="text-sm font-light">Status do Pedido</p>
+                <p className="text-base font-semibold">{OrderStatus[status]}</p>
+              </div>
+              <div className="flex flex-col gap-0 items-center">
+                <p className="text-sm font-light">Data de Criação</p>
+                <p className="text-base font-semibold">{criado}</p>
+              </div>
             </div>
-            <div className="flex flex-col gap-3 p-1 rounded-md bg-base-300">
+            <div className="flex flex-col gap-3 p-2 rounded-md bg-base-300">
               <p className="text-sm font-light">Itens</p>
               {products.map(({ product, quantity }) => (
                 <div
                   key={product._id}
-                  className="flex w-full p-1 bg-base-200 rounded-md shadow-md gap-3">
+                  className="flex w-full p-1 bg-base-200 rounded-md shadow-md gap-3"
+                >
                   <img
                     className="w-14 h-12 object-cover rounded-md"
                     src={`${import.meta.env.VITE_API_URL}/uploads/${
                       product.imagePath
                     }`}
-                    alt=""/>
+                    alt=""
+                  />
                   <p className="text-sm font-light">{quantity}x</p>
                   <div className="flex flex-col gap-1">
                     <p className="text-base font-semibold">{product.name}</p>
@@ -99,7 +129,11 @@ export function OrderDialog({ table, itens, products, status, id, observations }
                 <p className="text-sm font-light">Total</p>
                 <p className="text-base font-semibold">
                   {products
-                    .reduce((acc, { product, quantity }) => acc + product.price * quantity, 0)
+                    .reduce(
+                      (acc, { product, quantity }) =>
+                        acc + product.price * quantity,
+                      0
+                    )
                     .toLocaleString("pt-BR", {
                       style: "currency",
                       currency: "BRL",
@@ -107,7 +141,7 @@ export function OrderDialog({ table, itens, products, status, id, observations }
                 </p>
               </div>
             </div>
-            <div className="flex flex-col gap-3 p-1 rounded-md bg-base-300 relative">
+            <div className="flex flex-col gap-3 p-2 rounded-md bg-base-300 relative">
               <p className="text-sm font-light">Observações:</p>
               {observations && (
                 <>
@@ -118,14 +152,18 @@ export function OrderDialog({ table, itens, products, status, id, observations }
                     <ChangeOrderObservationsDialog
                       isClosed={isClosed}
                       setIsClosed={setIsClosed}
-                      icon={Edit}>
-                      <h1 className="font-bold text-xl text-base-content">Alterar Observação</h1>
+                      icon={Edit}
+                    >
+                      <h1 className="font-bold text-xl text-base-content">
+                        Alterar Observação
+                      </h1>
                       <OrderObservationsFomr
                         observations={observation}
                         setObservations={setObservations}
                         setIsClosed={setIsClosed}
                         orderId={id}
-                        requestOrders={RequestOrders}/>
+                        requestOrders={RequestOrders}
+                      />
                     </ChangeOrderObservationsDialog>
                   )}
                 </>
@@ -135,7 +173,8 @@ export function OrderDialog({ table, itens, products, status, id, observations }
               {status === "CANCELED" ? (
                 <button
                   onClick={() => handleDeleteOrder(id)}
-                  className="btn btn-block btn-ghost text-danger">
+                  className="btn btn-block btn-ghost text-danger"
+                >
                   {BtnStatus(status)}
                 </button>
               ) : (
@@ -143,19 +182,22 @@ export function OrderDialog({ table, itens, products, status, id, observations }
                   {status === "DONE" ? (
                     <button
                       onClick={() => handleCanceled(id)}
-                      className="btn btn-block btn-ghost text-primary">
+                      className="btn btn-block btn-ghost text-primary"
+                    >
                       Cancelar Pedido
                     </button>
                   ) : (
                     <>
                       <button
                         onClick={() => handleChangeStatus(id, status)}
-                        className="btn btn-block">
+                        className="btn btn-block"
+                      >
                         {BtnStatus(status)}
                       </button>
                       <button
                         onClick={() => handleCanceled(id)}
-                        className="btn btn-block btn-ghost text-primary">
+                        className="btn btn-block btn-ghost text-primary"
+                      >
                         Cancelar Pedido
                       </button>
                     </>

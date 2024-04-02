@@ -7,6 +7,7 @@ export interface IOrderPopUpProps {
   status: keyof typeof OrderStatus
   products: IProduct[];
   observations?: string;
+  createdAt: string;
 }
 
 export enum OrderStatus {

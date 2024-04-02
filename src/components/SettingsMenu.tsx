@@ -3,6 +3,7 @@ import ThemeIcon from "../assets/images/theme.png";
 import Burguer from "../assets/images/Hamburger.png";
 import Ctgy from "../assets/images/categories.png";
 import UserIcon from "../assets/images/User.png";
+import Chart from "../assets/images/Chart.png";
 import Cart from "../assets/images/CartLight.png";
 import LogOutIcon from "../assets/images/LogOut.png";
 import { useLogin } from "../context/LoginContext";
@@ -59,6 +60,13 @@ export function SettingsMenu() {
                 to={"/dashboard/new-order"}
                 className="text-neutral-content">
                 <img className="w-4 h-4" src={Cart} /> Criar Pedido
+              </Link>
+            </li>
+            <li>
+              <Link
+                to={"/charts"}
+                className="text-neutral-content">
+                <img className="w-4 h-4" src={Chart} /> Relatórios
               </Link>
             </li>
             <hr />
