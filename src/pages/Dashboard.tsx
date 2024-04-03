@@ -9,7 +9,6 @@ import dayjs from "dayjs";
 
 export function Dashboard() {
   const { RequestOrders, orders } = useOrderContext();
-
   
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -73,6 +72,7 @@ export function Dashboard() {
                   products={order.products}
                   observations={order.observations}
                   createdAt={order.createdAt}
+                  creator={order.creator}
                 />
               ))}
           </Category>
@@ -104,6 +104,7 @@ export function Dashboard() {
                   products={order.products}
                   observations={order.observations}
                   createdAt={order.createdAt}
+                  creator={order.creator}
                 />
               ))}
           </Category>
@@ -135,6 +136,7 @@ export function Dashboard() {
                   products={order.products}
                   observations={order.observations}
                   createdAt={order.createdAt}
+                  creator={order.creator}
                 />
               ))}
           </Category>
@@ -166,6 +168,7 @@ export function Dashboard() {
                   products={order.products}
                   observations={order.observations}
                   createdAt={order.createdAt}
+                  creator={order.creator}
                 />
               ))}
           </Category>

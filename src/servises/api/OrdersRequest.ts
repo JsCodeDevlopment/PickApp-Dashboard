@@ -1,8 +1,10 @@
 import { baseURL } from "../BackEndBaseURL";
 import { toast } from "react-toastify";
 import { IChangeOrderStatusProps } from "../../interfaces/IChangeOrderStatusProps";
+import { useLogin } from "../../context/LoginContext";
 
 export function useOrder() {
+  const { logedUser } = useLogin()
 
   const CreateOrder = async ( table: string, products: { product: string; quantity: number }[], observations: string | undefined ) => {
 
@@ -15,7 +17,8 @@ export function useOrder() {
         body: JSON.stringify({
           table,
           products,
-          observations
+          observations,
+          userId: logedUser?.user._id
         }),
       });
       if (response.ok) {

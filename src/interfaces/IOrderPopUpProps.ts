@@ -1,4 +1,5 @@
 import { IProduct } from "./IOrders";
+import { IFullUser } from "./IUser";
 
 export interface IOrderPopUpProps {
   id: string
@@ -8,6 +9,7 @@ export interface IOrderPopUpProps {
   products: IProduct[];
   observations?: string;
   createdAt: string;
+  creator: IFullUser;
 }
 
 export enum OrderStatus {

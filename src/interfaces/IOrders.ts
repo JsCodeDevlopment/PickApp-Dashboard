@@ -1,4 +1,5 @@
 import { OrderStatus } from "./IOrderPopUpProps";
+import { IFullUser } from "./IUser";
 
 export interface IOrder {
   _id: string;
@@ -7,6 +8,7 @@ export interface IOrder {
   createdAt: string;
   products: IProduct[];
   observations: string;
+  creator: IFullUser;
   __v?: number;
 }
 
