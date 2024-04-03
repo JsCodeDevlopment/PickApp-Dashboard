@@ -8,6 +8,7 @@ export const OrderContext = createContext({} as IOrderContext);
 
 export const OrderProvider = ({ children }: { children: ReactNode }) => {
   const [orders, setOrders] = useState<IOrder[]>([]);
+  const [ordersReport, setOrdersReport] = useState([]);
   const [products, setProducts] = useState<ISingleProduct[]>([]);
   const [tables, setTables] = useState<ITables[]>([]);
 
@@ -18,6 +19,17 @@ export const OrderProvider = ({ children }: { children: ReactNode }) => {
       const data = await response.json();
 
       setOrders(data);
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+    }
+  };
+
+  const RequestOrdersReport = async (initialDate: Date, finalDate: Date) => {
+    try {
+      const response = await fetch(`${baseURL}/orders/report?startDate=${initialDate}&finalDate=${finalDate}`);
+      const data = await response.json();
+
+      setOrdersReport(data);
     } catch (error) {
       console.error("Error fetching orders:", error);
     }
@@ -46,7 +58,7 @@ export const OrderProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <OrderContext.Provider
-      value={{ RequestOrders, orders, RequestProducts, products, RequestTables, tables }}>
+      value={{ RequestOrders, orders, RequestProducts, products, RequestTables, tables, RequestOrdersReport, ordersReport }}>
       {children}
     </OrderContext.Provider>
   );

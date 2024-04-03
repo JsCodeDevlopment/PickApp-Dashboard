@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Header } from "../components/Header";
 import { useOrderContext } from "../context/OrderContext";
 
@@ -8,30 +8,15 @@ interface IProduct {
 }
 
 export function Charts() {
-  const { orders } = useOrderContext();
-  const [products, setProducts] = useState<IProduct[]>([]);
-  const [allSell, setAllSell] = useState<string>("[]");
+  const { orders, RequestOrdersReport, ordersReport } = useOrderContext();
+
+  useEffect(() => {
+    RequestOrdersReport(new Date("2024-03-01") , new Date());
+  }, []);
+  console.log(ordersReport);
+
   
-  console.log(orders);
-
-  const logicaTeste = orders.map((order) => {
-    order.products.reduce((acc, product) => {
-      console.log(product.product.name, product.quantity);
-      return acc;
-    })
-
-  })
-
-    console.log(logicaTeste)
-
-  // orders.map((order) =>
-  //   order.products.map((product) => {
-  //     console.log(product.product.name, product.quantity);
-  //     // if (product.product.name)
-  //     setProducts([...products, { name: product.product.name, quantity: product.quantity }]);
-  //   })
-  // );
-  // console.log(products);
+  
 
   return (
     <div className="bg-base-100 w-full h-screen overflow-y-scroll overflow-x-hidden scrollbar-thin scrollbar-thumb-neutral scrollbar-track-base-100">
