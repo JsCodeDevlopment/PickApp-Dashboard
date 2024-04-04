@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Header } from "../components/Header";
 import { useOrderContext } from "../context/OrderContext";
 
-interface IProduct {
-  name: string;
-  quantity: number;
-}
+// interface IProduct {
+//   name: string;
+//   quantity: number;
+// }
 
 export function Charts() {
   const { orders, RequestOrdersReport, ordersReport } = useOrderContext();
