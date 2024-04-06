@@ -98,7 +98,7 @@ export const LoginProvider = ({ children }: { children: ReactNode }) => {
     if (isAuthenticated) {
       navigate("/dashboard", { replace: true });
     } else if (location.pathname !== "/" && !location.pathname.includes("changepassword")) {
-      navigate("/", { replace: true });
+      navigate("/", { replace: false });
     } 
   }, [isAuthenticated]);
 

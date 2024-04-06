@@ -12,7 +12,7 @@ export function MenuHamburguer({ setIsVisible }: IMenuHamburguerProps) {
   };
   
   return (
-    <div className="max-2xl:hidden max-md:flex">
+    <div className="hidden max-md:flex">
       <label className="btn btn-circle swap swap-rotate">
         <input type="checkbox" onChange={handleCheckboxChange} />
         <svg

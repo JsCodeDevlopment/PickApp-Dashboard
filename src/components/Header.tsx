@@ -24,7 +24,7 @@ export function Header() {
   ];
   const isDarkTheme = darkThemes.includes(currentTheme);
   return (
-    <div className="flex w-full relative h-36 px-5 bg-primary items-center justify-between max-md:flex-wrap-reverse max-sm:h-auto max-sm:py-5 max-sm:gap-5">
+    <div className="flex w-full relative h-28 px-5 bg-primary items-center justify-between max-md:flex-wrap-reverse max-sm:h-auto max-sm:py-5 max-sm:gap-5">
       <Link to={"/dashboard"}>
         <img src={isDarkTheme ? LogoDark : Logo} alt="" className="w-40" />
       </Link>

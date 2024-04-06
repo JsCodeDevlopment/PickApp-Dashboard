@@ -85,7 +85,7 @@ export function SaveCategoryForm({ setIsClosed, category, getCategories }: ISave
               {...register("name")}
               placeholder="Ex.: Refrigerantes"
               className={`input input-bordered w-full max-w-xs ${errors.name && "input-error"}`}/>
-            {errors.name && <span>{errors.name.message}</span>}
+            {errors.name && <span className="text-error">{errors.name.message}</span>}
           </label>
         </div>
         <button type="submit" className="btn w-full btn-neutral">

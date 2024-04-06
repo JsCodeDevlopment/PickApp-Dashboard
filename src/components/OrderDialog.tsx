@@ -12,10 +12,23 @@ import { OrderObservationsFomr } from "./OrderObservationForm";
 import dayjs from "dayjs";
 import { baseURL } from "../servises/BackEndBaseURL";
 
-export function OrderDialog({ table, itens, products, status, id, observations, createdAt, creator }: IOrderPopUpProps) {
-  const showModalBtn = useRef(null) as MutableRefObject<null | HTMLDialogElement>;
+export function OrderDialog({
+  table,
+  itens,
+  products,
+  status,
+  id,
+  observations,
+  createdAt,
+  creator,
+}: IOrderPopUpProps) {
+  const showModalBtn = useRef(
+    null
+  ) as MutableRefObject<null | HTMLDialogElement>;
   const [isClosed, setIsClosed] = useState<boolean>(false);
-  const [observation, setObservations] = useState<string | undefined>((observations && observations) || undefined);
+  const [observation, setObservations] = useState<string | undefined>(
+    (observations && observations) || undefined
+  );
 
   const criado = dayjs(createdAt).format("DD/MM/YYYY - HH:mm");
 
@@ -65,7 +78,8 @@ export function OrderDialog({ table, itens, products, status, id, observations, 
   return (
     <div
       className="flex flex-col w-full h-24 rounded-md bg-base-100 items-center justify-center cursor-pointer"
-      onClick={handleClick}>
+      onClick={handleClick}
+    >
       <h1>{table}</h1>
       {itens <= 1 ? <p>{itens} item</p> : <p>{itens} itens</p>}
       <dialog ref={showModalBtn} className="modal">
@@ -87,30 +101,35 @@ export function OrderDialog({ table, itens, products, status, id, observations, 
                 <p className="text-base font-semibold">{criado}</p>
               </div>
             </div>
-            <div className="flex flex-col gap-1">
-              <p className="text-sm font-light">Criado por</p>
-              <div className="flex gap-3 items-center">
-                <img
-                  src={`${baseURL}/uploads/${creator.imagePath}`}
-                  alt="soueu"
-                  className="w-12 rounded-full"/>
-                <p className="text-base font-semibold text-ellipsis">
-                  {creator.name}
-                </p>
+            {creator && (
+              <div className="flex flex-col gap-1">
+                <p className="text-sm font-light">Criado por</p>
+                <div className="flex gap-3 items-center">
+                  <img
+                    src={`${baseURL}/uploads/${creator.imagePath}`}
+                    alt="soueu"
+                    className="w-12 rounded-full"
+                  />
+                  <p className="text-base font-semibold text-ellipsis">
+                    {creator.name}
+                  </p>
+                </div>
               </div>
-            </div>
+            )}
             <div className="flex flex-col gap-3 p-2 rounded-md bg-base-300">
               <p className="text-sm font-light">Itens</p>
               {products.map(({ product, quantity }) => (
                 <div
                   key={product._id}
-                  className="flex w-full p-1 bg-base-200 rounded-md shadow-md gap-3">
+                  className="flex w-full p-1 bg-base-200 rounded-md shadow-md gap-3"
+                >
                   <img
                     className="w-14 h-12 object-cover rounded-md"
                     src={`${import.meta.env.VITE_API_URL}/uploads/${
                       product.imagePath
                     }`}
-                    alt=""/>
+                    alt=""
+                  />
                   <p className="text-sm font-light">{quantity}x</p>
                   <div className="flex flex-col gap-1">
                     <p className="text-base font-semibold">{product.name}</p>
@@ -127,7 +146,11 @@ export function OrderDialog({ table, itens, products, status, id, observations, 
                 <p className="text-sm font-light">Total</p>
                 <p className="text-base font-semibold">
                   {products
-                    .reduce((acc, { product, quantity }) => acc + product.price * quantity, 0)
+                    .reduce(
+                      (acc, { product, quantity }) =>
+                        acc + product.price * quantity,
+                      0
+                    )
                     .toLocaleString("pt-BR", {
                       style: "currency",
                       currency: "BRL",
@@ -146,7 +169,8 @@ export function OrderDialog({ table, itens, products, status, id, observations, 
                     <ChangeOrderObservationsDialog
                       isClosed={isClosed}
                       setIsClosed={setIsClosed}
-                      icon={Edit}>
+                      icon={Edit}
+                    >
                       <h1 className="font-bold text-xl text-base-content">
                         Alterar Observação
                       </h1>
@@ -155,7 +179,8 @@ export function OrderDialog({ table, itens, products, status, id, observations, 
                         setObservations={setObservations}
                         setIsClosed={setIsClosed}
                         orderId={id}
-                        requestOrders={RequestOrders}/>
+                        requestOrders={RequestOrders}
+                      />
                     </ChangeOrderObservationsDialog>
                   )}
                 </>
@@ -165,7 +190,8 @@ export function OrderDialog({ table, itens, products, status, id, observations, 
               {status === "CANCELED" ? (
                 <button
                   onClick={() => handleDeleteOrder(id)}
-                  className="btn btn-block btn-ghost text-danger">
+                  className="btn btn-block btn-ghost text-danger"
+                >
                   {BtnStatus(status)}
                 </button>
               ) : (
@@ -173,19 +199,22 @@ export function OrderDialog({ table, itens, products, status, id, observations, 
                   {status === "DONE" ? (
                     <button
                       onClick={() => handleCanceled(id)}
-                      className="btn btn-block btn-ghost text-primary">
+                      className="btn btn-block btn-ghost text-primary"
+                    >
                       Cancelar Pedido
                     </button>
                   ) : (
                     <>
                       <button
                         onClick={() => handleChangeStatus(id, status)}
-                        className="btn btn-block">
+                        className="btn btn-block"
+                      >
                         {BtnStatus(status)}
                       </button>
                       <button
                         onClick={() => handleCanceled(id)}
-                        className="btn btn-block btn-ghost text-primary">
+                        className="btn btn-block btn-ghost text-primary"
+                      >
                         Cancelar Pedido
                       </button>
                     </>

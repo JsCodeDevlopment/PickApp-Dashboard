@@ -21,6 +21,7 @@ import { ChangeUserPasswordForm } from "./components/user-components/ChangeUserP
 import { ManagementUserTable } from "./components/ManagementUsersTable";
 import { SaveTable } from "./components/table-components/SaveTable";
 import { Charts } from "./pages/Charts";
+import { AllOrders } from "./pages/chartPages/AllOrders";
 
 export function App() {
   const { currentTheme } = useTheme();
@@ -46,7 +47,9 @@ export function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/" element={<LoginPage />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/charts" element={<Charts />} />
+            <Route path="/charts" element={<Charts />} >
+              <Route index element={<AllOrders />} />
+            </Route>
             <Route path="/dashboard/edit-profile" element={<EditProfile />}>
               <Route index element={<SaveUserForm />} />
               <Route path="change-password" element={<ChangeUserPasswordForm />}/>

@@ -1,17 +1,16 @@
-import { ReactNode, createContext, useContext, useState } from "react";
+import { ReactNode, createContext, useContext, useEffect, useState } from "react";
 import { IOrder, ISingleProduct } from "../interfaces/IOrders";
 import { baseURL } from "../servises/BackEndBaseURL";
-import { IOrderContext } from "../interfaces/IOrderContext";
+import { IOrderContext, IOrdersReport } from "../interfaces/IOrderContext";
 import { ITables } from "../interfaces/ITables";
 
 export const OrderContext = createContext({} as IOrderContext);
 
 export const OrderProvider = ({ children }: { children: ReactNode }) => {
   const [orders, setOrders] = useState<IOrder[]>([]);
-  const [ordersReport, setOrdersReport] = useState([]);
+  const [ordersReport, setOrdersReport] = useState<IOrdersReport[]>([]);
   const [products, setProducts] = useState<ISingleProduct[]>([]);
   const [tables, setTables] = useState<ITables[]>([]);
-
 
   const RequestOrders = async () => {
     try {
@@ -24,12 +23,16 @@ export const OrderProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const RequestOrdersReport = async (initialDate: Date, finalDate: Date) => {
+  const RequestOrdersReport = async (initialDate?: string, finalDate?: string) => {
+    const curretDate = new Date();
+    const firstDate = !initialDate ? new Date(curretDate.getFullYear(), curretDate.getMonth(), 1) : initialDate;
+    const secondDate = !finalDate ? curretDate : finalDate;
     try {
-      const response = await fetch(`${baseURL}/orders/report?startDate=${initialDate}&finalDate=${finalDate}`);
-      const data = await response.json();
+      const response = await fetch(`${baseURL}/orders/report?startDate=${firstDate}&finalDate=${secondDate}`);
+      const data = await response.json() as IOrdersReport[];
 
       setOrdersReport(data);
+      return data;
     } catch (error) {
       console.error("Error fetching orders:", error);
     }
@@ -55,6 +58,12 @@ export const OrderProvider = ({ children }: { children: ReactNode }) => {
       console.error("Error fetching tables:", error);
     }
   };
+
+  useEffect(() => {
+    RequestOrders();
+    RequestProducts();
+    RequestTables();
+  }, []);
 
   return (
     <OrderContext.Provider
