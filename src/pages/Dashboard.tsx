@@ -5,17 +5,27 @@ import { OrderDialog } from "../components/OrderDialog";
 import { OrderStatus } from "../interfaces/IOrderPopUpProps";
 import { useOrderContext } from "../context/OrderContext";
 import { toast } from "react-toastify";
-import dayjs from "dayjs";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 export function Dashboard() {
+  const [isToday, setIsToday] = useState<boolean>(true);
+
   const { RequestOrders, orders } = useOrderContext();
-  
+
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const [selectedDate, setSelectedDate] = useState(today);
-  
+
+  const verifyToday = () => {
+    selectedDate.setHours(0, 0, 0, 0) !== new Date().setHours(0, 0, 0, 0)
+      ? setIsToday(false)
+      : setIsToday(true);
+  };
+
   useEffect(() => {
     RequestOrders();
+    verifyToday();
   }, [selectedDate]);
 
   const handleNextDay = () => {
@@ -38,9 +48,21 @@ export function Dashboard() {
     <div className="bg-base-100 w-full h-screen overflow-y-scroll overflow-x-hidden scrollbar-thin scrollbar-thumb-neutral scrollbar-track-base-100">
       <Header />
       <div className="flex w-full mt-3 items-center justify-center gap-5">
-        <button className="btn btn-neutral btn-sm" onClick={handlePreviousDay}>Voltar</button>
-        <p className="text-sm font-thin">{dayjs(selectedDate).format("DD/MM/YYYY")}</p>
-        <button className={`btn btn-neutral btn-sm`} onClick={handleNextDay} disabled={selectedDate >= new Date(new Date().setHours(0, 0, 0, 0))}>Avançar</button>
+        <button className="btn btn-neutral btn-sm" onClick={handlePreviousDay}>
+          Voltar
+        </button>
+        <DatePicker
+          selected={selectedDate}
+          onChange={(date) => date && setSelectedDate(date)}
+          dateFormat="dd/MM/yyyy"
+          locale="pt-BR"
+          className="btn btn-neutral btn-sm"/>
+        <button
+          className={`btn btn-neutral btn-sm`}
+          onClick={handleNextDay}
+          disabled={selectedDate >= new Date(new Date().setHours(0, 0, 0, 0))}>
+          Avançar
+        </button>
       </div>
       <div className="flex w-full h-screen py-10 items-start justify-center">
         <div className="flex gap-5 flex-wrap items-start justify-between max-lg:justify-evenly">
@@ -53,8 +75,7 @@ export function Dashboard() {
                   new Date(order.createdAt).setHours(0, 0, 0, 0) ===
                     selectedDate.setHours(0, 0, 0, 0)
               ).length
-            }
-          >
+            }>
             {orders
               ?.filter(
                 (order) =>
@@ -73,7 +94,7 @@ export function Dashboard() {
                   observations={order.observations}
                   createdAt={order.createdAt}
                   creator={order.creator}
-                />
+                  isToday={isToday}/>
               ))}
           </Category>
           <Category
@@ -85,8 +106,7 @@ export function Dashboard() {
                   new Date(order.createdAt).setHours(0, 0, 0, 0) ===
                     selectedDate.setHours(0, 0, 0, 0)
               ).length
-            }
-          >
+            }>
             {orders
               ?.filter(
                 (order) =>
@@ -105,7 +125,7 @@ export function Dashboard() {
                   observations={order.observations}
                   createdAt={order.createdAt}
                   creator={order.creator}
-                />
+                  isToday={isToday}/>
               ))}
           </Category>
           <Category
@@ -117,8 +137,7 @@ export function Dashboard() {
                   new Date(order.createdAt).setHours(0, 0, 0, 0) ===
                     selectedDate.setHours(0, 0, 0, 0)
               ).length
-            }
-          >
+            }>
             {orders
               ?.filter(
                 (order) =>
@@ -137,7 +156,7 @@ export function Dashboard() {
                   observations={order.observations}
                   createdAt={order.createdAt}
                   creator={order.creator}
-                />
+                  isToday={isToday}/>
               ))}
           </Category>
           <Category
@@ -149,8 +168,7 @@ export function Dashboard() {
                   new Date(order.createdAt).setHours(0, 0, 0, 0) ===
                     selectedDate.setHours(0, 0, 0, 0)
               ).length
-            }
-          >
+            }>
             {orders
               ?.filter(
                 (order) =>
@@ -169,7 +187,7 @@ export function Dashboard() {
                   observations={order.observations}
                   createdAt={order.createdAt}
                   creator={order.creator}
-                />
+                  isToday={isToday}/>
               ))}
           </Category>
         </div>

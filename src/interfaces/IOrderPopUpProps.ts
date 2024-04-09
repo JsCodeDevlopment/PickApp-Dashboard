@@ -10,6 +10,7 @@ export interface IOrderPopUpProps {
   observations?: string;
   createdAt: string;
   creator: IFullUser;
+  isToday: boolean;
 }
 
 export enum OrderStatus {

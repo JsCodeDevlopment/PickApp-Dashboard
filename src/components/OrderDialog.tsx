@@ -1,9 +1,5 @@
 import { MutableRefObject, useRef, useState } from "react";
-import {
-  BtnOrderStatus,
-  IOrderPopUpProps,
-  OrderStatus,
-} from "../interfaces/IOrderPopUpProps";
+import { BtnOrderStatus, IOrderPopUpProps, OrderStatus } from "../interfaces/IOrderPopUpProps";
 import { useOrder } from "../servises/api/OrdersRequest";
 import { useOrderContext } from "../context/OrderContext";
 import { ChangeOrderObservationsDialog } from "./ChangeOrderObservationsDialog";
@@ -12,23 +8,10 @@ import { OrderObservationsFomr } from "./OrderObservationForm";
 import dayjs from "dayjs";
 import { baseURL } from "../servises/BackEndBaseURL";
 
-export function OrderDialog({
-  table,
-  itens,
-  products,
-  status,
-  id,
-  observations,
-  createdAt,
-  creator,
-}: IOrderPopUpProps) {
-  const showModalBtn = useRef(
-    null
-  ) as MutableRefObject<null | HTMLDialogElement>;
+export function OrderDialog({ table, itens, products, status, id, observations, createdAt, creator, isToday }: IOrderPopUpProps) {
+  const showModalBtn = useRef(null) as MutableRefObject<null | HTMLDialogElement>;
   const [isClosed, setIsClosed] = useState<boolean>(false);
-  const [observation, setObservations] = useState<string | undefined>(
-    (observations && observations) || undefined
-  );
+  const [observation, setObservations] = useState<string | undefined>((observations && observations) || undefined);
 
   const criado = dayjs(createdAt).format("DD/MM/YYYY - HH:mm");
 
@@ -49,10 +32,7 @@ export function OrderDialog({
       : BtnOrderStatus.CANCELED;
   }
 
-  async function handleChangeStatus(
-    id: string,
-    status: keyof typeof OrderStatus
-  ) {
+  async function handleChangeStatus(id: string, status: keyof typeof OrderStatus) {
     switch (status) {
       case "WAITING":
         await ChangeOrderStatus({ id, status: "IN_PRODUCTION" });
@@ -78,8 +58,7 @@ export function OrderDialog({
   return (
     <div
       className="flex flex-col w-full h-24 rounded-md bg-base-100 items-center justify-center cursor-pointer"
-      onClick={handleClick}
-    >
+      onClick={handleClick}>
       <h1>{table}</h1>
       {itens <= 1 ? <p>{itens} item</p> : <p>{itens} itens</p>}
       <dialog ref={showModalBtn} className="modal">
@@ -108,8 +87,7 @@ export function OrderDialog({
                   <img
                     src={`${baseURL}/uploads/${creator.imagePath}`}
                     alt="soueu"
-                    className="w-12 rounded-full"
-                  />
+                    className="w-12 rounded-full"/>
                   <p className="text-base font-semibold text-ellipsis">
                     {creator.name}
                   </p>
@@ -121,15 +99,13 @@ export function OrderDialog({
               {products.map(({ product, quantity }) => (
                 <div
                   key={product._id}
-                  className="flex w-full p-1 bg-base-200 rounded-md shadow-md gap-3"
-                >
+                  className="flex w-full p-1 bg-base-200 rounded-md shadow-md gap-3">
                   <img
                     className="w-14 h-12 object-cover rounded-md"
                     src={`${import.meta.env.VITE_API_URL}/uploads/${
                       product.imagePath
                     }`}
-                    alt=""
-                  />
+                    alt=""/>
                   <p className="text-sm font-light">{quantity}x</p>
                   <div className="flex flex-col gap-1">
                     <p className="text-base font-semibold">{product.name}</p>
@@ -146,11 +122,7 @@ export function OrderDialog({
                 <p className="text-sm font-light">Total</p>
                 <p className="text-base font-semibold">
                   {products
-                    .reduce(
-                      (acc, { product, quantity }) =>
-                        acc + product.price * quantity,
-                      0
-                    )
+                    .reduce((acc, { product, quantity }) => acc + product.price * quantity, 0)
                     .toLocaleString("pt-BR", {
                       style: "currency",
                       currency: "BRL",
@@ -169,8 +141,7 @@ export function OrderDialog({
                     <ChangeOrderObservationsDialog
                       isClosed={isClosed}
                       setIsClosed={setIsClosed}
-                      icon={Edit}
-                    >
+                      icon={Edit}>
                       <h1 className="font-bold text-xl text-base-content">
                         Alterar Observação
                       </h1>
@@ -179,49 +150,46 @@ export function OrderDialog({
                         setObservations={setObservations}
                         setIsClosed={setIsClosed}
                         orderId={id}
-                        requestOrders={RequestOrders}
-                      />
+                        requestOrders={RequestOrders}/>
                     </ChangeOrderObservationsDialog>
                   )}
                 </>
               )}
             </div>
-            <div className="flex w-full gap-3 flex-col">
-              {status === "CANCELED" ? (
-                <button
-                  onClick={() => handleDeleteOrder(id)}
-                  className="btn btn-block btn-ghost text-danger"
-                >
-                  {BtnStatus(status)}
-                </button>
-              ) : (
-                <>
-                  {status === "DONE" ? (
-                    <button
-                      onClick={() => handleCanceled(id)}
-                      className="btn btn-block btn-ghost text-primary"
-                    >
-                      Cancelar Pedido
-                    </button>
-                  ) : (
-                    <>
-                      <button
-                        onClick={() => handleChangeStatus(id, status)}
-                        className="btn btn-block"
-                      >
-                        {BtnStatus(status)}
-                      </button>
+            {isToday && (
+              <div className="flex w-full gap-3 flex-col">
+                {status === "CANCELED" ? (
+                  <button
+                    onClick={() => handleDeleteOrder(id)}
+                    className="btn btn-block btn-ghost text-danger">
+                    {BtnStatus(status)}
+                  </button>
+                ) : (
+                  <>
+                    {status === "DONE" ? (
                       <button
                         onClick={() => handleCanceled(id)}
-                        className="btn btn-block btn-ghost text-primary"
-                      >
+                        className="btn btn-block btn-ghost text-primary">
                         Cancelar Pedido
                       </button>
-                    </>
-                  )}
-                </>
-              )}
-            </div>
+                    ) : (
+                      <>
+                        <button
+                          onClick={() => handleChangeStatus(id, status)}
+                          className="btn btn-block">
+                          {BtnStatus(status)}
+                        </button>
+                        <button
+                          onClick={() => handleCanceled(id)}
+                          className="btn btn-block btn-ghost text-primary">
+                          Cancelar Pedido
+                        </button>
+                      </>
+                    )}
+                  </>
+                )}
+              </div>
+            )}
           </div>
         </div>
         <form method="dialog" className="modal-backdrop">
